@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context>
+
+		<Resource name="jdbc/malkey"
+		auth="Container"
+		type="javax.sql.DataSource"
+		username="sa"  
+		password="Testing123"
+		driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+		url="jdbc:sqlserver://SERVER:1433;databaseName=malkey"
+		maxActive="8"
+		maxIdle="4"/>
+	 
+	<Loader loaderClass="org.springframework.instrument.classloading.tomcat.TomcatInstrumentableClassLoader"/>
+</Context>

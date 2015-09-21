@@ -1,0 +1,339 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<permissions>
+  <permission pId="M01" pName="Transactions" pType="Module" checked="0">
+    <permission pId="S01" pName="Hire" pType="SubModule" checked="0">
+      <permission pId="T001" pName="Vehicle Availability" pType="Transaction" checked="0">
+        <permission pTransCode="T001" pId="F12" pName="Search" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T004" pName="Agreement" pType="Transaction" checked="0">
+        <permission pTransCode="T004" pId="F01" pName="Add" pType="Function" checked="0" />
+        <permission pTransCode="T004" pId="F02" pName="Edit" pType="Function" checked="0" />
+        <permission pTransCode="T004" pId="F06" pName="Find" pType="Function" checked="0" />
+        <permission pTransCode="T004" pId="F07" pName="List" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T007" pName="Invoice" pType="Transaction" checked="0">
+        <permission pTransCode="T007" pId="F01" pName="Add" pType="Function" checked="0" />
+        <permission pTransCode="T007" pId="F05" pName="Print" pType="Function" checked="0" />
+        <permission pTransCode="T007" pId="F06" pName="Find" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T008" pName="Gate Pass" pType="Transaction" checked="0">
+        <permission pTransCode="T008" pId="F05" pName="Print" pType="Function" checked="0" />
+        <permission pTransCode="T008" pId="F13" pName="Out" pType="Function" checked="0" />
+        <permission pTransCode="T008" pId="F14" pName="In" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T067" pName="Driver Movement" pType="Transaction" checked="0">
+        <permission pTransCode="T067" pId="F09" pName="Update" pType="Function" checked="0" />
+      </permission>
+    </permission>
+    <permission pId="S02" pName="Vehicle" pType="SubModule" checked="0">
+      <permission pId="T010" pName="Maintenance" pType="Transaction" checked="0">
+        <permission pTransCode="T010" pId="F01" pName="Add" pType="Function" checked="0" />
+        <permission pTransCode="T010" pId="F02" pName="Edit" pType="Function" checked="0" />
+        <permission pTransCode="T010" pId="F10" pName="View" pType="Function" checked="0" />
+        <permission pTransCode="T010" pId="F11" pName="Change" pType="Function" checked="0" />
+        <permission pTransCode="T010" pId="F12" pName="Search" pType="Function" checked="0" />
+      </permission>
+    </permission>
+  </permission>
+  <permission pId="M02" pName="Master Files" pType="Module" checked="0">
+    <permission pId="S01" pName="Hire" pType="SubModule" checked="0">
+      <permission pId="T011" pName="Rate Type" pType="Transaction" checked="0">
+        <permission pTransCode="T011" pId="F01" pName="Add" pType="Function" checked="0" />
+        <permission pTransCode="T011" pId="F02" pName="Edit" pType="Function" checked="0" />
+        <permission pTransCode="T011" pId="F03" pName="Delete" pType="Function" checked="0" />
+        <permission pTransCode="T011" pId="F04" pName="Navigate" pType="Function" checked="0" />
+        <permission pTransCode="T011" pId="F06" pName="Find" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T012" pName="Accessory Type" pType="Transaction" checked="0">
+        <permission pTransCode="T012" pId="F01" pName="Add" pType="Function" checked="0" />
+        <permission pTransCode="T012" pId="F02" pName="Edit" pType="Function" checked="0" />
+        <permission pTransCode="T012" pId="F03" pName="Delete" pType="Function" checked="0" />
+        <permission pTransCode="T012" pId="F04" pName="Navigate" pType="Function" checked="0" />
+        <permission pTransCode="T012" pId="F06" pName="Find" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T013" pName="Accessory" pType="Transaction" checked="0">
+        <permission pTransCode="T013" pId="F01" pName="Add" pType="Function" checked="0" />
+        <permission pTransCode="T013" pId="F02" pName="Edit" pType="Function" checked="0" />
+        <permission pTransCode="T013" pId="F03" pName="Delete" pType="Function" checked="0" />
+        <permission pTransCode="T013" pId="F04" pName="Navigate" pType="Function" checked="0" />
+        <permission pTransCode="T013" pId="F06" pName="Find" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T014" pName="Additional Charges" pType="Transaction" checked="0">
+        <permission pTransCode="T014" pId="F01" pName="Add" pType="Function" checked="0" />
+        <permission pTransCode="T014" pId="F02" pName="Edit" pType="Function" checked="0" />
+        <permission pTransCode="T014" pId="F03" pName="Delete" pType="Function" checked="0" />
+        <permission pTransCode="T014" pId="F04" pName="Navigate" pType="Function" checked="0" />
+        <permission pTransCode="T014" pId="F06" pName="Find" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T015" pName="Driver Rate" pType="Transaction" checked="0">
+        <permission pTransCode="T015" pId="F09" pName="Update" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T016" pName="Hire Status" pType="Transaction" checked="0">
+        <permission pTransCode="T016" pId="F01" pName="Add" pType="Function" checked="0" />
+        <permission pTransCode="T016" pId="F02" pName="Edit" pType="Function" checked="0" />
+        <permission pTransCode="T016" pId="F03" pName="Delete" pType="Function" checked="0" />
+        <permission pTransCode="T016" pId="F04" pName="Navigate" pType="Function" checked="0" />
+        <permission pTransCode="T016" pId="F06" pName="Find" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T017" pName="Hire Type" pType="Transaction" checked="0">
+        <permission pTransCode="T017" pId="F01" pName="Add" pType="Function" checked="0" />
+        <permission pTransCode="T017" pId="F02" pName="Edit" pType="Function" checked="0" />
+        <permission pTransCode="T017" pId="F03" pName="Delete" pType="Function" checked="0" />
+        <permission pTransCode="T017" pId="F04" pName="Navigate" pType="Function" checked="0" />
+        <permission pTransCode="T017" pId="F06" pName="Find" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T018" pName="Other Services" pType="Transaction" checked="0">
+        <permission pTransCode="T018" pId="F01" pName="Add" pType="Function" checked="0" />
+        <permission pTransCode="T018" pId="F02" pName="Edit" pType="Function" checked="0" />
+        <permission pTransCode="T018" pId="F03" pName="Delete" pType="Function" checked="0" />
+        <permission pTransCode="T018" pId="F04" pName="Navigate" pType="Function" checked="0" />
+        <permission pTransCode="T018" pId="F06" pName="Find" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T019" pName="Payment Type" pType="Transaction" checked="0">
+        <permission pTransCode="T019" pId="F01" pName="Add" pType="Function" checked="0" />
+        <permission pTransCode="T019" pId="F02" pName="Edit" pType="Function" checked="0" />
+        <permission pTransCode="T019" pId="F03" pName="Delete" pType="Function" checked="0" />
+        <permission pTransCode="T019" pId="F04" pName="Navigate" pType="Function" checked="0" />
+        <permission pTransCode="T019" pId="F06" pName="Find" pType="Function" checked="0" />
+      </permission>
+    </permission>
+    <permission pId="S02" pName="Vehicle" pType="SubModule" checked="0">
+      <permission pId="T020" pName="Colour" pType="Transaction" checked="0">
+        <permission pTransCode="T020" pId="F01" pName="Add" pType="Function" checked="0" />
+        <permission pTransCode="T020" pId="F02" pName="Edit" pType="Function" checked="0" />
+        <permission pTransCode="T020" pId="F03" pName="Delete" pType="Function" checked="0" />
+        <permission pTransCode="T020" pId="F04" pName="Navigate" pType="Function" checked="0" />
+        <permission pTransCode="T020" pId="F06" pName="Find" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T021" pName="Engine Size" pType="Transaction" checked="0">
+        <permission pTransCode="T021" pId="F01" pName="Add" pType="Function" checked="0" />
+        <permission pTransCode="T021" pId="F02" pName="Edit" pType="Function" checked="0" />
+        <permission pTransCode="T021" pId="F03" pName="Delete" pType="Function" checked="0" />
+        <permission pTransCode="T021" pId="F04" pName="Navigate" pType="Function" checked="0" />
+        <permission pTransCode="T021" pId="F06" pName="Find" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T022" pName="Fuel Type" pType="Transaction" checked="0">
+        <permission pTransCode="T022" pId="F01" pName="Add" pType="Function" checked="0" />
+        <permission pTransCode="T022" pId="F02" pName="Edit" pType="Function" checked="0" />
+        <permission pTransCode="T022" pId="F03" pName="Delete" pType="Function" checked="0" />
+        <permission pTransCode="T022" pId="F04" pName="Navigate" pType="Function" checked="0" />
+        <permission pTransCode="T022" pId="F06" pName="Find" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T023" pName="Vehicle Class" pType="Transaction" checked="0">
+        <permission pTransCode="T023" pId="F01" pName="Add" pType="Function" checked="0" />
+        <permission pTransCode="T023" pId="F02" pName="Edit" pType="Function" checked="0" />
+        <permission pTransCode="T023" pId="F03" pName="Delete" pType="Function" checked="0" />
+        <permission pTransCode="T023" pId="F04" pName="Navigate" pType="Function" checked="0" />
+        <permission pTransCode="T023" pId="F06" pName="Find" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T024" pName="Vehicle Inventory List" pType="Transaction" checked="0">
+        <permission pTransCode="T024" pId="F01" pName="Add" pType="Function" checked="0" />
+        <permission pTransCode="T024" pId="F02" pName="Edit" pType="Function" checked="0" />
+        <permission pTransCode="T024" pId="F03" pName="Delete" pType="Function" checked="0" />
+        <permission pTransCode="T024" pId="F04" pName="Navigate" pType="Function" checked="0" />
+        <permission pTransCode="T024" pId="F06" pName="Find" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T025" pName="Vehicle Make" pType="Transaction" checked="0">
+        <permission pTransCode="T025" pId="F01" pName="Add" pType="Function" checked="0" />
+        <permission pTransCode="T025" pId="F02" pName="Edit" pType="Function" checked="0" />
+        <permission pTransCode="T025" pId="F03" pName="Delete" pType="Function" checked="0" />
+        <permission pTransCode="T025" pId="F04" pName="Navigate" pType="Function" checked="0" />
+        <permission pTransCode="T025" pId="F06" pName="Find" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T026" pName="Vehicle Model" pType="Transaction" checked="0">
+        <permission pTransCode="T026" pId="F01" pName="Add" pType="Function" checked="0" />
+        <permission pTransCode="T026" pId="F02" pName="Edit" pType="Function" checked="0" />
+        <permission pTransCode="T026" pId="F03" pName="Delete" pType="Function" checked="0" />
+        <permission pTransCode="T026" pId="F04" pName="Navigate" pType="Function" checked="0" />
+        <permission pTransCode="T026" pId="F06" pName="Find" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T027" pName="Vehicle Status" pType="Transaction" checked="0">
+        <permission pTransCode="T027" pId="F01" pName="Add" pType="Function" checked="0" />
+        <permission pTransCode="T027" pId="F02" pName="Edit" pType="Function" checked="0" />
+        <permission pTransCode="T027" pId="F03" pName="Delete" pType="Function" checked="0" />
+        <permission pTransCode="T027" pId="F04" pName="Navigate" pType="Function" checked="0" />
+        <permission pTransCode="T027" pId="F06" pName="Find" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T028" pName="Vehicle Transmission" pType="Transaction" checked="0">
+        <permission pTransCode="T028" pId="F01" pName="Add" pType="Function" checked="0" />
+        <permission pTransCode="T028" pId="F02" pName="Edit" pType="Function" checked="0" />
+        <permission pTransCode="T028" pId="F03" pName="Delete" pType="Function" checked="0" />
+        <permission pTransCode="T028" pId="F04" pName="Navigate" pType="Function" checked="0" />
+        <permission pTransCode="T028" pId="F06" pName="Find" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T029" pName="Vehicle Type" pType="Transaction" checked="0">
+        <permission pTransCode="T029" pId="F01" pName="Add" pType="Function" checked="0" />
+        <permission pTransCode="T029" pId="F02" pName="Edit" pType="Function" checked="0" />
+        <permission pTransCode="T029" pId="F03" pName="Delete" pType="Function" checked="0" />
+        <permission pTransCode="T029" pId="F04" pName="Navigate" pType="Function" checked="0" />
+        <permission pTransCode="T029" pId="F06" pName="Find" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T030" pName="Insurance Fleet" pType="Transaction" checked="0">
+        <permission pTransCode="T030" pId="F01" pName="Add" pType="Function" checked="0" />
+        <permission pTransCode="T030" pId="F02" pName="Edit" pType="Function" checked="0" />
+        <permission pTransCode="T030" pId="F03" pName="Delete" pType="Function" checked="0" />
+        <permission pTransCode="T030" pId="F04" pName="Navigate" pType="Function" checked="0" />
+        <permission pTransCode="T030" pId="F06" pName="Find" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T031" pName="Insurance Policy" pType="Transaction" checked="0">
+        <permission pTransCode="T031" pId="F01" pName="Add" pType="Function" checked="0" />
+        <permission pTransCode="T031" pId="F02" pName="Edit" pType="Function" checked="0" />
+        <permission pTransCode="T031" pId="F03" pName="Delete" pType="Function" checked="0" />
+        <permission pTransCode="T031" pId="F04" pName="Navigate" pType="Function" checked="0" />
+        <permission pTransCode="T031" pId="F06" pName="Find" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T032" pName="Vehicle" pType="Transaction" checked="0">
+        <permission pTransCode="T032" pId="F01" pName="Add" pType="Function" checked="0" />
+        <permission pTransCode="T032" pId="F02" pName="Edit" pType="Function" checked="0" />
+        <permission pTransCode="T032" pId="F03" pName="Delete" pType="Function" checked="0" />
+        <permission pTransCode="T032" pId="F04" pName="Navigate" pType="Function" checked="0" />
+        <permission pTransCode="T032" pId="F06" pName="Find" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T062" pName="Maintenance Type" pType="Transaction" checked="0">
+        <permission pTransCode="T062" pId="F01" pName="Add" pType="Function" checked="0" />
+        <permission pTransCode="T062" pId="F02" pName="Edit" pType="Function" checked="0" />
+        <permission pTransCode="T062" pId="F03" pName="Delete" pType="Function" checked="0" />
+        <permission pTransCode="T062" pId="F04" pName="Navigate" pType="Function" checked="0" />
+        <permission pTransCode="T062" pId="F06" pName="Find" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T066" pName="Vehicle Rate" pType="Transaction" checked="0">
+        <permission pTransCode="T066" pId="F09" pName="Update" pType="Function" checked="0" />
+      </permission>
+    </permission>
+    <permission pId="S03" pName="Customer/Guarantor" pType="SubModule" checked="0">
+      <permission pId="T033" pName="Customer Type" pType="Transaction" checked="0">
+        <permission pTransCode="T033" pId="F01" pName="Add" pType="Function" checked="0" />
+        <permission pTransCode="T033" pId="F02" pName="Edit" pType="Function" checked="0" />
+        <permission pTransCode="T033" pId="F03" pName="Delete" pType="Function" checked="0" />
+        <permission pTransCode="T033" pId="F04" pName="Navigate" pType="Function" checked="0" />
+        <permission pTransCode="T033" pId="F06" pName="Find" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T034" pName="Customer" pType="Transaction" checked="0">
+        <permission pTransCode="T034" pId="F01" pName="Add" pType="Function" checked="0" />
+        <permission pTransCode="T034" pId="F02" pName="Edit" pType="Function" checked="0" />
+        <permission pTransCode="T034" pId="F03" pName="Delete" pType="Function" checked="0" />
+        <permission pTransCode="T034" pId="F04" pName="Navigate" pType="Function" checked="0" />
+        <permission pTransCode="T034" pId="F06" pName="Find" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T035" pName="Guarantor" pType="Transaction" checked="0">
+        <permission pTransCode="T035" pId="F01" pName="Add" pType="Function" checked="0" />
+        <permission pTransCode="T035" pId="F02" pName="Edit" pType="Function" checked="0" />
+        <permission pTransCode="T035" pId="F03" pName="Delete" pType="Function" checked="0" />
+        <permission pTransCode="T035" pId="F04" pName="Navigate" pType="Function" checked="0" />
+        <permission pTransCode="T035" pId="F06" pName="Find" pType="Function" checked="0" />
+        <permission pTransCode="T035" pId="F16" pName="Approve" pType="Function" checked="0" />
+      </permission>
+    </permission>
+    <permission pId="S04" pName="Company" pType="SubModule" checked="0">
+      <permission pId="T036" pName="Employee Type" pType="Transaction" checked="0">
+        <permission pTransCode="T036" pId="F01" pName="Add" pType="Function" checked="0" />
+        <permission pTransCode="T036" pId="F02" pName="Edit" pType="Function" checked="0" />
+        <permission pTransCode="T036" pId="F03" pName="Delete" pType="Function" checked="0" />
+        <permission pTransCode="T036" pId="F04" pName="Navigate" pType="Function" checked="0" />
+        <permission pTransCode="T036" pId="F06" pName="Find" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T037" pName="Employee" pType="Transaction" checked="0">
+        <permission pTransCode="T037" pId="F01" pName="Add" pType="Function" checked="0" />
+        <permission pTransCode="T037" pId="F02" pName="Edit" pType="Function" checked="0" />
+        <permission pTransCode="T037" pId="F03" pName="Delete" pType="Function" checked="0" />
+        <permission pTransCode="T037" pId="F04" pName="Navigate" pType="Function" checked="0" />
+        <permission pTransCode="T037" pId="F06" pName="Find" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T038" pName="Location" pType="Transaction" checked="0">
+        <permission pTransCode="T038" pId="F01" pName="Add" pType="Function" checked="0" />
+        <permission pTransCode="T038" pId="F02" pName="Edit" pType="Function" checked="0" />
+        <permission pTransCode="T038" pId="F03" pName="Delete" pType="Function" checked="0" />
+        <permission pTransCode="T038" pId="F04" pName="Navigate" pType="Function" checked="0" />
+        <permission pTransCode="T038" pId="F06" pName="Find" pType="Function" checked="0" />
+      </permission>
+    </permission>
+  </permission>
+  <permission pId="M03" pName="Reports" pType="Module" checked="0">
+    <permission pId="S01" pName="Hire" pType="SubModule" checked="0">
+      <permission pId="T040" pName="Reservation Diary" pType="Transaction" checked="0">
+        <permission pTransCode="T040" pId="F10" pName="View" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T041" pName="Daily Hire Bookings (WD)" pType="Transaction" checked="0">
+        <permission pTransCode="T041" pId="F10" pName="View" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T042" pName="Daily Hire Bookings (SD)" pType="Transaction" checked="0">
+        <permission pTransCode="T042" pId="F10" pName="View" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T043" pName="Registry Of Rented Vehicles" pType="Transaction" checked="0">
+        <permission pTransCode="T043" pId="F10" pName="View" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T044" pName="Registry Of Vehicle Due In" pType="Transaction" checked="0">
+        <permission pTransCode="T044" pId="F10" pName="View" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T045" pName="Vehicle Hire Status" pType="Transaction" checked="0">
+        <permission pTransCode="T045" pId="F10" pName="View" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T049" pName="Continuous Hire Data" pType="Transaction" checked="0">
+        <permission pTransCode="T049" pId="F10" pName="View" pType="Function" checked="0" />
+      </permission>
+    </permission>
+    <permission pId="S02" pName="Vehicle" pType="SubModule" checked="0">
+      <permission pId="T051" pName="Emission Test Expiration" pType="Transaction" checked="0">
+        <permission pTransCode="T051" pId="F10" pName="View" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T052" pName="License Expiration Listing" pType="Transaction" checked="0">
+        <permission pTransCode="T052" pId="F10" pName="View" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T053" pName="Vehicle Lease-Loan Listing" pType="Transaction" checked="0">
+        <permission pTransCode="T053" pId="F10" pName="View" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T054" pName="Vehicle Movement" pType="Transaction" checked="0">
+        <permission pTransCode="T054" pId="F10" pName="View" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T055" pName="Vehicle Maintenance Activity" pType="Transaction" checked="0">
+        <permission pTransCode="T055" pId="F10" pName="View" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T056" pName="Vehicle Summary" pType="Transaction" checked="0">
+        <permission pTransCode="T056" pId="F10" pName="View" pType="Function" checked="0" />
+      </permission>
+    </permission>
+    <permission pId="S03" pName="Customer/Guarantor" pType="SubModule" checked="0">
+      <permission pId="T057" pName="Customer List" pType="Transaction" checked="0">
+        <permission pTransCode="T057" pId="F10" pName="View" pType="Function" checked="0" />
+      </permission>
+    </permission>
+  </permission>
+  <permission pId="M04" pName="Administration" pType="Module" checked="0">
+    <permission pId="S04" pName="Company" pType="SubModule" checked="0">
+      <permission pId="T064" pName="Tax Combination" pType="Transaction" checked="0">
+        <permission pTransCode="T064" pId="F01" pName="Add" pType="Function" checked="0" />
+        <permission pTransCode="T064" pId="F02" pName="Edit" pType="Function" checked="0" />
+        <permission pTransCode="T064" pId="F03" pName="Delete" pType="Function" checked="0" />
+        <permission pTransCode="T064" pId="F04" pName="Navigate" pType="Function" checked="0" />
+        <permission pTransCode="T064" pId="F05" pName="Print" pType="Function" checked="0" />
+        <permission pTransCode="T064" pId="F06" pName="Find" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T065" pName="Company" pType="Transaction" checked="0">
+        <permission pTransCode="T065" pId="F05" pName="Print" pType="Function" checked="0" />
+        <permission pTransCode="T065" pId="F09" pName="Update" pType="Function" checked="0" />
+      </permission>
+    </permission>
+    <permission pId="S05" pName="System Users" pType="SubModule" checked="0">
+      <permission pId="T058" pName="Change Password" pType="Transaction" checked="0">
+        <permission pTransCode="T058" pId="F11" pName="Change" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T059" pName="User Types" pType="Transaction" checked="0">
+        <permission pTransCode="T059" pId="F01" pName="Add" pType="Function" checked="0" />
+        <permission pTransCode="T059" pId="F02" pName="Edit" pType="Function" checked="0" />
+        <permission pTransCode="T059" pId="F03" pName="Delete" pType="Function" checked="0" />
+        <permission pTransCode="T059" pId="F04" pName="Navigate" pType="Function" checked="0" />
+        <permission pTransCode="T059" pId="F05" pName="Print" pType="Function" checked="0" />
+        <permission pTransCode="T059" pId="F06" pName="Find" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T060" pName="User Management" pType="Transaction" checked="0">
+        <permission pTransCode="T060" pId="F01" pName="Add" pType="Function" checked="0" />
+        <permission pTransCode="T060" pId="F02" pName="Edit" pType="Function" checked="0" />
+        <permission pTransCode="T060" pId="F03" pName="Delete" pType="Function" checked="0" />
+        <permission pTransCode="T060" pId="F11" pName="Change" pType="Function" checked="0" />
+      </permission>
+      <permission pId="T061" pName="User Access Levels" pType="Transaction" checked="0">
+        <permission pTransCode="T061" pId="F15" pName="Select" pType="Function" checked="0" />
+      </permission>
+    </permission>
+  </permission>
+</permissions>

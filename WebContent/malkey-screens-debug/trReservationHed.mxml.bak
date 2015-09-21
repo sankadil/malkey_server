@@ -1,0 +1,1946 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009" 
+			   xmlns:s="library://ns.adobe.com/flex/spark" 
+			   xmlns:mx="library://ns.adobe.com/flex/mx"
+			   xmlns:controls="com.dspl.efinac.components.common.controls.*" 
+			   xmlns:components="com.dspl.malkey.components.*" 
+			   xmlns:util="com.dspl.malkey.util.*"
+			   xmlns:valueObjects="com.dspl.malkey.valueObjects.*"
+			   xmlns:services="com.dspl.malkey.services.*"
+			   xmlns:local="*"
+			   close="close(event)"
+			   currentStateChange="currentStateChangeHandler(event)"
+			   creationComplete="creationCompleteHandler(event)"
+			   currentState="stUndo" 
+			   width="800" height="500" 
+			   >
+	
+	
+	
+	<!--States-->
+	<s:states>
+		<s:State name="State1"   	id="State1"/>
+		<s:State name="stDelete" 	id="stDelete"/>
+		<s:State name="stEdit" 		id="stEdit"/>
+		<s:State name="stNew"    	id="stNew"/>
+		<s:State name="stView"  	id="stView"/>
+		<s:State name="stUndo"  	id="stUndo"/>
+	</s:states>
+	
+	
+	
+	<fx:Declarations>
+		
+		<!--Validator here-->
+		<mx:Validator 
+			id="valCompany" 
+			source="{txtCompany}" 
+			property="text" 
+			required="true"
+			/>
+		<mx:Validator 
+			id="valClient" 
+			source="{txtClient}" 
+			property="text" 
+			required="true"
+			/>
+		
+		<!--Formatters here-->
+		<mx:DateFormatter id="dateFormatter" formatString="DD-MM-YYYY"/>
+		
+		<!--valueObjects/domains here-->
+		<valueObjects:Com_dspl_malkey_domain_Freshed id="com_dspl_malkey_domain_Freshed"/>
+		
+		
+		
+		
+		<!--CallResponder-->
+		<s:CallResponder id="crfdebtorSRVListAll" 			result="crfdebtorSRVListAll_resultHandler(event)"/>
+		<s:CallResponder id="crFcompanySRVListAllResult" 	result="crFcompanySRVListAllResult_resultHandler(event)"/>
+		<s:CallResponder id="crFreshedSRVlistAll" 			result="crFreshedSRVlistAll_resultHandler(event)" fault="crFreshedSRVlistAll_faultHandler(event)" />
+		<s:CallResponder id="crFreservationSRVlistByHedAgrno" result="crFreservationSRVlistByHedAgrno_resultHandler(event)"/>
+		<s:CallResponder id="crFreservationSRVlistByHedAgrno_EditMode" result="crFreservationSRVlistByHedAgrno_EditMode_resultHandler(event)"/>
+		<s:CallResponder id="crFhiretypeSRVListAll"			result="crFhiretypeSRVListAll_resultHandler(event)"/>
+		<s:CallResponder id="crFhirestatusSRVListAll"		result="crFhirestatusSRVListAll_resultHandler(event)"/>
+		<s:CallResponder id="crFguarantorSRVListAll"		result="crFguarantorSRVListAll_resultHandler(event)"/>
+		<s:CallResponder id="crFothersrvSRVListAll"			result="crFothersrvSRVListAll_resultHandler(event)"/>
+		<s:CallResponder id="crFaccessoryListAll" 			result="crFaccessoryListAll_resultHandler(event)"/>
+		<s:CallResponder id="crFvehicleclassSRVListAll" 	result="crFvehicleclassSRVListAll_resultHandler(event)"/>
+		<s:CallResponder id="crFvehicletypeSRVListAll" 		result="crFvehicletypeSRVListAll_resultHandler(event)"/>
+		<s:CallResponder id="crFvehiclemakeSRVListAll"		result="crFvehiclemakeSRVListAll_resultHandler(event)"/>
+		<s:CallResponder id="crFvehiclemodelSRVListAll"		result="crFvehiclemodelSRVListAll_resultHandler(event)"/>
+		<s:CallResponder id="crFclienttypeSRVListAll"		result="crFclienttypeSRVListAll_resultHandler(event)"/>
+		<s:CallResponder id="crFaddchargeSRVListAll"		result="crFaddchargeSRVListAll_resultHandler(event)"/>
+		<s:CallResponder id="crFclientdriverSRVListAll"		result="crFclientdriverSRVListAll_resultHandler(event)"/>
+		<s:CallResponder id="crFpaytypeSRVListAll"			result="crFpaytypeSRVListAll_resultHandler(event)"/>
+		<s:CallResponder id="crFdriverrateSRVListAll"		result="crFdriverrateSRVListAll_resultHandler(event)"/>
+		<s:CallResponder id="crfvinventrylistSRVListAll"	result="crfvinventrylistSRVListAll_resultHandler(event)"/>
+		<s:CallResponder id="crFvehicletransSRVListAll"		result="crFvehicletransSRVListAll_resultHandler(event)"/>
+		<s:CallResponder id="crFratetypeSRVlistAll" 		result="crFratetypeSRVlistAll_resultHandler(event)"/>
+		<s:CallResponder id="crFvehicleSRVListAll"			result="crFvehicleSRVListAll_resultHandler(event)"/>
+		<s:CallResponder id="crDriverListAllResult" 		result="crDriverListAllResult_resultHandler(event)"/>
+		<s:CallResponder id="crFvehiclestatusSRVListAll"	result="crFvehiclestatusSRVListAll_resultHandler(event)"/>
+		<!--<s:CallResponder id="crFindByIDFdebtorSRV"			result="crFindByIDFdebtorSRV_resultHandler(event)"/>-->
+		<s:CallResponder id="crFdebtorSRVlistAllOptimized" 	result="crFdebtorSRVlistAllOptimized_resultHandler(event)" fault="crFdebtorSRVlistAllOptimized_faultHandler(event)"/>
+		<!--<s:CallResponder id="crFindByDebcodeFguarantorSRV"	result="crFindByDebcodeFguarantorSRV_resultHandler(event)"/>-->
+		<!--services-->
+		<services:FdebtorSRV 			id="fdebtorSRV" 		endpoint="@Resource(key='url', bundle='resource')" 	showBusyCursor="true"/>
+		<services:FcompanySRV 			id="fcompanySRV"  		endpoint="@Resource(key='url', bundle='resource')"	showBusyCursor="true"/>
+		<services:FreshedSRV 			id="freshedSRV" 		endpoint="@Resource(key='url', bundle='resource')" 	showBusyCursor="true"/>
+		<services:FreservationSRV 		id="freservationSRV" 	endpoint="@Resource(key='url', bundle='resource')" 	showBusyCursor="true"/>
+		<services:FhiretypeSRV 			id="fhiretypeSRV" 		endpoint="@Resource(key='url', bundle='resource')" 	showBusyCursor="true"/>
+		<services:FhirestatusSRV 		id="fhirestatusSRV" 	endpoint="@Resource(key='url', bundle='resource')" showBusyCursor="true"/>		
+		<services:FguarantorSRV 		id="fguarantorSRV" 		endpoint="@Resource(key='url', bundle='resource')" showBusyCursor="true"/>
+		<services:FothersrvSRV 			id="fothersrvSRV" 		endpoint="@Resource(key='url', bundle='resource')" showBusyCursor="true"/>
+		<services:FaccessorySRV 		id="faccessorySRV" 		endpoint="@Resource(key='url', bundle='resource')" showBusyCursor="true"/>
+		<services:FvehicleclassSRV 		id="fvehicleclassSRV" 	endpoint="@Resource(key='url', bundle='resource')" showBusyCursor="true"/>
+		<services:FvehicletypeSRV 		id="fvehicletypeSRV" 	endpoint="@Resource(key='url', bundle='resource')" showBusyCursor="true"/>
+		<services:FvehiclemakeSRV 		id="fvehiclemakeSRV" 	endpoint="@Resource(key='url', bundle='resource')" showBusyCursor="true"/>
+		<services:FvehiclemodelSRV 		id="fvehiclemodelSRV" 	endpoint="@Resource(key='url', bundle='resource')" showBusyCursor="true"/>
+		<services:FclienttypeSRV 		id="fclienttypeSRV" 	endpoint="@Resource(key='url', bundle='resource')" showBusyCursor="true"/>
+		<services:FaddchargeSRV 		id="faddchargeSRV" 		endpoint="@Resource(key='url', bundle='resource')" showBusyCursor="true"/>
+		<services:FclientdriverSRV 		id="fclientdriverSRV" 	endpoint="@Resource(key='url', bundle='resource')" showBusyCursor="true"/>
+		<services:FpaytypeSRV 			id="fpaytypeSRV" 		endpoint="@Resource(key='url', bundle='resource')" showBusyCursor="true"/>
+		<services:FdriverrateSRV 		id="fdriverrateSRV" 	endpoint="@Resource(key='url', bundle='resource')" showBusyCursor="true"/>
+		<services:FvinventrylistSRV 	id="fvinventrylistSRV" 	endpoint="@Resource(key='url', bundle='resource')" 	showBusyCursor="true"/>
+		<services:FvehicletransSRV 		id="fvehicletransSRV" 	endpoint="@Resource(key='url', bundle='resource')" showBusyCursor="true"/>
+		<services:FratetypeSRV 			id="fratetypeSRV" 		endpoint="@Resource(key='url', bundle='resource')" showBusyCursor="true"/>
+		<services:FvehicleSRV 			id="fvehicleSRV" 		endpoint="@Resource(key='url', bundle='resource')" showBusyCursor="true"/>
+		<services:FemployeeSRV 			id="femployeeSRV" 		endpoint="@Resource(key='url', bundle='resource')" showBusyCursor="true"/>
+		<services:FvehiclestatusSRV 	id="fvehiclestatusSRV" 	endpoint="@Resource(key='url', bundle='resource')" showBusyCursor="true"/>
+		<s:CallResponder id="listAllDescriptionPageResult"/>
+
+
+
+	</fx:Declarations>
+	
+	
+	
+	
+	
+	
+	
+	<fx:Style>
+		@namespace s "library://ns.adobe.com/flex/spark";
+		@namespace mx "library://ns.adobe.com/flex/mx";
+		@namespace controls "com.dspl.efinac.components.common.controls.*";
+		@namespace services "services.*";
+		
+		.formItems
+		{
+			label-width:60;
+		}
+		.formItem
+		{
+			label-width:80;
+		}
+		
+		.formItemL
+		{
+			label-width:120;
+		}
+		.formItemXL
+		{
+			label-width:180;
+		}
+		
+		.formItemLabel
+		{
+			text-align:left;
+		}
+		
+		
+		
+		
+	</fx:Style>
+	
+	
+	
+	
+	
+	
+	
+	
+	<fx:Script>
+		<![CDATA[
+			import com.adobe.utils.StringUtil;
+			import com.dspl.efinac.components.common.utils.GenericFunctions;
+			import com.dspl.malkey.events.DeleteCommentEvent;
+			import com.dspl.malkey.util.HireStatus;
+			import com.dspl.malkey.util.Message;
+			import com.dspl.malkey.util.RateType;
+			import com.dspl.malkey.util.Session;
+			import com.dspl.malkey.valueObjects.Com_dspl_malkey_domain_AuditTrail;
+			import com.dspl.malkey.valueObjects.Com_dspl_malkey_domain_Freservation;
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.events.CloseEvent;
+			import mx.events.FlexEvent;
+			import mx.events.StateChangeEvent;
+			import mx.managers.PopUpManager;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.utils.ObjectUtil;
+
+			
+			//variables here
+			//include "com/dspl/malkey/util/IPermission.as";
+			[Bindable]  public var gsTransCode:String="";
+			[Bindable] 	private var session:Session = Session.getInstance();
+			[Bindable] 	public 	var acClientListAll:ArrayCollection = new ArrayCollection();
+			[Bindable] 	public 	var acClientListAll2:ArrayCollection = new ArrayCollection();
+			[Bindable] 	public 	var acCompanyListAll:ArrayCollection = new ArrayCollection();
+			[Bindable] 	public 	var acResHeadListAll:ArrayCollection = new ArrayCollection();
+			[Bindable] 	public 	var acReservationListAll:ArrayCollection = new ArrayCollection();
+			[Bindable] 	public 	var acHireType:ArrayCollection = new ArrayCollection();
+			[Bindable] 	public 	var acRateType:ArrayCollection = new ArrayCollection();
+			[Bindable] 	public 	var acHireStatus:ArrayCollection = new ArrayCollection();
+			[Bindable] 	private var genericFunctions:GenericFunctions = new GenericFunctions();
+			[Bindable]	private var btnCode:String="";
+			[Bindable]	private var editable:Boolean=false;
+			[Bindable]	private var resservation:trReservation=null;
+			[Bindable]	private var myValidators:Array;
+						private var isShow:Boolean=false;
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			//---------------------------------------------------------------------------------------
+			//close method here
+			protected function close(event:CloseEvent):void
+			{
+				try{
+					this.parent.parent.removeChild(this.parent);
+				}
+				catch(e:Error)
+				{
+					try{
+						PopUpManager.removePopUp(this);
+					}
+					catch(e:Error)
+					{
+						
+					}
+				}
+			}
+			
+			//create compleate method here
+			protected function creationCompleteHandler(event:FlexEvent):void
+			{
+				/*Following line was commented because performance test
+				2012.09.06 date screen loading time
+				*/
+				//loadData();
+				loadMasterData();
+				//loadMasterDataOptimized();
+				myValidators = [valCompany,valClient];
+			}
+			
+			//---------------------------------------------------------------------------------------
+			
+			
+
+			
+			
+			
+			
+			
+			
+			
+
+			
+			
+			
+			//---------------------------------------------------------------------------------------
+			//buttton event handlers here
+			protected function btnNext_clickHandler(event:MouseEvent):void
+			{
+				if(!hasLongterm())
+				{
+					if(isValidateAll())
+					{
+						setHireStatus("NEW");
+						setSessionVariables();
+						resservation=null;
+						resservation=new trReservation();
+						resservation.addEventListener("saveAgr",saveSubtransaction);
+						resservation.addEventListener("createCompleate",createCompleateNew);
+						PopUpManager.addPopUp(resservation,this,true);
+					}
+				}
+				else
+				{
+					Message.displayAlert(1,"Cannot Add Sub Agreements into Longterm Hire Included Agreement.","Error",null);
+				}
+				
+			}
+			
+			
+
+			
+			//buttton event handlers here
+			/***
+			 * 
+			 * @see crFreservationSRVlistByHedAgrno_EditMode_resultHandler
+			 * */
+			protected function btnEdit_clickHandler(event:MouseEvent):void
+			{
+				freservationSRVListByHedAgrno_EditMode(com_dspl_malkey_domain_Freshed.agrno);
+			}
+			
+			
+			private function btnEdit_resultHandler(event:ResultEvent):void
+			{
+				var selectedReservationIndex:int=dgReservation.selectedIndex;
+				acReservationListAll=crFreservationSRVlistByHedAgrno_EditMode.lastResult;
+				dgReservation.selectedIndex=selectedReservationIndex;
+				session.setAttribute("acReservation",acReservationListAll);
+				
+				setHireStatus(acReservationListAll.getItemAt(selectedReservationIndex).cohirestsid);
+				session.setAttribute("hirestatus",acReservationListAll.getItemAt(selectedReservationIndex).cohirestsid);
+				if(session.getAttribute("reshed")==null)
+				{
+					com_dspl_malkey_domain_Freshed.isNew=false;
+					session.setAttribute("reshed",com_dspl_malkey_domain_Freshed);
+				}
+				resservation=null;
+				resservation=new trReservation();
+				resservation.addEventListener("saveAgr",saveSubtransaction);
+				resservation.addEventListener("createCompleate",createCompleateEdit);
+				resservation.addEventListener("reloadCopy",reloadCopy); 
+				PopUpManager.addPopUp(resservation,this,true);
+				
+				
+			}
+			
+			
+			//buttton event handlers here
+			protected function btnView_clickHandler(event:MouseEvent):void
+			{
+				if(session.getAttribute("reshed")==null)
+				{
+					session.setAttribute("reshed",com_dspl_malkey_domain_Freshed);
+				}
+				resservation=new trReservation();
+				//resservation.addEventListener("save",saveSubtransaction);
+				resservation.addEventListener("createCompleate",createCompleateView);
+				PopUpManager.addPopUp(resservation,this,true);
+
+			}
+			
+			//---------------------------------------------------------------------------------------
+			
+			
+			
+			//---------------------------------------------------------------------------------------
+			
+
+			/***
+			 * Following method validate the entier form of freshead file.
+			 * validated & required fields are company & client codes.
+			 * 
+			 * 
+			 * */
+			private function isValidateAll():Boolean {
+				var errors:Array = Validator.validateAll(myValidators);
+				if (errors.length == 0) {
+					return true;
+				}
+				else
+				{
+					Message.displayAlert(1,"Invalid Data.\nCompany & Client Names Required to Make Reservation.\nPlease Re-Check the Form and Submit Again.","Warning",null);
+					//Alert.show("Invalied Data.\nCompany & Client Names Required to Make Reservation.\nPlease Re-Check the Form and Submit Again.","Warning",Alert.OK,null,null,genericFunctions.IconWarning,Alert.OK,null);
+					return false;
+				}
+			}
+			
+			//---------------------------------------------------------------------------------------
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			//Event Listerners for trReservation 
+			//---------------------------------------------------------------------------------------
+			protected function saveSubtransaction(event:Event):void
+			{
+				com_dspl_malkey_domain_Freshed=Com_dspl_malkey_domain_Freshed(session.getAttribute("reshed"));
+				//trace("AgrNo:"+com_dspl_malkey_domain_Freshed.agrno);
+				freservationSRVListByHedAgrno(com_dspl_malkey_domain_Freshed.agrno);
+				listAllFvehicleSRV();
+				currentState="stEdit";
+				
+			}
+			protected function createCompleateEdit(event:Event):void
+			{
+				resservation.com_dspl_malkey_domain_Freshed=com_dspl_malkey_domain_Freshed;
+				resservation.editState();
+				resservation.onSelectReservationDetail(dgReservation.selectedIndex);
+			}
+			protected function reloadCopy(event:Event):void
+			{
+				resservation.com_dspl_malkey_domain_Freshed=com_dspl_malkey_domain_Freshed;
+				resservation.editState();
+				resservation.onSelectReservationDetailReload(dgReservation.selectedIndex);
+			}
+			
+			protected function createCompleateView(event:Event):void
+			{
+				resservation.com_dspl_malkey_domain_Freshed=com_dspl_malkey_domain_Freshed;
+				resservation.viewState();//After came data
+				resservation.onSelectReservationDetail(dgReservation.selectedIndex);
+			}
+			
+			protected function createCompleateNew(event:Event):void
+			{
+				resservation.com_dspl_malkey_domain_Freshed=com_dspl_malkey_domain_Freshed;
+				resservation.newState();
+			}
+			
+			//---------------------------------------------------------------------------------------
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+
+			
+			
+			
+			//---------------------------------------------------------------------------------------
+			//Hire Status Filter Function
+			/***
+			 * 
+			 * 
+			 * */
+			private function setHireStatus(status:String):void
+			{
+				var acHireStatusFiltered:ArrayCollection=new HireStatus().getHireStatus(acHireStatus,status);
+				session.setAttribute("acHireStatus",acHireStatusFiltered);
+			}
+			
+			
+			private function setSessionVariables():void
+			{
+				switch (currentState)
+				{
+					case "stNew" :
+					{
+						if(session.getAttribute("reshed")==null)
+						{
+							com_dspl_malkey_domain_Freshed.isNew=true;
+							com_dspl_malkey_domain_Freshed.addmach="";
+							com_dspl_malkey_domain_Freshed.adduser="";
+							session.setAttribute("reshed",com_dspl_malkey_domain_Freshed);
+						}
+						break;
+					}
+						
+						
+					case "stEdit" :
+					{
+						com_dspl_malkey_domain_Freshed.isNew=false;
+						session.setAttribute("reshed",com_dspl_malkey_domain_Freshed);
+						break;
+					}
+						
+				}
+			}
+			
+			//---------------------------------------------------------------------------------------
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			/*Lable Functions here  */
+			//---------------------------------------------------------------------------------------	
+			private function lblfDout(item:Object, column:DataGridColumn):String
+			{
+				try{
+				return dateFormatter.format(item.dout)+" "+item.timeout;
+				}
+				catch(e:Error)
+				{
+				
+				}
+				return "";
+			}
+			private function lblfDin(item:Object, column:DataGridColumn):String
+			{
+				try{
+					return dateFormatter.format(item.din)+" "+item.timein;
+				}
+				catch(e:Error)
+				{
+					
+				}
+				return "";
+			}
+			private function lblfhireTypeDescription(item:Object, column:DataGridColumn):String
+			{
+				try{
+					return genericFunctions.getArrayCollection(acHireType,"hiretypeid",item.hiretypeid).description+" ("+item.hiretypeid+")";
+				}
+				catch(e:Error)
+				{
+					
+				}
+				return "";
+			}
+			private function lblfrateTypeDescription(item:Object, column:DataGridColumn):String
+			{
+				try{
+					return genericFunctions.getArrayCollection(acRateType,"ratetype",item.ratetype).description+" ("+item.ratetype+")";
+				}
+				catch(e:Error)
+				{
+					
+				}
+				return "";
+			}
+			private function lblfhireStatusDescription(item:Object, column:DataGridColumn):String
+			{
+				try{
+					return genericFunctions.getArrayCollection(acHireStatus,"hirestsid",item.cohirestsid).description+" ("+item.cohirestsid+")";
+				}
+				catch(e:Error)
+				{
+					
+				}
+				return "";
+			}
+			/*End Of Lable Function */
+			//---------------------------------------------------------------------------------------	
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			/***
+			 * following method set selected reservation for a given her RH number.
+			 * 
+			 * */
+			private function setSelectHedAgr(agrno:String):void
+			{
+				txtRefNo._nSelectedIndex=genericFunctions.getArrayCollectionIndex(acResHeadListAll,"agrno",agrno);
+			}
+			
+
+			/***
+			 * listerner for advanced search 
+			 * 
+			 * */
+			protected function listener_selectHed(event:DataEvent):void
+			{
+				setSelectHedAgr(event.data);
+				onSelectResHed();
+			}
+			
+			
+			
+			
+			
+			//fire on selection of reservation header file
+			//---------------------------------------------------------------------------------------			
+			/***
+			 * This method fire on selecton of reservation header file
+			 * method perform :retrive data from list of details from freshed
+			 * 
+			 * */
+			protected function onSelectResHed():void
+			{
+				com_dspl_malkey_domain_Freshed=acResHeadListAll.getItemAt(txtRefNo._nSelectedIndex) as Com_dspl_malkey_domain_Freshed;
+				freservationSRVListByHedAgrno(com_dspl_malkey_domain_Freshed.agrno);
+				//findByIDFdebtorSRV(com_dspl_malkey_domain_Freshed.debcode);
+				if(btnCode=="stEdit")
+				{
+					currentState="stEdit";
+				}
+				if(btnCode=="stView")
+				{
+					currentState="stView";
+				}
+				if(	btnCode=="stDelete")
+				{
+					currentState="stDelete";
+				}
+				
+				if(currentState=="stDelete")
+				{
+					popupDeleteReason();
+				}
+				
+			}
+			//---------------------------------------------------------------------------------------	
+			
+			
+			
+			private function popupDeleteReason():void
+			{
+			
+				var deleteReason:DeleteReason=new DeleteReason();
+				deleteReason.addEventListener("cancel",cancel);
+				deleteReason.addEventListener("undo",undo);
+				PopUpManager.addPopUp(deleteReason,this,true);
+				PopUpManager.centerPopUp(deleteReason);
+				
+			}
+			
+			
+			//Delete comment componts event handlers
+			/***
+			 * DeleteComment components delete event
+			 * 
+			 * */
+			protected function cancel(event:DeleteCommentEvent):void
+			{
+				//Message.displayAlert(1,"Cannot Add Sub Agreements into Longterm Hire Included Agreement.","Error",null);
+				Alert.show("Under Construction.\nDelete Successfully","Success",Alert.OK,null,null,genericFunctions.IconInformation,Alert.OK,null);
+				resetForm();
+				
+			}
+			
+			
+			/***
+			 * DeleteComment components undo event
+			 * 
+			 * */
+			protected function undo(event:DeleteCommentEvent):void
+			{
+				currentState='stUndo';
+			}
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+
+			//---------------------------------------------------------------------------------------
+			//result-handlers methods here
+			protected function crfdebtorSRVListAll_resultHandler(event:ResultEvent):void
+			{
+				acClientListAll=crfdebtorSRVListAll.lastResult;
+				session.setAttribute("acClient",acClientListAll);
+				txtClient.launchSearchGrid();
+			}
+
+			protected function crFcompanySRVListAllResult_resultHandler(event:ResultEvent):void
+			{
+				acCompanyListAll=crFcompanySRVListAllResult.lastResult;
+				session.setAttribute("acCompany",acCompanyListAll);
+			}
+			protected function crFreshedSRVlistAll_resultHandler(event:ResultEvent):void
+			{
+				acResHeadListAll=crFreshedSRVlistAll.lastResult;
+				//txtRefNo.launchSearchGrid();  //After modification
+			}
+			
+			
+			protected function crFreservationSRVlistByHedAgrno_resultHandler(event:ResultEvent):void
+			{
+				acReservationListAll=crFreservationSRVlistByHedAgrno.lastResult;
+				session.setAttribute("acReservation",null);
+				session.setAttribute("acReservation",acReservationListAll);
+			}
+			protected function crFreservationSRVlistByHedAgrno_EditMode_resultHandler(event:ResultEvent):void
+			{
+				btnEdit_resultHandler(event);
+			}
+			
+			protected function crFreshedSRVlistAll_faultHandler(event:FaultEvent):void
+			{
+				// TODO Auto-generated method stub
+			}
+			protected function crFhiretypeSRVListAll_resultHandler(event:ResultEvent):void
+			{
+				acHireType=crFhiretypeSRVListAll.lastResult;
+				session.setAttribute("acHireType",acHireType);
+			}
+			protected function crFhirestatusSRVListAll_resultHandler(event:ResultEvent):void
+			{
+				acHireStatus=crFhirestatusSRVListAll.lastResult;
+				session.setAttribute("acHireStatusAll",acHireStatus);
+				session.setAttribute("acHireStatus",acHireStatus);
+				
+			}
+			protected function crFguarantorSRVListAll_resultHandler(event:ResultEvent):void
+			{
+				session.setAttribute("acGuarantor",crFguarantorSRVListAll.lastResult);
+			}
+			protected function crFothersrvSRVListAll_resultHandler(event:ResultEvent):void
+			{
+				session.setAttribute("acOtherSRV",crFothersrvSRVListAll.lastResult);
+			}
+			protected function crFaccessoryListAll_resultHandler(event:ResultEvent):void
+			{
+				session.setAttribute("acAccessory",crFaccessoryListAll.lastResult);
+			}
+			protected function crFvehicleclassSRVListAll_resultHandler(event:ResultEvent):void
+			{
+				session.setAttribute("acVehicleclass",crFvehicleclassSRVListAll.lastResult);
+			}
+			protected function crFvehicletypeSRVListAll_resultHandler(event:ResultEvent):void
+			{
+				session.setAttribute("acVehicletype",crFvehicletypeSRVListAll.lastResult);
+			}
+			protected function crFvehiclemakeSRVListAll_resultHandler(event:ResultEvent):void
+			{
+				session.setAttribute("acVehiclemake",crFvehiclemakeSRVListAll.lastResult);
+			}
+			protected function crFvehiclemodelSRVListAll_resultHandler(event:ResultEvent):void
+			{
+				session.setAttribute("acVehiclemodel",crFvehiclemodelSRVListAll.lastResult);
+			}
+			protected function crFclienttypeSRVListAll_resultHandler(event:ResultEvent):void
+			{
+				session.setAttribute("acClienttype",crFclienttypeSRVListAll.lastResult);
+			}
+			protected function crFaddchargeSRVListAll_resultHandler(event:ResultEvent):void
+			{
+				session.setAttribute("acAddcharge",crFaddchargeSRVListAll.lastResult);
+			}
+			
+			protected function crFclientdriverSRVListAll_resultHandler(event:ResultEvent):void
+			{
+				session.setAttribute("acClientdriver",crFclientdriverSRVListAll.lastResult);
+			}
+			protected function crFpaytypeSRVListAll_resultHandler(event:ResultEvent):void
+			{
+				session.setAttribute("acPaytype",crFpaytypeSRVListAll.lastResult);
+			}
+			
+			protected function crFdriverrateSRVListAll_resultHandler(event:ResultEvent):void
+			{
+				session.setAttribute("acDriverrate",crFdriverrateSRVListAll.lastResult);
+			}
+			protected function crfvinventrylistSRVListAll_resultHandler(event:ResultEvent):void
+			{
+				session.setAttribute("acInventry",crfvinventrylistSRVListAll.lastResult);
+			}
+			protected function crFvehicletransSRVListAll_resultHandler(event:ResultEvent):void
+			{
+				session.setAttribute("acVehicletrans",crFvehicletransSRVListAll.lastResult);
+			}
+			protected function crFratetypeSRVlistAll_resultHandler(event:ResultEvent):void
+			{
+				session.setAttribute("RateType",new RateType(crFratetypeSRVlistAll.lastResult)); 
+				acRateType=crFratetypeSRVlistAll.lastResult;
+				session.setAttribute("acRateType",crFratetypeSRVlistAll.lastResult);
+			}
+			protected function crFvehicleSRVListAll_resultHandler(event:ResultEvent):void
+			{
+				session.setAttribute("acVehicle",crFvehicleSRVListAll.lastResult);
+			}
+			protected function crDriverListAllResult_resultHandler(event:ResultEvent):void
+			{
+				session.setAttribute("acDriver",crDriverListAllResult.lastResult);
+			}
+			protected function crFvehiclestatusSRVListAll_resultHandler(event:ResultEvent):void
+			{
+				session.setAttribute("acVehiclestatus",crFvehiclestatusSRVListAll.lastResult);
+			}
+			protected function crFindByIDFdebtorSRV_resultHandler(event:ResultEvent):void
+			{
+				//acClientListAll.addItem(crFindByIDFdebtorSRV.lastResult);
+				//session.setAttribute("acClient",acClientListAll);
+//				replaceDetailsObject();
+//				findByDebcodeFguarantorSRV(com_dspl_malkey_domain_Freshed.debcode);
+			}
+			protected function crFdebtorSRVlistAllOptimized_resultHandler(event:ResultEvent):void
+			{
+				//Alert.show("RESULT:FIREd");
+				acClientListAll=crFdebtorSRVlistAllOptimized.lastResult;
+				session.setAttribute("acClient",acClientListAll);
+				if(isShow){
+				txtClient.launchSearchGrid();
+				isShow=true;
+				}
+				//Alert.show("RESULT:length:"+acClientListAll.length);
+			}
+
+			//---------------------------------------------------------------------------------------
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			//---------------------------------------------------------------------------------------
+			//load methods here
+			/***
+			 * Following method load requred data for trReservation file and put it into session
+			 * 
+			 * */
+			protected function loadData():void
+			{
+
+				//heavy weight operation
+				//listAllFclientSRV();
+				//listAllOptimizedFdebtorSRV();
+				
+				freshedSRVListAll();
+				//listAllFguarantorSRV();
+				listAllFclientdriverSRV();
+				//listAllFdriverrateSRV();
+				driverListAll(); 
+				//following are dinamically changeable data
+				//listAllFvehicleSRV();
+			//	fcompanySRVlistAll();
+			//	listAllFothersrvSRV();
+			//	fhirestatusSRVlistAll();
+			//	fhiretypeSRVlistAll();
+			//	listAllFaccessorySRV();
+			//	listAllFvehicleclassSRV(); 
+			//	listAllFvehiclemodelSRV();
+			//	listAllFvehiclemakeSRV();
+			//	listAllFvehicletypeSRV();
+			//	listAllFclienttypeSRVListAll();
+			//	listAllFaddchargeSRV();
+			//	listAllFpaytypeSRV();
+			//	listAllFvinventrylistSRV();
+			//	listAllFvehicletransSRV();
+			//	listAllFratetypeSRV();
+
+				
+
+
+			}
+			
+			//---------------------------------------------------------------------------------------
+			//one time load methods here
+			/***
+			 * Trying to optimize the app using 
+			 * Following method load only one time, requred data for trReservation file and put it into session
+			 * 
+			 * */
+			protected function loadMasterData():void
+			{
+				fcompanySRVlistAll();
+				listAllFothersrvSRV();
+				//listAllFguarantorSRV();
+				fhirestatusSRVlistAll();
+				fhiretypeSRVlistAll();
+				listAllFaccessorySRV();
+				listAllFvehicleclassSRV(); 
+				listAllFvehiclemodelSRV();
+				listAllFvehiclemakeSRV();
+				listAllFvehicletypeSRV();
+				listAllFclienttypeSRVListAll();
+				listAllFaddchargeSRV();
+				listAllFpaytypeSRV();
+				listAllFdriverrateSRV();
+				listAllFvinventrylistSRV();
+				listAllFvehicletransSRV();
+				listAllFratetypeSRV();
+				listAllFvehicleSRV();
+			}
+			/***
+			 * Trying to optimize the app using 
+			 * Following method load only one time, requred data for trReservation file and put it into session
+			 * 
+			 * */
+			protected function loadMasterDataOptimized():void
+			{
+				fcompanySRVlistAll();
+				//listAllFothersrvSRV();
+				//listAllFguarantorSRV();
+				fhirestatusSRVlistAll();
+				fhiretypeSRVlistAll();
+				listAllFaccessorySRV();
+				//listAllFvehicleclassSRV(); 
+				
+				//listAllFvehiclemakeSRV();
+				//listAllFvehicletypeSRV();
+				listAllFclienttypeSRVListAll();
+				listAllFaddchargeSRV();
+				listAllFpaytypeSRV();
+				listAllFdriverrateSRV();
+				//listAllFvinventrylistSRV();
+				//listAllFvehicletransSRV();
+				listAllFratetypeSRV();
+
+
+//following code added for optimizing purpose
+				//==================================================
+				var acVehicle:ArrayCollection=session.getAttribute("acVehicle");
+				//trace("acVehicle:"+acVehicle);
+				if(!(acVehicle !=null && acVehicle.length > 0))
+				{
+					listAllFvehicleSRV();
+				}
+				
+				var acVehiclemodel:ArrayCollection=session.getAttribute("acVehiclemodel");
+				if(!(acVehiclemodel !=null && acVehiclemodel.length > 0))
+				{
+					listAllFvehiclemodelSRV();
+				}
+				
+				var acVehiclemake:ArrayCollection=session.getAttribute("acVehiclemake");
+				if(!(acVehiclemake !=null && acVehiclemake.length > 0))
+				{
+					listAllFvehiclemakeSRV();
+				}
+				
+				var acVehicletype:ArrayCollection=session.getAttribute("acVehicletype");
+				if(!(acVehicletype !=null && acVehicletype.length > 0))
+				{
+					listAllFvehicletypeSRV();
+				}
+				
+				var acInventry:ArrayCollection=session.getAttribute("acInventry");
+				if(!(acInventry !=null && acInventry.length > 0))
+				{
+					listAllFvinventrylistSRV();
+				}
+		
+				var acOtherSRV:ArrayCollection=session.getAttribute("acOtherSRV");
+				if(!(acOtherSRV !=null && acOtherSRV.length > 0))
+				{
+					listAllFothersrvSRV();
+				}
+				
+				var acVehicleclass:ArrayCollection=session.getAttribute("acVehicleclass");
+				if(!(acVehicleclass !=null && acVehicleclass.length > 0))
+				{
+					listAllFvehicleclassSRV();
+				}
+				
+				var acVehicletrans:ArrayCollection=session.getAttribute("acVehicletrans");
+				if(!(acVehicletrans !=null && acVehicletrans.length > 0))
+				{
+					listAllFvehicletransSRV();
+				}
+				
+				var acPaytype:ArrayCollection=session.getAttribute("acPaytype");
+				if(!(acPaytype !=null && acPaytype.length > 0))
+				{
+					listAllFpaytypeSRV();
+				}
+				//----------test uncomment
+/*				
+				var acHireStatusSession:ArrayCollection=session.getAttribute("acHireStatusAll");
+				if(!(acHireStatusSession !=null && acHireStatusSession.length > 0))
+				{
+					fhirestatusSRVlistAll();
+				}
+				
+				var acHireTypeSession:ArrayCollection=session.getAttribute("acHireType");
+				if(!(acHireTypeSession !=null && acHireTypeSession.length > 0))
+				{
+					fhiretypeSRVlistAll();
+				}
+				
+				var acRateTypeSession:ArrayCollection=session.getAttribute("acRateType");
+				if(!(acRateTypeSession !=null && acRateTypeSession.length > 0))
+				{
+				listAllFratetypeSRV();
+				}*/
+				//-----------test uncomment			
+
+				
+				//==================================================			
+//Above code added for optimizing purpose				
+			}
+			/*
+			public funciton VehicleLoad():void
+			{
+				var acVehiList:ArrayCollection= session.getAttribute("acVehicle") as ArrayCollection;
+				if(acVehiList.length==0)
+					listAllFvehicleSRV();
+			}*/
+			//---------------------------------------------------------------------------------------
+			//one time load methods here
+			/***
+			 * Trying to optimize the app using 
+			 * Following method load only one time, requred data for trReservation file and put it into session
+			 * 
+			 * */
+			protected function refreshMasterData():void
+			{
+/* 				fcompanySRVlistAll();
+				listAllFothersrvSRV();
+				//listAllFguarantorSRV();
+				fhirestatusSRVlistAll();
+				fhiretypeSRVlistAll();
+				listAllFaccessorySRV();
+				listAllFvehicleclassSRV(); 
+				listAllFvehiclemodelSRV();
+				listAllFvehiclemakeSRV();
+				listAllFvehicletypeSRV();
+				listAllFclienttypeSRVListAll();
+				listAllFaddchargeSRV();
+				listAllFpaytypeSRV();
+				listAllFdriverrateSRV();
+				listAllFvinventrylistSRV();
+				listAllFvehicletransSRV();
+				listAllFratetypeSRV(); */
+				listAllFvehicleSRV();
+			}
+			
+			
+			
+			//reset methods here
+			protected function resetForm():void
+			{
+				com_dspl_malkey_domain_Freshed=new Com_dspl_malkey_domain_Freshed();
+				acReservationListAll.removeAll();
+				acReservationListAll.refresh();
+				session.setAttribute("reshed",null);
+				resservation=null;
+				if(txtClient!=null && txtCompany!=null)
+				{
+					txtClient.errorString="";
+					txtCompany.errorString="";
+				}
+			}
+			
+			
+			//---------------------------------------------------------------------------------------
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			//---------------------------------------------------------------------------------------
+			//service-calls methods here
+
+			//service-calls methods here
+
+			protected function freshedSRVListAll():void
+			{
+				crFreshedSRVlistAll.token = freshedSRV.listAllDescriptionPage();
+			}
+			protected function freservationSRVListByHedAgrno(arg0:String):void
+			{
+				crFreservationSRVlistByHedAgrno.token = freservationSRV.listByHedAgrno(arg0);
+			}
+			protected function freservationSRVListByHedAgrno_EditMode(arg0:String):void
+			{
+				crFreservationSRVlistByHedAgrno_EditMode.token = freservationSRV.listByHedAgrno(arg0);
+				//crFreservationSRVlistByHedAgrno_EditMode.token = freservationSRV.listDetailsByHedAgrno(arg0); //listByHedAgrno(arg0);
+			}
+			/**
+			 * Load Debtor data by debcode
+			 * 
+			 * */
+			/* protected function findByIDFdebtorSRV(arg0:String):void
+			{
+				crFindByIDFdebtorSRV.token = fdebtorSRV.findByID(arg0);
+			} */
+			/**
+			 * Load Gurantor data by debcode
+			 * 
+			 * */
+			/* protected function findByDebcodeFguarantorSRV(debcode:String):void
+			{
+				crFindByDebcodeFguarantorSRV.token = fguarantorSRV.findByDebcode(debcode);
+			} */
+			protected function listAllOptimizedFdebtorSRV():void
+			{
+				crFdebtorSRVlistAllOptimized.token = fdebtorSRV.listAllOptimized();
+			}
+			protected function listAllFclientSRV():void
+			{
+				//if(currentState=="stNew"){
+				//crfdebtorSRVListAll.token = fdebtorSRV.List();//ListAll();
+				crfdebtorSRVListAll.token = fdebtorSRV.listAllOptimizedPage();//advance data management enabled
+			//	}else{
+			//	crfdebtorSRVListAll.token = fdebtorSRV.ListAll();}
+			}
+			protected function fcompanySRVlistAll():void
+			{
+				crFcompanySRVListAllResult.token = fcompanySRV.ListAll();
+			}
+			protected function fhiretypeSRVlistAll():void
+			{
+				crFhiretypeSRVListAll.token = fhiretypeSRV.ListAll();
+			}
+			protected function fhirestatusSRVlistAll():void
+			{
+				crFhirestatusSRVListAll.token = fhirestatusSRV.ListAll();
+			}
+			protected function listAllFguarantorSRV():void
+			{
+				crFguarantorSRVListAll.token = fguarantorSRV.ListAll();
+			}
+			protected function listAllFothersrvSRV():void
+			{
+				crFothersrvSRVListAll.token = fothersrvSRV.ListAll();
+			}
+			protected function listAllFaccessorySRV():void
+			{
+				crFaccessoryListAll.token = faccessorySRV.ListAll();
+			}
+			protected function listAllFvehicleclassSRV():void
+			{
+				crFvehicleclassSRVListAll.token = fvehicleclassSRV.ListAll();
+			}
+			protected function listAllFvehicletypeSRV():void
+			{
+				crFvehicletypeSRVListAll.token = fvehicletypeSRV.ListAll();
+			}
+			protected function listAllFvehiclemakeSRV():void
+			{
+				crFvehiclemakeSRVListAll.token = fvehiclemakeSRV.ListAll();
+			}
+			protected function listAllFvehiclemodelSRV():void
+			{
+				crFvehiclemodelSRVListAll.token = fvehiclemodelSRV.ListAll();
+			}
+			protected function listAllFaddchargeSRV():void
+			{
+				crFaddchargeSRVListAll.token = faddchargeSRV.ListAll();
+			}
+			protected function listAllFclienttypeSRVListAll():void
+			{
+				crFclienttypeSRVListAll.token = fclienttypeSRV.ListAll();
+			}
+			protected function listAllFclientdriverSRV():void
+			{
+				crFclientdriverSRVListAll.token = fclientdriverSRV.ListAll();
+			}
+			protected function listAllFpaytypeSRV():void
+			{
+				crFpaytypeSRVListAll.token = fpaytypeSRV.ListAll();
+			}
+			protected function listAllFdriverrateSRV():void
+			{
+				crFdriverrateSRVListAll.token = fdriverrateSRV.ListAll();
+			}
+			protected function listAllFvinventrylistSRV():void
+			{
+				crfvinventrylistSRVListAll.token = fvinventrylistSRV.ListAll();
+			}
+			protected function listAllFvehicletransSRV():void
+			{
+				crFvehicletransSRVListAll.token = fvehicletransSRV.ListAll();
+			}
+			protected function listAllFratetypeSRV():void
+			{
+				crFratetypeSRVlistAll.token = fratetypeSRV.listAll();
+			}
+			protected function listAllFvehicleSRV():void
+			{
+				crFvehicleSRVListAll.token = fvehicleSRV.listAll();
+			}
+			protected function driverListAll():void
+			{
+				crDriverListAllResult.token = femployeeSRV.DriverListAll();
+			}
+			protected function listAllFvehiclestatusSRV():void
+			{
+				crFvehiclestatusSRVListAll.token = fvehiclestatusSRV.ListAll();
+			}
+			//---------------------------------------------------------------------------------------
+
+
+
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+
+			//NavigationBar Events here
+			//---------------------------------------------------------------------------------------
+			protected function nvb_newHandler(event:Event):void
+			{
+				// TODO Auto-generated method stub
+				btnCode="stNew";
+				currentState="stNew";
+				//initally load popups
+				//txtClient.launchSearchGrid();
+				//txtCompany.launchSearchGrid();
+
+
+			}
+
+
+			protected function nvb_editHandler(event:Event):void
+			{
+				// TODO Auto-generated method stub
+				//loadData();
+				if(currentState=="stView")
+				{
+					currentState="stEdit";
+				}
+				else
+				{
+					/* var asearch:AdvancedSearch=new AdvancedSearch();
+					asearch.addEventListener("selectHed",listener_selectHed);
+					PopUpManager.addPopUp(asearch,this,true);
+					PopUpManager.centerPopUp(asearch);  */ 
+					 txtRefNo.launchSearchGrid(); // test
+				}
+				btnCode="stEdit";
+			}
+
+
+			protected function nvb_deleteHandler(event:Event):void
+			{
+				// TODO Auto-generated method stub
+				btnCode="stDelete";
+				txtRefNo.launchSearchGrid();
+			}
+
+
+			protected function nvb_viewHandler(event:Event):void
+			{
+				// TODO Auto-generated method stub
+				btnCode="stView";	
+				currentState="stView";
+
+			}
+
+
+			protected function nvb_saveHandler(event:Event):void
+			{
+				// TODO Auto-generated method stub
+			}
+
+
+			protected function nvb_undoHandler(event:Event):void
+			{
+				// TODO Auto-generated method stub
+				btnCode="stUndo";
+				currentState="stUndo";
+			}
+
+
+			protected function nvb_listHandler(event:Event):void
+			{
+				// TODO Auto-generated method stub
+				btnCode="stView";
+				currentState="stView";
+			}
+
+			protected function nvb_nextHandler(event:Event):void
+			{
+				// TODO Auto-generated method stub
+				nvb_commonHandler(event);
+			}
+
+
+			protected function nvb_backHandler(event:Event):void
+			{
+				// TODO Auto-generated method stub
+				nvb_commonHandler(event);
+			}
+
+
+			protected function nvb_previousHandler(event:Event):void
+			{
+				// TODO Auto-generated method stub
+				nvb_commonHandler(event);
+			}
+
+
+			protected function nvb_topHandler(event:Event):void
+			{
+				// TODO Auto-generated method stub
+				nvb_commonHandler(event);
+			}
+
+
+			protected function nvb_bottomHandler(event:Event):void
+			{
+				// TODO Auto-generated method stub
+				nvb_commonHandler(event);
+			}
+
+
+			protected function nvb_findHandler(event:Event):void
+			{
+				// TODO Auto-generated method stub
+				btnCode="stFind";
+				currentState="stView";
+				txtRefNo.launchSearchGrid();
+			}
+
+
+			protected function nvb_printHandler(event:Event):void
+			{
+				if(dgReservation.selectedIndex!=-1){printReservation(dgReservation.selectedIndex);}
+				else {if(acReservationListAll.length>1){printReservation(0);}}
+			}
+
+			public function printReservation(selectedIndex:int):void
+			{
+				var selectedReservation:Com_dspl_malkey_domain_Freservation=acReservationListAll.getItemAt(selectedIndex) as Com_dspl_malkey_domain_Freservation;
+				var request:URLRequest = new URLRequest(resourceManager.getString("resource","reportingURL",null,null).toString() + "/rentagreement.jsp");
+				request.data =new URLVariables();
+				request.data.resno=selectedReservation.resno;
+				request.data.hiretypeid=selectedReservation.hiretypeid;
+				request.method = URLRequestMethod.POST;
+				navigateToURL(request);
+			}
+
+
+			
+			protected function nvb_refreshHandler(event:Event):void
+			{
+				// TODO Auto-generated method stub
+				loadData();
+				loadMasterData();
+				isShow=false;
+				listAllOptimizedFdebtorSRV();
+				if(com_dspl_malkey_domain_Freshed.agrno!=null)
+				{
+					if(com_dspl_malkey_domain_Freshed.agrno.length>0)
+					{
+						freservationSRVListByHedAgrno(com_dspl_malkey_domain_Freshed.agrno);
+					}
+				}
+			}
+
+
+			protected function nvb_closeHandler(event:CloseEvent):void
+			{
+				// TODO Auto-generated method stub
+				close(event);
+			}
+
+
+			protected function nvb_clickHandler(event:Event):void
+			{
+				// TODO Auto-generated method stub
+			}
+
+			protected function nvb_commonHandler(event:Event):void
+			{
+				resetForm();
+				txtRefNo._nSelectedIndex=nvb.recordIndex;
+				onSelectResHed();
+			}
+
+			protected function nvb_filterHandler(event:Event):void
+			{
+				var asearch:AdvancedSearch=new AdvancedSearch();
+				asearch.addEventListener("selectHed",listener_selectHed);
+				PopUpManager.addPopUp(asearch,this,true);
+				PopUpManager.centerPopUp(asearch);
+			}
+			
+			//End of NavigationBar events
+			//---------------------------------------------------------------------------------------
+
+			
+
+
+
+			
+
+			
+
+
+
+
+
+
+
+
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+
+			
+			/***
+			 * when the state change this method will fire
+			 * 
+			 * 
+			 * */
+			protected function currentStateChangeHandler(event:StateChangeEvent):void
+			{
+				if(event.newState=='stDelete')
+				{
+					editable=false;
+				}
+				if(event.newState=='stNew')
+				{
+					resetForm();	
+					editable=true;
+				}
+				if(event.newState=='stUndo')
+				{
+					loadData();
+					//freshedSRVListAll();
+					resetForm();
+					editable=false;
+				}
+				if(event.newState=='stView')
+				{
+
+						try{
+							if(nvb.maxRecord >0)
+							{
+								if(btnCode=="stView")
+								{
+								nvb.recordIndex=0;
+								nvb_commonHandler(event);
+								}
+								
+							}
+							else
+							{
+								Message.displayAlert(1,"No Records Found on Database.","Error",null);
+								currentState='stUndo';
+							}
+						}catch(e:Error){
+							Message.displayAlert(1,"Error Occured While Retriving Data.\nPlease Refresh The Page.","Error",null);
+						}
+						editable=false;
+				}
+				if(event.newState=='stEdit')
+				{
+					editable=true;
+				}
+			}
+			protected function and(b1:Boolean,b2:Boolean):Boolean
+			{
+				return (b1 && b2);
+			}
+			/***
+			 * Following method return boolean wether is it a longterm hire or not
+			 * IF long
+			 * 
+			 * */
+			private function hasLongterm():Boolean
+			{
+				var flag:Boolean=false;
+				for each(var tmp:Com_dspl_malkey_domain_Freservation in acReservationListAll)
+				{
+					if(tmp.ratetype=="LONGTERM")
+					{
+						flag=true;
+					}
+				}
+			return flag;
+			}
+			
+/* 			public function replaceDetailsObject():void
+			{
+				try{
+				var index:int=genericFunctions.getArrayCollectionIndex(acClientListAll2,"debcode",txtClient.text);
+				//acClientListAll.removeItemAt(index);
+				acClientListAll2.addItem(crFindByIDFdebtorSRV.lastResult);
+				acClientListAll2.refresh();
+				session.setAttribute("acClient",acClientListAll2);
+				}
+				catch(e:Error){Alert.show("replaceDetailsObject"+e.message);}
+			} */
+
+			protected function nvb_creationCompleteHandler(event:FlexEvent):void
+			{
+				nvb.setPermission();
+			}
+			
+			protected function txtClient__onReturnFromSearchGridHandler(event:Event):void
+			{
+				com_dspl_malkey_domain_Freshed.debname=genericFunctions.getArrayCollection(txtClient._acDataProvider,'debcode',com_dspl_malkey_domain_Freshed.debcode).debname;
+			}
+
+			
+
+			
+
+
+
+
+			protected function crFdebtorSRVlistAllOptimized_faultHandler(event:FaultEvent):void
+			{
+				Alert.show("ERROR");
+			}
+
+			
+
+			protected function txtCompany__onReturnFromSearchGridHandler(event:Event):void
+			{
+				com_dspl_malkey_domain_Freshed.company=genericFunctions.getArrayCollection(acCompanyListAll,'companyid',com_dspl_malkey_domain_Freshed.companyid).description;
+			}
+
+
+			protected function lnkClient_clickHandler(event:MouseEvent):void
+			{
+				isShow=true;
+				listAllOptimizedFdebtorSRV();
+			}
+			protected function lnkClient1_clickHandler(event:MouseEvent):void
+			{
+				
+				listAllFclientSRV();
+			}
+			protected function lnkClient2_clickHandler(event:MouseEvent):void
+			{
+				acClientListAll=session.getAttribute("acClient") as ArrayCollection;
+				txtClient.launchSearchGrid();
+			}
+			
+			/**
+			 * Serial data loading method
+			 * load data one by one
+			 * 
+			 * 
+			 * */
+		/* 	public function loadDetailReservationMasterData():void
+			{
+				findByIDFdebtorSRV(com_dspl_malkey_domain_Freshed.debcode);
+			} */
+
+
+			
+
+		/* 	protected function crFindByDebcodeFguarantorSRV_resultHandler(event:ResultEvent):void
+			{
+				var acGuarantor:ArrayCollection=new ArrayCollection();
+				acGuarantor.addItem(crFindByDebcodeFguarantorSRV.lastResult);
+				session.setAttribute("acGuarantor",acGuarantor);
+				
+			} */
+
+			
+			
+			
+			protected function listAllDescriptionPage():void
+			{
+				listAllDescriptionPageResult.token = freshedSRV.listAllDescriptionPage();
+			}
+			
+		]]>
+	</fx:Script>
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<mx:HBox verticalGap="10">
+		<local:NavigationBar
+			id="nvb"
+			recordIndex="{txtRefNo._nSelectedIndex}"
+			maxRecord="{txtRefNo._acDataProvider.length-1}"
+			new="nvb_newHandler(event)"
+			edit="nvb_editHandler(event)"
+			delete="nvb_deleteHandler(event)"
+			view="nvb_viewHandler(event)"
+			save="nvb_saveHandler(event)"
+			undo="nvb_undoHandler(event)"
+			list="nvb_listHandler(event)"
+			next="nvb_nextHandler(event)"
+			back="nvb_backHandler(event)"
+			filter="nvb_filterHandler(event)"
+			previous="nvb_previousHandler(event)"
+			top="nvb_topHandler(event)"
+			bottom="nvb_bottomHandler(event)"
+			find="nvb_findHandler(event)"
+			print="nvb_printHandler(event)"
+			refresh="nvb_refreshHandler(event)"
+			close="nvb_closeHandler(event)"
+			menuMode="2"
+			stCurrent="{this.currentState}"
+			horizontalAlign="center"
+			tabIndex="-1"
+			gsTransCode="{gsTransCode}"
+			creationComplete="nvb_creationCompleteHandler(event)"
+			/>
+	</mx:HBox>
+	
+	<!--click="nvb_clickHandler(event)"
+	close="/*close(new CloseEvent(CloseEvent.CLOSE));nvb_closeHandler(event)*/"
+	-->
+	<mx:Form x="25" y="61" id="fmHead" enabled.stNew="true" enabled="false" disabledOverlayAlpha="0">
+		<mx:FormItem label="Ref No"  styleName="formItemL" labelStyleName="formItemLabel" direction="horizontal">
+			<controls:_tiMasterFile id="txtRefNo"											
+									_acDataProvider="{acResHeadListAll}"
+									text="{com_dspl_malkey_domain_Freshed.agrno}"
+									_strKeyColumn="agrno"
+									_strKeyColCaption="Main Aggrement Ref" 
+									_strDetailColumn="debcode"
+									otherColumns="companyid,debname,company,uuid"
+									otherColumnHeaderText="company code,deb name,company,res no"
+									_strDetailColCaption="debcode"
+									_strWindowTitle="Select Reservation Header File"
+									width="171"
+									editable="false" 
+									doubleClickEnabled="{and(editable,currentState!='stNew')}"
+									_onReturnFromSearchGrid="onSelectResHed()"	
+									tabIndex="0"
+									/>
+			<mx:LinkButton 
+				id="lnkHed" 
+				label="Search" 
+				width="60" 
+				color="#0A33BB" 
+				textDecoration="underline" 
+				click="{txtRefNo.launchSearchGrid();}" 
+				enabled="{and(editable,currentState!='stNew')}"
+				tabIndex="1"
+				/>
+		</mx:FormItem>
+
+		
+		<mx:FormItem label="Billing Company" direction="horizontal"   styleName="formItemL" labelStyleName="formItemLabel"  required="true">
+			<controls:_tiMasterFile id="txtCompany"											
+									_acDataProvider="{acCompanyListAll}"
+									text="@{com_dspl_malkey_domain_Freshed.companyid}"
+									_strKeyColumn="companyid"
+									_strKeyColCaption="ID" 
+									_strDetailColumn="description" 
+									_strDetailColCaption="Description"
+									_strWindowTitle="Select Company"
+									editable="false" 
+									tabIndex="2"
+									_onReturnFromSearchGrid="txtCompany__onReturnFromSearchGridHandler(event)"
+									/>
+			<!--text.stNew="{genericFunctions.getArrayCollection(acCompanyListAll,'companyid',com_dspl_malkey_domain_Freshed.companyid).description}"-->
+			<s:TextInput 
+				text="{com_dspl_malkey_domain_Freshed.company}"
+				doubleClick="{txtCompany.launchSearchGrid();}"
+				doubleClickEnabled="true"
+				width="200"
+				editable="false"
+				tabIndex="3"
+				/>
+			<mx:LinkButton 
+				id="lnkCompany" 
+				label="Search" 
+				width="60" 
+				color="#0A33BB" 
+				textDecoration="underline" 
+				click="{txtCompany.launchSearchGrid();}" 
+				enabled="{editable}"
+				tabIndex="4"
+				/>
+		</mx:FormItem>
+		
+		
+		
+		
+		<mx:FormItem label="Customer Name" direction="horizontal"   styleName="formItemL" labelStyleName="formItemLabel"  required="true">
+
+						<controls:_tiMasterFile id="txtClient"											
+												_acDataProvider="{acClientListAll}"
+												text="@{com_dspl_malkey_domain_Freshed.debcode}"
+												_strKeyColumn="debcode"
+												_strKeyColCaption="ID" 
+												_strDetailColumn="debname" 
+												_strDetailColCaption="Name"
+												_strWindowTitle="Select Customer"
+												otherColumns="nicno,billmob1,company,clienttype,longterm"
+												otherColumnHeaderText="NIC-NO,MOBILE,COMPANY,CLIENT TYPE,LONGTERM"
+												dgColWidth="100"
+												editable="false" 
+												toolTip="Type:{txtClient.selectedItem.clienttype}	Address:{txtClient.selectedItem.debadd}	 Mobile:{txtClient.selectedItem.billmob1}	"
+												_onReturnFromSearchGrid="txtClient__onReturnFromSearchGridHandler(event)"
+												tabIndex="5"
+												/>
+			<!--text.stNew="{genericFunctions.getArrayCollection(txtClient._acDataProvider,'debcode',com_dspl_malkey_domain_Freshed.debcode).debname}"-->
+						<s:TextInput 
+							
+							text="{com_dspl_malkey_domain_Freshed.debname}"
+							doubleClick="{txtClient.launchSearchGrid();}"
+							doubleClickEnabled="true"
+							width="200"
+							editable="false"
+							tabIndex="6"
+							/>
+						<mx:LinkButton 
+							id="lnkClient" 
+							label="Search" 
+							width="60" 
+							color="#0A33BB" 
+							textDecoration="underline" 
+							click="lnkClient_clickHandler(event)" 
+							enabled="{editable}"
+							tabIndex="7"
+							/>
+						<mx:LinkButton 
+							id="lnkClient2" 
+							label="C" 
+							toolTip="Show Cached records if available" 
+							width="30" 
+							color="#0A33BB" 
+							textDecoration="underline" 
+							click="lnkClient2_clickHandler(event)" 
+							enabled="{editable}"
+							/>
+						<mx:LinkButton 
+							id="lnkClient1" 
+							label="P" 
+							toolTip="Paging" 
+							width="30" 
+							color="#0A33BB" 
+							textDecoration="underline" 
+							click="lnkClient1_clickHandler(event)" 
+							enabled="{editable}"
+							/>
+		</mx:FormItem>
+	<!--	click="{/* txtClient.launchSearchGrid(); */}" -->
+		
+		
+	</mx:Form>
+	<s:Button 
+		x="697" y="415" 
+		label="New" 
+		toolTip="Create new reservation" 
+		id="btnNext" 
+		click="btnNext_clickHandler(event)"
+		includeIn="stNew,stEdit"
+		tabIndex="8"
+		/>
+	<s:Button 
+		x="597" y="415" 
+		label="Edit" 
+		toolTip="Edit existing reservation-agreement" 
+		id="btnEdit" 
+		click="btnEdit_clickHandler(event)"
+		enabled="{and(dgReservation.selectedIndex!=-1,editable)}"
+		includeIn="stEdit"
+		tabIndex="9"
+		/>
+	<s:Button 
+		x="697" y="415" 
+		label="View" 
+		toolTip="View existing reservation-agreement" 
+		id="btnView" 
+		click="btnView_clickHandler(event)"
+		enabled="{dgReservation.selectedIndex!=-1}"
+		includeIn="stView"
+		tabIndex="10"
+		
+		/>
+	<mx:DataGrid 
+		id="dgReservation"
+		dataProvider="{acReservationListAll}"
+		x="27" y="216"
+		width="730"
+		tabIndex="11"
+		>
+		<mx:columns>
+			<mx:DataGridColumn headerText="RES-NO" 		dataField="resno"		/>
+			<mx:DataGridColumn headerText="HIRE-TYPE" 	dataField="hiretypeid" 	labelFunction="lblfhireTypeDescription"/>
+			<mx:DataGridColumn headerText="RATE-TYPE" 	dataField="ratetype" 	labelFunction="lblfrateTypeDescription"/>
+			<mx:DataGridColumn headerText="DATE-OUT" 	dataField="dout"		labelFunction="lblfDout"/>
+			<mx:DataGridColumn headerText="DATE-IN" 	dataField="din"			labelFunction="lblfDin"/>
+			<mx:DataGridColumn headerText="STATUS" 		dataField="cohirestsid" labelFunction="lblfhireStatusDescription"/>
+		</mx:columns>
+	</mx:DataGrid>
+	
+
+	<!--test Components -->
+	<!--{session.getAttribute('reshed').agrno}-->
+<!--	<mx:VBox  x="27" y="398">
+		<s:Label text="iRefNo-Session:{session.getAttribute('reshed').agrno}"/>
+		<s:Label text="Ref-No:{com_dspl_malkey_domain_Freshed.agrno} State:{currentState} Client-Code:{com_dspl_malkey_domain_Freshed.debcode} iFlag:{com_dspl_malkey_domain_Freshed.isNew}"/>
+		
+	</mx:VBox>-->
+<!--	<s:Button x="718" y="386" label="Button" click="button1_clickHandler(event)"/>-->
+	
+</s:TitleWindow>

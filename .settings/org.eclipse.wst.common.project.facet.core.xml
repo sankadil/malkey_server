@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<faceted-project>
+  <fixed facet="jst.java"/>
+  <fixed facet="jst.web"/>
+  <installed facet="jst.java" version="6.0"/>
+  <installed facet="jst.web" version="2.4"/>
+  <installed facet="wst.jsdt.web" version="1.0"/>
+  <installed facet="jpt.jpa" version="1.0"/>
+  <installed facet="com.businessobjects.sdks.jrc" version="12.2.200"/>
+  <installed facet="com.businessobjects.eclipse.xmldriver" version="12.2.200"/>
+</faceted-project>

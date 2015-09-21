@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration>
+	
+	<appender name="LogDebug" class="biz.minaret.log4j.DatedFileAppender">
+		<param name="Prefix" value="malkey_booking_engine_" />
+		<param name="Suffix" value=".log" />
+		<param name="Directory" value="logs" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d [%t] %-5p (%13F:%L) %3x - %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="INFO" />
+			<param name="LevelMax" value="INFO" />
+		</filter>
+	</appender>
+	<appender name="LogError" class="biz.minaret.log4j.DatedFileAppender">
+		<param name="Prefix" value="malkey_booking_engine_" />
+		<param name="Suffix" value=".log" />
+		<param name="Directory" value="logs" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%d [%t] %-5p (%13F:%L) %3x - %m%n" />
+		</layout>
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="LevelMin" value="ERROR" />
+		</filter>
+	</appender>	
+	<root>
+		<appender-ref ref="LogDebug" />
+		<appender-ref ref="LogError" />
+		
+	</root>
+</log4j:configuration>

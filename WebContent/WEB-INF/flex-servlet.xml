@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:flex="http://www.springframework.org/schema/flex"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://www.springframework.org/schema/flex 
+		http://www.springframework.org/schema/flex/spring-flex-1.0.xsd">
+ 
+	<flex:message-broker>
+		<flex:message-service
+			default-channels="my-streaming-amf,my-longpolling-amf,my-polling-amf" />
+		<flex:secured />
+	</flex:message-broker>
+	
+
+	<bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<value>
+				/*=_messageBroker
+			</value>
+		</property>
+		
+	</bean>
+<!--	 Dispatches requests mapped to a MessageBroker -->
+	<bean class="org.springframework.flex.servlet.MessageBrokerHandlerAdapter" />
+
+
+	<!-- Flex - Application specific -->
+	<flex:remoting-destination ref="faccessorySRV"/>
+	<flex:remoting-destination ref="faccrateSRV"/>
+	<flex:remoting-destination ref="facctypeSRV"/>
+	<flex:remoting-destination ref="faddchargeSRV"/>
+	<flex:remoting-destination ref="fanalysisSRV"/>
+	<flex:remoting-destination ref="fclientdriverSRV"/>
+	<flex:remoting-destination ref="fclienttypeSRV"/>
+	<flex:remoting-destination ref="fcolourSRV"/>
+	<flex:remoting-destination ref="fdebtorSRV"/>
+	<flex:remoting-destination ref="fdriverrateSRV"/>
+	<flex:remoting-destination ref="femailinboxSRV"/>
+	<flex:remoting-destination ref="femailsentSRV"/>
+	<flex:remoting-destination ref="femployeeSRV"/>
+	<flex:remoting-destination ref="femployeetypeSRV"/>
+	<flex:remoting-destination ref="fenginesizeSRV"/>
+	<flex:remoting-destination ref="ffueltypeSRV"/>
+	<flex:remoting-destination ref="fgatepassSRV"/>
+	<flex:remoting-destination ref="fguarantorSRV"/>
+	<flex:remoting-destination ref="fhirestatusSRV"/>
+	<flex:remoting-destination ref="fhiretypeSRV"/>
+	<flex:remoting-destination ref="finsfleetSRV"/>
+	<flex:remoting-destination ref="finspolicySRV"/>
+	<flex:remoting-destination ref="fleasecomSRV"/>
+	<flex:remoting-destination ref="flocationSRV"/>
+	<flex:remoting-destination ref="fmaintenanceSRV"/>
+	<flex:remoting-destination ref="fmaintstatusSRV"/>
+	<flex:remoting-destination ref="fmainttypeSRV"/>
+	<flex:remoting-destination ref="fothersrvrateSRV"/>
+	<flex:remoting-destination ref="fothersrvSRV"/>
+	<flex:remoting-destination ref="fpaytypeSRV"/>
+	<flex:remoting-destination ref="fquoteSRV"/>
+	<flex:remoting-destination ref="fratetypeSRV"/>
+	<flex:remoting-destination ref="fresaccsSRV"/>
+	<flex:remoting-destination ref="fresaddchargeSRV"/>
+	<flex:remoting-destination ref="freschkindamageSRV"/>
+	<flex:remoting-destination ref="freschkoutdamageSRV"/>
+	<flex:remoting-destination ref="fresdriverSRV"/>
+	<flex:remoting-destination ref="freservationSRV"/>
+	<flex:remoting-destination ref="fresothsrvSRV"/>
+	<flex:remoting-destination ref="fresratesSRV"/>
+	<flex:remoting-destination ref="fresvehicleSRV"/>
+	<flex:remoting-destination ref="fresvehinvSRV"/>
+	<flex:remoting-destination ref="fsmssentSRV"/>
+	<flex:remoting-destination ref="fvehicleclassSRV"/>
+	<flex:remoting-destination ref="fvehicleinventrySRV"/>
+	<flex:remoting-destination ref="fvehiclemakeSRV"/>
+	<flex:remoting-destination ref="fvehiclemodelSRV"/>
+	<flex:remoting-destination ref="fvehiclerateSRV"/>
+	<flex:remoting-destination ref="fvehicleSRV"/>
+	<flex:remoting-destination ref="vehiclesearchSRV"/>
+	<flex:remoting-destination ref="fvehiclestatusSRV"/>
+	<flex:remoting-destination ref="fvehicletransSRV"/>
+	<flex:remoting-destination ref="fvehicletypeSRV"/>
+	<flex:remoting-destination ref="fvinventrylistSRV"/>
+	<flex:remoting-destination ref="fvehicledamageSRV"/>
+	<flex:remoting-destination ref="fvehiclepicSRV"/>
+	<flex:remoting-destination ref="fileUploadSRV"/>
+	<flex:remoting-destination ref="fsupplierSRV"/>
+	<flex:remoting-destination ref="fresothersrvrateSRV"/>
+	<flex:remoting-destination ref="fresvehiclerateSRV"/>
+	<flex:remoting-destination ref="fresdriverrateSRV"/>
+	<flex:remoting-destination ref="fresaccrateSRV"/>
+	<flex:remoting-destination ref="fdebtorstatusSRV"/>
+	<flex:remoting-destination ref="fmasterlistSRV"/>
+	<flex:remoting-destination ref="femailsSRV"/>
+	<flex:remoting-destination ref="fresvehicledamageSRV"/>
+	<flex:remoting-destination ref="fcontrolSRV"/>
+	<flex:remoting-destination ref="faccessruleSRV"/>
+	<flex:remoting-destination ref="fpassSRV"/>
+	<flex:remoting-destination ref="fusertypeSRV"/>
+	<flex:remoting-destination ref="ftaxSRV"/>
+	<flex:remoting-destination ref="ftaxhedSRV"/>
+	<flex:remoting-destination ref="ftaxdetSRV"/>
+	<flex:remoting-destination ref="fcompanySRV"/>
+	<flex:remoting-destination ref="fcompanytaxSRV"/>
+	<flex:remoting-destination ref="freshedSRV"/>
+	<flex:remoting-destination ref="farfdtfSRV"/>
+	<flex:remoting-destination ref="fresconfirmSRV"/>
+	<flex:remoting-destination ref="finvhedSRV"/>
+	<flex:remoting-destination ref="finvdetSRV"/>
+	<flex:remoting-destination ref="auditTrailSRV"/>
+	<flex:remoting-destination ref="subCustomerSRV"/>
+</beans>

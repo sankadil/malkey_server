@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:sec="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.0.xsd">
+
+	<sec:http entry-point-ref="entryPoint" >
+<!--		<sec:intercept-url pattern="index.htm" filters="none"/>-->
+<!--		<sec:intercept-url pattern="*.html" access="ROLE_USER"/>-->
+		<sec:anonymous enabled="false"/>
+	</sec:http>
+	<bean id="entryPoint" class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint"/>	
+	<sec:authentication-manager alias="authenticationManager">
+		<sec:authentication-provider>
+				<!-- 
+				success full experiment by sanka http://www.springbyexample.org/examples/simple-spring-security-webapp-spring-config.html
+				 <sec:jdbc-user-service data-source-ref="dataSource" /> 
+				 -->
+				<sec:user-service>
+				<sec:user name="ojitha" password="ojitha" authorities="ROLE_USER, ROLE_ADMIN"/>
+				<sec:user name="test" password="test" authorities="ROLE_USER"/>
+				<sec:user name="d123" password="d123" authorities="ROLE_ADMIN"/>
+				</sec:user-service>
+<!-- 				<sec:jdbc-user-service data-source-ref="securityDataSource" />-->
+		</sec:authentication-provider>
+	</sec:authentication-manager>
+	
+<!--	<bean id="security3Helper" class="com.abccompany.security.Security3Helper"/>-->
+	
+</beans>

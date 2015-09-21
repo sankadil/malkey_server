@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:flex="http://www.springframework.org/schema/flex" 
+	xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:sec="http://www.springframework.org/schema/security"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+							http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+						http://www.springframework.org/schema/context 
+							http://www.springframework.org/schema/context/spring-context-3.0.xsd
+						http://www.springframework.org/schema/flex 
+							http://www.springframework.org/schema/flex/spring-flex-1.0.xsd
+						http://www.springframework.org/schema/jee 
+							http://www.springframework.org/schema/jee/spring-jee-3.0.xsd
+						http://www.springframework.org/schema/tx 
+							http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+						http://www.springframework.org/schema/security	
+							http://www.springframework.org/schema/security/spring-security-3.0.xsd
+						http://www.springframework.org/schema/aop 
+							http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+    <context:annotation-config />
+	<aop:aspectj-autoproxy />
+	<!-- Aspect Configuration -->
+	<bean id="loggingAspect" class="com.dspl.malkey.aspect.LoggingIntercepter"/>
+	
+	<!-- Flex - Application specific -->
+	<bean id="faccessorySRV" 		class="com.dspl.malkey.service.FaccessorySRVImpl"/>
+	<bean id="faccrateSRV" 			class="com.dspl.malkey.service.FaccrateSRVImpl"/>
+	<bean id="facctypeSRV" 			class="com.dspl.malkey.service.FacctypeSRVImpl"/>
+	<bean id="faddchargeSRV" 		class="com.dspl.malkey.service.FaddchargeSRVImpl"/>
+	<bean id="fanalysisSRV" 		class="com.dspl.malkey.service.FanalysisSRVImpl"/>
+	<bean id="fclientdriverSRV" 	class="com.dspl.malkey.service.FclientdriverSRVImpl"/>
+	<bean id="fclienttypeSRV" 		class="com.dspl.malkey.service.FclienttypeSRVImpl"/>
+	<bean id="fcolourSRV" 			class="com.dspl.malkey.service.FcolourSRVImpl"/>
+	<bean id="fdebtorSRV" 			class="com.dspl.malkey.service.FdebtorSRVImpl"/>
+	<bean id="fdriverrateSRV" 		class="com.dspl.malkey.service.FdriverrateSRVImpl"/>
+	<bean id="femailinboxSRV" 		class="com.dspl.malkey.service.FemailinboxSRVImpl"/>
+	<bean id="femailsentSRV" 		class="com.dspl.malkey.service.FemailsentSRVImpl"/>
+	<bean id="femployeeSRV" 		class="com.dspl.malkey.service.FemployeeSRVImpl"/>
+	<bean id="femployeetypeSRV" 	class="com.dspl.malkey.service.FemployeetypeSRVImpl"/>
+	<bean id="fenginesizeSRV" 		class="com.dspl.malkey.service.FenginesizeSRVImpl"/>
+	<bean id="ffueltypeSRV" 		class="com.dspl.malkey.service.FfueltypeSRVImpl"/>
+	<bean id="fgatepassSRV" 		class="com.dspl.malkey.service.FgatepassSRVImpl"/>
+	<bean id="fguarantorSRV" 		class="com.dspl.malkey.service.FguarantorSRVImpl"/>
+	<bean id="fhirestatusSRV" 		class="com.dspl.malkey.service.FhirestatusSRVImpl"/>
+	<bean id="fhiretypeSRV" 		class="com.dspl.malkey.service.FhiretypeSRVImpl"/>
+	<bean id="finsfleetSRV" 		class="com.dspl.malkey.service.FinsfleetSRVImpl"/>
+	<bean id="finspolicySRV" 		class="com.dspl.malkey.service.FinspolicySRVImpl"/>
+	<bean id="fleasecomSRV" 		class="com.dspl.malkey.service.FleasecomSRVImpl"/>
+	<bean id="flocationSRV" 		class="com.dspl.malkey.service.FlocationSRVImpl"/>
+	<bean id="fmaintenanceSRV" 		class="com.dspl.malkey.service.FmaintenanceSRVImpl"/>
+	<bean id="fmaintstatusSRV" 		class="com.dspl.malkey.service.FmaintstatusSRVImpl"/>
+	<bean id="fmainttypeSRV" 		class="com.dspl.malkey.service.FmainttypeSRVImpl"/>
+	<bean id="fothersrvrateSRV" 	class="com.dspl.malkey.service.FothersrvrateSRVImpl"/>
+	<bean id="fothersrvSRV" 		class="com.dspl.malkey.service.FothersrvSRVImpl"/>
+	<bean id="fpaytypeSRV" 			class="com.dspl.malkey.service.FpaytypeSRVImpl"/>
+	<bean id="fquoteSRV" 			class="com.dspl.malkey.service.FquoteSRVImpl"/>
+	<bean id="fratetypeSRV" 		class="com.dspl.malkey.service.FratetypeSRVImpl"/>
+	<bean id="fresaccsSRV" 			class="com.dspl.malkey.service.FresaccsSRVImpl"/>
+	<bean id="fresaddchargeSRV" 	class="com.dspl.malkey.service.FresaddchargeSRVImpl"/>
+	<bean id="freschkindamageSRV" 	class="com.dspl.malkey.service.FreschkindamageSRVImpl"/>
+	<bean id="freschkoutdamageSRV" 	class="com.dspl.malkey.service.FreschkoutdamageSRVImpl"/>
+	<bean id="fresdriverSRV" 		class="com.dspl.malkey.service.FresdriverSRVImpl"/>
+	<bean id="freservationSRV" 		class="com.dspl.malkey.service.FreservationSRVImpl"/>
+	<bean id="fresothsrvSRV" 		class="com.dspl.malkey.service.FresothsrvSRVImpl"/>
+	<bean id="fresratesSRV" 		class="com.dspl.malkey.service.FresratesSRVImpl"/>
+	<bean id="fresvehicleSRV" 		class="com.dspl.malkey.service.FresvehicleSRVImpl"/>
+	<bean id="fresvehinvSRV" 		class="com.dspl.malkey.service.FresvehinvSRVImpl"/>
+	<bean id="fsmssentSRV" 			class="com.dspl.malkey.service.FsmssentSRVImpl"/>
+	<bean id="fvehicleclassSRV" 	class="com.dspl.malkey.service.FvehicleclassSRVImpl"/>
+	<bean id="fvehicleinventrySRV" 	class="com.dspl.malkey.service.FvehicleinventrySRVImpl"/>
+	<bean id="fvehiclemakeSRV" 		class="com.dspl.malkey.service.FvehiclemakeSRVImpl"/>
+	<bean id="fvehiclemodelSRV" 	class="com.dspl.malkey.service.FvehiclemodelSRVImpl"/>
+	<bean id="fvehiclerateSRV" 		class="com.dspl.malkey.service.FvehiclerateSRVImpl"/>
+	<bean id="fvehicleSRV" 			class="com.dspl.malkey.service.FvehicleSRVImpl"/>
+	<bean id="vehiclesearchSRV" 	class="com.dspl.malkey.service.VehiclesearchSRVImpl"/>
+	<bean id="fvehiclestatusSRV" 	class="com.dspl.malkey.service.FvehiclestatusSRVImpl"/>
+	<bean id="fvehicletransSRV" 	class="com.dspl.malkey.service.FvehicletransSRVImpl"/>
+	<bean id="fvehicletypeSRV" 		class="com.dspl.malkey.service.FvehicletypeSRVImpl"/>
+	<bean id="fvinventrylistSRV" 	class="com.dspl.malkey.service.FvinventrylistSRVImpl"/>
+	<bean id="fvehicledamageSRV" 	class="com.dspl.malkey.service.FvehicledamageSRVImpl"/>
+	<bean id="fvehiclepicSRV" 		class="com.dspl.malkey.service.FvehiclepicSRVImpl"/>
+	<bean id="fileUploadSRV" 		class="com.dspl.malkey.service.FileUploadSRVImpl"/>
+	<bean id="fsupplierSRV" 		class="com.dspl.malkey.service.FsupplierSRVImpl"/>
+	<bean id="fresothersrvrateSRV"	class="com.dspl.malkey.service.FresothersrvrateSRVImpl"/>
+	<bean id="fresvehiclerateSRV"	class="com.dspl.malkey.service.FresvehiclerateSRVImpl"/>
+	<bean id="fresdriverrateSRV"	class="com.dspl.malkey.service.FresdriverrateSRVImpl"/>
+	<bean id="fresaccrateSRV"		class="com.dspl.malkey.service.FresaccrateSRVImpl"/>
+	<bean id="userInfoSRV"			class="com.dspl.malkey.service.UserInfoSRVImpl"/>
+	<bean id="fdebtorstatusSRV" 	class="com.dspl.malkey.service.FdebtorstatusSRVImpl"/>
+	<bean id="fmasterlistSRV" 		class="com.dspl.malkey.service.FmasterlistSRVImpl"/>
+	<bean id="femailsSRV" 			class="com.dspl.malkey.service.FemailsSRVImpl"/>
+	<bean id="fresvehicledamageSRV" class="com.dspl.malkey.service.FresvehicledamageSRVImpl"/>
+	<bean id="fcontrolSRV" 			class="com.dspl.malkey.service.FcontrolSRVImpl"/>
+	<bean id="fusertypeSRV" 		class="com.dspl.malkey.service.FusertypeSRVImpl"/>
+	<bean id="fpassSRV" 			class="com.dspl.malkey.service.FpassSRVImpl"/>
+	<bean id="faccessruleSRV" 		class="com.dspl.malkey.service.FaccessruleSRVImpl"/>
+	<bean id="ftaxSRV" 				class="com.dspl.malkey.service.FtaxSRVImpl"/>
+	<bean id="ftaxhedSRV" 			class="com.dspl.malkey.service.FtaxhedSRVImpl"/>
+	<bean id="ftaxdetSRV" 			class="com.dspl.malkey.service.FtaxdetSRVImpl"/>
+	<bean id="fcompanySRV" 			class="com.dspl.malkey.service.FcompanySRVImpl"/>
+	<bean id="fcompanytaxSRV" 		class="com.dspl.malkey.service.FcompanytaxSRVImpl"/>
+	<bean id="freshedSRV" 			class="com.dspl.malkey.service.FreshedSRVImpl"/>
+	<bean id="farfdtfSRV" 			class="com.dspl.malkey.service.FarfdtfSRVImpl"/>
+	<bean id="fresconfirmSRV" 		class="com.dspl.malkey.service.FresconfirmSRVImpl"/>
+	<bean id="finvhedSRV" 			class="com.dspl.malkey.service.FinvhedSRVImpl"/>
+	<bean id="finvdetSRV" 			class="com.dspl.malkey.service.FinvdetSRVImpl"/>
+	<bean id="auditTrailSRV" 		class="com.dspl.malkey.service.AuditTrailSRVImpl"/>
+	<bean id="subCustomerSRV" 		class="com.dspl.malkey.service.SubCustomerSRVImpl"/>
+			
+	<!-- JPA - Application specific -->
+	<bean id="femailsDAO"			class="com.dspl.malkey.dao.FemailsDAOImpl"/>
+	<bean id="faccessoryDAO" 		class="com.dspl.malkey.dao.FaccessoryDAOImpl"/>
+	<bean id="faccrateDAO" 			class="com.dspl.malkey.dao.FaccrateDAOImpl"/>
+	<bean id="facctypeDAO" 			class="com.dspl.malkey.dao.FacctypeDAOImpl"/>
+	<bean id="faddchargeDAO" 		class="com.dspl.malkey.dao.FaddchargeDAOImpl"/>
+	<bean id="fanalysisDAO" 		class="com.dspl.malkey.dao.FanalysisDAOImpl"/>
+	<bean id="fclientdriverDAO"		class="com.dspl.malkey.dao.FclientdriverDAOImpl"/>
+	<bean id="fclienttypeDAO" 		class="com.dspl.malkey.dao.FclienttypeDAOImpl"/>
+	<bean id="fcolourDAO" 			class="com.dspl.malkey.dao.FcolourDAOImpl"/>
+	<bean id="fdebtorDAO" 			class="com.dspl.malkey.dao.FdebtorDAOImpl"/>
+	<bean id="fdriverrateDAO" 		class="com.dspl.malkey.dao.FdriverrateDAOImpl"/>
+	<bean id="femailinboxDAO" 		class="com.dspl.malkey.dao.FemailinboxDAOImpl"/>
+	<bean id="femailsentDAO" 		class="com.dspl.malkey.dao.FemailsentDAOImpl"/>
+	<bean id="femployeeDAO" 		class="com.dspl.malkey.dao.FemployeeDAOImpl"/>
+	<bean id="femployeetypeDAO" 	class="com.dspl.malkey.dao.FemployeetypeDAOImpl"/>
+	<bean id="fenginesizeDAO" 		class="com.dspl.malkey.dao.FenginesizeDAOImpl"/>
+	<bean id="ffueltypeDAO" 		class="com.dspl.malkey.dao.FfueltypeDAOImpl"/>
+	<bean id="fgatepassDAO" 		class="com.dspl.malkey.dao.FgatepassDAOImpl"/>
+	<bean id="fguarantorDAO" 		class="com.dspl.malkey.dao.FguarantorDAOImpl"/>
+	<bean id="fhirestatusDAO" 		class="com.dspl.malkey.dao.FhirestatusDAOImpl"/>
+	<bean id="fhiretypeDAO" 		class="com.dspl.malkey.dao.FhiretypeDAOImpl"/>
+	<bean id="finsfleetDAO" 		class="com.dspl.malkey.dao.FinsfleetDAOImpl"/>
+	<bean id="finspolicyDAO" 		class="com.dspl.malkey.dao.FinspolicyDAOImpl"/>
+	<bean id="fleasecomDAO" 		class="com.dspl.malkey.dao.FleasecomDAOImpl"/>
+	<bean id="flocationDAO" 		class="com.dspl.malkey.dao.FlocationDAOImpl"/>
+	<bean id="fmaintenanceDAO" 		class="com.dspl.malkey.dao.FmaintenanceDAOImpl"/>
+	<bean id="fmaintstatusDAO" 		class="com.dspl.malkey.dao.FmaintstatusDAOImpl"/>
+	<bean id="fmainttypeDAO" 		class="com.dspl.malkey.dao.FmainttypeDAOImpl"/>
+	<bean id="fothersrvrateDAO" 	class="com.dspl.malkey.dao.FothersrvrateDAOImpl"/>
+	<bean id="fothersrvDAO" 		class="com.dspl.malkey.dao.FothersrvDAOImpl"/>
+	<bean id="fpaytypeDAO" 			class="com.dspl.malkey.dao.FpaytypeDAOImpl"/>
+	<bean id="fquoteDAO" 			class="com.dspl.malkey.dao.FquoteDAOImpl"/>
+	<bean id="fratetypeDAO" 		class="com.dspl.malkey.dao.FratetypeDAOImpl"/>
+	<bean id="fresaccsDAO" 			class="com.dspl.malkey.dao.FresaccsDAOImpl"/>
+	<bean id="fresaddchargeDAO" 	class="com.dspl.malkey.dao.FresaddchargeDAOImpl"/>
+	<bean id="freschkindamageDAO" 	class="com.dspl.malkey.dao.FreschkindamageDAOImpl"/>
+	<bean id="freschkoutdamageDAO" 	class="com.dspl.malkey.dao.FreschkoutdamageDAOImpl"/>
+	<bean id="fresdriverDAO" 		class="com.dspl.malkey.dao.FresdriverDAOImpl"/>
+	<bean id="freservationDAO" 		class="com.dspl.malkey.dao.FreservationDAOImpl"/>
+	<bean id="fresothsrvDAO" 		class="com.dspl.malkey.dao.FresothsrvDAOImpl"/>
+	<bean id="fresratesDAO" 		class="com.dspl.malkey.dao.FresratesDAOImpl"/>
+	<bean id="fresvehicleDAO" 		class="com.dspl.malkey.dao.FresvehicleDAOImpl"/>
+	<bean id="fresvehinvDAO" 		class="com.dspl.malkey.dao.FresvehinvDAOImpl"/>
+	<bean id="fsmssentDAO" 			class="com.dspl.malkey.dao.FsmssentDAOImpl"/>
+	<bean id="fvehicleclassDAO" 	class="com.dspl.malkey.dao.FvehicleclassDAOImpl"/>
+	<bean id="fvehicleinventryDAO" 	class="com.dspl.malkey.dao.FvehicleinventryDAOImpl"/>
+	<bean id="fvehiclemakeDAO" 		class="com.dspl.malkey.dao.FvehiclemakeDAOImpl"/>
+	<bean id="fvehiclemodelDAO" 	class="com.dspl.malkey.dao.FvehiclemodelDAOImpl"/>
+	<bean id="fvehiclerateDAO" 		class="com.dspl.malkey.dao.FvehiclerateDAOImpl"/>
+	<bean id="fvehicleDAO" 			class="com.dspl.malkey.dao.FvehicleDAOImpl"/>
+	<bean id="vehiclesearchDAO"     class="com.dspl.malkey.dao.VehiclesearchDAOImpl"/>
+	<bean id="fvehiclestatusDAO" 	class="com.dspl.malkey.dao.FvehiclestatusDAOImpl"/>
+	<bean id="fvehicletransDAO" 	class="com.dspl.malkey.dao.FvehicletransDAOImpl"/>
+	<bean id="fvehicletypeDAO" 		class="com.dspl.malkey.dao.FvehicletypeDAOImpl"/>
+	<bean id="fvinventrylistDAO" 	class="com.dspl.malkey.dao.FvinventrylistDAOImpl"/>
+	<bean id="fvehicledamageDAO" 	class="com.dspl.malkey.dao.FvehicledamageDAOImpl"/>
+	<bean id="fvehiclepicDAO"		class="com.dspl.malkey.dao.FvehiclepicDAOImpl"/>
+	<bean id="fcompanysettingDAO"	class="com.dspl.malkey.dao.FcompanysettingDAOImpl"/>
+	<bean id="fsupplierDAO"			class="com.dspl.malkey.dao.FsupplierDAOImpl"/>
+	<bean id="fresothersrvrateDAO"	class="com.dspl.malkey.dao.FresothersrvrateDAOImpl"/>
+	<bean id="fresvehiclerateDAO"	class="com.dspl.malkey.dao.FresvehiclerateDAOImpl"/>
+	<bean id="fresdriverrateDAO"	class="com.dspl.malkey.dao.FresdriverrateDAOImpl"/>
+	<bean id="fresaccrateDAO"		class="com.dspl.malkey.dao.FresaccrateDAOImpl"/>
+	<bean id="fdebtorstatusDAO"		class="com.dspl.malkey.dao.FdebtorstatusDAOImpl"/>
+	<bean id="fmasterlistDAO"		class="com.dspl.malkey.dao.FmasterlistDAOImpl"/>
+	<bean id="fresvehicledamageDAO"	class="com.dspl.malkey.dao.FresvehicledamageDAOImpl"/>
+	<bean id="fcontrolDAO"			class="com.dspl.malkey.dao.FcontrolDAOImpl"/>
+	<bean id="fusertypeDAO"			class="com.dspl.malkey.dao.FusertypeDAOImpl"/>
+	<bean id="fpassDAO"				class="com.dspl.malkey.dao.FpassDAOImpl"/>
+	<bean id="faccessruleDAO"		class="com.dspl.malkey.dao.FaccessruleDAOImpl"/>
+	<bean id="ftaxDAO"				class="com.dspl.malkey.dao.FtaxDAOImpl"/>
+	<bean id="ftaxhedDAO"			class="com.dspl.malkey.dao.FtaxhedDAOImpl"/>
+	<bean id="ftaxdetDAO"			class="com.dspl.malkey.dao.FtaxdetDAOImpl"/>
+	<bean id="fcompanyDAO"			class="com.dspl.malkey.dao.FcompanyDAOImpl"/>
+	<bean id="fcompanytaxDAO"		class="com.dspl.malkey.dao.FcompanytaxDAOImpl"/>
+	<bean id="freshedDAO"			class="com.dspl.malkey.dao.FreshedDAOImpl"/>
+	<bean id="farfdtfDAO"			class="com.dspl.malkey.dao.FarfdtfDAOImpl"/>
+	<bean id="fresconfirmDAO"		class="com.dspl.malkey.dao.FresconfirmDAOImpl"/>
+	<bean id="finvhedDAO"			class="com.dspl.malkey.dao.FinvhedDAOImpl"/>
+	<bean id="finvdetDAO"			class="com.dspl.malkey.dao.FinvdetDAOImpl"/>
+	<bean id="auditTrailDAO"		class="com.dspl.malkey.dao.AuditTrailDAOImpl"/>
+	<bean id="messageDAO" 			class="com.dspl.malkey.dao.MessageDAOImpl"/>
+	<bean id="subCustomerDAO" 		class="com.dspl.malkey.dao.SubCustomerDAOImpl"/>
+
+
+
+
+
+
+
+
+	<!--email configurations-->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="${email.host}" />
+		<property name="port" value="${email.port}" />
+		<property name="username" value="${email.sender.address}" />
+		<property name="password" value="${email.sender.password}" /> 
+		<property name="javaMailProperties">
+			<props>
+<!--				<prop key="mail.transport.protocol">smtp</prop>-->
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop><!--
+				<prop key="mail.smtp.timeout">5000</prop>
+				<prop key="mail.smtp.connectiontimeout">5000</prop>
+			--></props>
+		</property>
+	 </bean>
+
+	<bean id="mailMail" class="com.dspl.malkey.util.MailMail">
+		<property name="mailSender" ref="mailSender" />
+		<property name="simpleMailMessage" ref="customeMailMessage" />
+	</bean>
+
+	<bean id="customeMailMessage" class="org.springframework.mail.SimpleMailMessage">
+		<property name="from" value="${email.from}" />
+		<property name="to" value="${email.reciever.address}" />
+		<property name="subject" value="${email.title}" />
+		<property name="text">
+			<value>
+			<![CDATA[
+Dear %s,
+%s
+			]]>
+			</value>
+		</property>
+	</bean>
+	<!--end email configuration	-->
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!--Quartz Job sheduling 	-->
+	
+	<bean id="runMeJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"> 
+		<property name="targetObject" ref="freshedSRV" /> 
+		<property name="targetMethod" value="runTask" /> 
+	</bean> 
+
+	<!-- Cron Trigger, run every 5 seconds -->
+	<bean id="cronTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="runMeJob" />
+		<property name="cronExpression" value="${email.cronExpression}" />
+	</bean>
+
+	<bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="jobDetails">
+			<list>
+				<ref bean="runMeJob" />
+			</list>
+		</property>
+		<property name="triggers">
+			<list>
+				<ref bean="cronTrigger" />
+			</list>
+		</property>
+	</bean>
+	
+	<!--End Quartz Job sheduling 	-->
+		
+		
+		
+		
+<!--	Property File Configuration	-->
+	<bean id="propertyReaderBean"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="location"
+			value="/WEB-INF/malkey-booking-engine-configurations.properties" />
+	</bean>
+		
+	
+	<!-- JPA common configuration -->
+	<tx:annotation-driven />
+	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
+	<context:annotation-config/>
+	
+        
+	<bean id="jpaAdapter" class="org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter">
+	<property name="databasePlatform" value="org.eclipse.persistence.platform.database.SQLServerPlatform" />
+	   <property name="showSql" value="true"/>
+	   <property name="generateDdl" value="true"/>	   	
+	</bean>
+
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+		<property name="dataSource" ref="dataSource"/>
+	</bean>
+	
+	<context:load-time-weaver/>
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource"/>
+		<property name="jpaVendorAdapter" ref="jpaAdapter"/>
+		<property name="persistenceUnitName" value="malkey"/>
+		<property name="persistenceUnitManager" ref="PUnitMgr"/>
+	</bean>
+	
+	<jee:jndi-lookup id="dataSource" jndi-name="jdbc/malkey"/>
+<!--	<jee:jndi-lookup id="securityDataSource" jndi-name="jdbc/catalogueDB"/>-->
+
+	<bean id="PUnitMgr" class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
+		<property name="persistenceXmlLocations">
+		<list> 
+			<value>/WEB-INF/classes/META-INF/persistence.xml</value> 
+		</list>
+		</property>
+		<property name="defaultDataSource" ref="dataSource"/>
+	</bean>
+	
+	<bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>
+
+
+
+	
+</beans>
