@@ -117,5 +117,6 @@
 		<class>com.dspl.malkey.domain.FaccessrulePK</class>
 		<class>com.dspl.malkey.domain.Faccessrule</class>
 		<class>com.dspl.malkey.domain.Faccessory</class>
+		<class>com.dspl.malkey.domain.Fsupplier2</class>
 	</persistence-unit>
 </persistence>

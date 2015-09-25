@@ -16,8 +16,8 @@ import java.math.BigDecimal;
 @NamedQueries(
 		{@NamedQuery(name="FdebtorListAll", query="SELECT f FROM Fdebtor f"),
 		@NamedQuery(name="FdebtorListAllDesc", query="SELECT f FROM Fdebtor f ORDER BY f.recordid DESC"),
-		@NamedQuery(name="FdebtorListAll.Optimized", query="SELECT f.debcode,f.debname,f.nicno,f.clienttype,f.company,f.billmob1,f.longterm,f.debstat FROM Fdebtor f where f.debstat='A'  ORDER BY f.recordid DESC"),
-		@NamedQuery(name="FdebtorListAll.Optimized.Page", query="SELECT f.debcode,f.debname,f.nicno,f.clienttype,f.company,f.billmob1,f.longterm,f.passportno,f.debstat FROM Fdebtor f where f.debstat='A'  ORDER BY f.recordid DESC"),
+		@NamedQuery(name="FdebtorListAll.Optimized", query="SELECT f.debcode,f.debname,f.nicno,f.clienttype,f.company,f.billmob1,f.longterm,f.debstat FROM Fdebtor f   ORDER BY f.recordid DESC"),//where f.debstat='A'
+		@NamedQuery(name="FdebtorListAll.Optimized.Page", query="SELECT f.debcode,f.debname,f.nicno,f.clienttype,f.company,f.billmob1,f.longterm,f.passportno,f.debstat FROM Fdebtor f   ORDER BY f.recordid DESC"),//where f.debstat='A'
 		@NamedQuery(name="FdebtorListAll.NameNIC", query="SELECT f.debcode,f.debname,f.nicno,f.debstat FROM Fdebtor f  ORDER BY f.recordid DESC")
 		}
 		)

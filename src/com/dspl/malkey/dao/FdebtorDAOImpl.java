@@ -111,8 +111,8 @@ public class FdebtorDAOImpl implements FdebtorDAO {
 		try {
 			long startTime = System.currentTimeMillis();
 			em.flush();
-
-			String query="select f.debcode,f.debname,f.nicno,f.clienttype,f.company,f.billmob1,f.longterm,f.passportno,f.debstat from Fdebtor f where f.debstat='A' AND (";
+//f.debstat='A' AND
+			String query="select f.debcode,f.debname,f.nicno,f.clienttype,f.company,f.billmob1,f.longterm,f.passportno,f.debstat from Fdebtor f where  (";
 			String query2=" OR (f.debcode like '%"+name+"%')";
 			
 			String[] names=name.split("\\s+");

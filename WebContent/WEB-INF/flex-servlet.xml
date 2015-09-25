@@ -86,6 +86,7 @@
 	<flex:remoting-destination ref="fvehiclepicSRV"/>
 	<flex:remoting-destination ref="fileUploadSRV"/>
 	<flex:remoting-destination ref="fsupplierSRV"/>
+	<flex:remoting-destination ref="fsupplier2SRV"/>
 	<flex:remoting-destination ref="fresothersrvrateSRV"/>
 	<flex:remoting-destination ref="fresvehiclerateSRV"/>
 	<flex:remoting-destination ref="fresdriverrateSRV"/>

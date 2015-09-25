@@ -9,21 +9,21 @@ import java.math.BigDecimal;
 
 
 /**
- * The persistent class for the fsupplier database table.
+ * The persistent class for the fsupplier2 database table.
  * 
  */
 @Entity
-@Table(name="fsupplier")
+@Table(name="fsupplier2")
 @NamedQueries({
-	@NamedQuery(name="FsupplierListAll", query="SELECT f FROM Fsupplier f")
+	@NamedQuery(name="Fsupplier2ListAll", query="SELECT f FROM Fsupplier2 f")
 	})
 	
 @NamedNativeQueries({
-	@NamedNativeQuery(name="Fsupplier.EmailID", query="SELECT f.supcode,f.supname,f.supemail,f.typ,f.recordid FROM Fsupplier f WHERE f.supemail!=''", resultSetMapping="Fsupplier.EmailID.Rsm")
+	@NamedNativeQuery(name="Fsupplier2.EmailID", query="SELECT f.supcode,f.supname,f.supemail,f.typ,f.recordid FROM Fsupplier2 f WHERE f.supemail!=''", resultSetMapping="Fsupplier2.EmailID.Rsm")
 })
 
 @SqlResultSetMappings({
-	@SqlResultSetMapping(name="Fsupplier.EmailID.Rsm", entities={@EntityResult(entityClass=Fsupplier.class,
+	@SqlResultSetMapping(name="Fsupplier2.EmailID.Rsm", entities={@EntityResult(entityClass=Fsupplier2.class,
 			fields={@FieldResult(name="supcode",column="supcode"),
 					@FieldResult(name="supname",column="supname"),
 					@FieldResult(name="supemail",column="supemail"),
@@ -32,7 +32,7 @@ import java.math.BigDecimal;
 	})
 })	
 
-public class Fsupplier implements Serializable {
+public class Fsupplier2 implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -135,7 +135,7 @@ public class Fsupplier implements Serializable {
 	@Transient
 	private Boolean isSelected=false;
 	
-    public Fsupplier() {
+    public Fsupplier2() {
     }
 
 	public String getSupcode() {

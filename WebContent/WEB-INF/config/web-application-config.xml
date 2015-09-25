@@ -85,6 +85,7 @@
 	<bean id="fvehiclepicSRV" 		class="com.dspl.malkey.service.FvehiclepicSRVImpl"/>
 	<bean id="fileUploadSRV" 		class="com.dspl.malkey.service.FileUploadSRVImpl"/>
 	<bean id="fsupplierSRV" 		class="com.dspl.malkey.service.FsupplierSRVImpl"/>
+	<bean id="fsupplier2SRV" 		class="com.dspl.malkey.service.Fsupplier2SRVImpl"/>
 	<bean id="fresothersrvrateSRV"	class="com.dspl.malkey.service.FresothersrvrateSRVImpl"/>
 	<bean id="fresvehiclerateSRV"	class="com.dspl.malkey.service.FresvehiclerateSRVImpl"/>
 	<bean id="fresdriverrateSRV"	class="com.dspl.malkey.service.FresdriverrateSRVImpl"/>
@@ -171,6 +172,7 @@
 	<bean id="fvehiclepicDAO"		class="com.dspl.malkey.dao.FvehiclepicDAOImpl"/>
 	<bean id="fcompanysettingDAO"	class="com.dspl.malkey.dao.FcompanysettingDAOImpl"/>
 	<bean id="fsupplierDAO"			class="com.dspl.malkey.dao.FsupplierDAOImpl"/>
+	<bean id="fsupplier2DAO"			class="com.dspl.malkey.dao.Fsupplier2DAOImpl"/>
 	<bean id="fresothersrvrateDAO"	class="com.dspl.malkey.dao.FresothersrvrateDAOImpl"/>
 	<bean id="fresvehiclerateDAO"	class="com.dspl.malkey.dao.FresvehiclerateDAOImpl"/>
 	<bean id="fresdriverrateDAO"	class="com.dspl.malkey.dao.FresdriverrateDAOImpl"/>

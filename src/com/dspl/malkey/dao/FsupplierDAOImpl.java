@@ -32,7 +32,7 @@ public class FsupplierDAOImpl implements FsupplierDAO {
 	@Transactional
 	@Override
 	public int count() {
-		return (Integer)(em.createNativeQuery("SELECT COUNT(*) AS COUNT FROM Fsupplier2").getSingleResult());
+		return (Integer)(em.createNativeQuery("SELECT COUNT(*) AS COUNT FROM Fsupplier").getSingleResult());
 	}
 
 	@Transactional(readOnly=false)
