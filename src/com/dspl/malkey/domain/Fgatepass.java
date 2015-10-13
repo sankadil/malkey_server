@@ -14,7 +14,7 @@ import java.util.Calendar;
 @Entity
 @Table(name="fgatepass")
 @NamedQueries({
-	@NamedQuery(name="FgatepassListAll", query="SELECT f FROM Fgatepass f"),
+	@NamedQuery(name="FgatepassListAll", query="SELECT f FROM Fgatepass f ORDER BY f.recordid DESC"),
 	@NamedQuery(name="FgatepassVehicleMovement1", query="SELECT f FROM Fgatepass f WHERE f.outdate>=:df AND f.outdate<=:dt ORDER BY f.outdate,f.regno"),
 	@NamedQuery(name="FgatepassVehicleMovement2", query="SELECT f FROM Fgatepass f WHERE f.outdate>=:df AND f.outdate<=:dt AND f.status=:st ORDER BY f.outdate,f.regno")
 })
@@ -44,7 +44,7 @@ public class Fgatepass implements Serializable {
 	private String outfromlocdes;
 	@Transient
 	private String outtolocdes;
-	
+
 	
 	@Column(nullable=false, length=10)
 	private String outfromloc;
@@ -70,6 +70,29 @@ public class Fgatepass implements Serializable {
 	
 	@Column(nullable=false, length=10)
 	private String intime;
+	
+	public String getIntimeexpected() {
+		return intimeexpected;
+	}
+
+	public void setIntimeexpected(String intimeexpected) {
+		this.intimeexpected = intimeexpected;
+	}
+
+	public Calendar getIndateexpected() {
+		return indateexpected;
+	}
+
+	public void setIndateexpected(Calendar indateexpected) {
+		this.indateexpected = indateexpected;
+	}
+
+	@Column(nullable=true, length=10)
+	private String intimeexpected;
+
+	@Column(nullable=false)
+	@Temporal(TemporalType.TIMESTAMP)
+	private Calendar indateexpected;
 	
 	@Column(nullable=false)
 	@Temporal(TemporalType.TIMESTAMP)

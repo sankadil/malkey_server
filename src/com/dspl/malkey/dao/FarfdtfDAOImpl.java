@@ -3813,10 +3813,10 @@ public class FarfdtfDAOImpl implements FarfdtfDAO {
 			String query="SELECT s.srvid,";
 			query += " (SELECT description FROM fothersrv WHERE srvid=s.srvid) AS description,";
 			query += " s.dfrom,s.dto,s.noofdays,";
-			query += " (SELECT ratetype FROM fresothersrvrate WHERE resno=s.resno AND srvid=s.srvid AND dfrom=s.dfrom AND dto=s.dto) AS ratetype,";
-			query += " (SELECT standardrate FROM fresothersrvrate WHERE resno=s.resno AND srvid=s.srvid AND dfrom=s.dfrom AND dto=s.dto) AS standardrate,";
-			query += " (SELECT rate FROM fresothersrvrate WHERE resno=s.resno AND srvid=s.srvid AND dfrom=s.dfrom AND dto=s.dto) AS rate,";
-			query += " (SELECT discount FROM fresothersrvrate WHERE resno=s.resno AND srvid=s.srvid AND dfrom=s.dfrom AND dto=s.dto) AS discount";
+			query += " (SELECT ratetype FROM fresothersrvrate WHERE resno=s.resno AND srvid=s.srvid AND dfrom=s.dfrom AND dto=s.dto AND timeout=s.timeout and timein=s.timein) AS ratetype,";
+			query += " (SELECT standardrate FROM fresothersrvrate WHERE resno=s.resno AND srvid=s.srvid AND dfrom=s.dfrom AND dto=s.dto AND timeout=s.timeout and timein=s.timein) AS standardrate,";
+			query += " (SELECT rate FROM fresothersrvrate WHERE resno=s.resno AND srvid=s.srvid AND dfrom=s.dfrom AND dto=s.dto AND timeout=s.timeout and timein=s.timein) AS rate,";
+			query += " (SELECT discount FROM fresothersrvrate WHERE resno=s.resno AND srvid=s.srvid AND dfrom=s.dfrom AND dto=s.dto AND timeout=s.timeout and timein=s.timein) AS discount";
 			query += " FROM fresothsrv AS s";
 			query += " WHERE resno='"+resno+"'";
 			query += " ORDER BY s.srvid,s.dfrom,s.dto";

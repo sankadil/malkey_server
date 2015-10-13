@@ -422,6 +422,14 @@ public class FdebtorDAOImpl implements FdebtorDAO {
 //		return true;
 //	}
 	
+	private void setAddedDetails(Fdebtor fdebtor)
+	{
+		Fdebtor temp=findByID(fdebtor.getDebcode());
+		fdebtor.setAdddate(temp.getAdddate());
+		fdebtor.setAdduser(temp.getAdduser());
+		fdebtor.setAddmach(temp.getAddmach());
+	}
+	
 	@Transactional(readOnly=false)
 	@Override
 	public Boolean update(Fdebtor fdebtor,ArrayList driList) {
@@ -477,9 +485,10 @@ public class FdebtorDAOImpl implements FdebtorDAO {
 			}
 			
 			//Persists FDebtor
-			fdebtor.setAdddate(curDate);
-			fdebtor.setAdduser(curUser);
-			fdebtor.setAddmach(curMachine);
+			fdebtor.setModifieddate(curDate);
+			fdebtor.setModifieduser(curUser);
+			fdebtor.setModifiedmach(curMachine);
+			setAddedDetails(fdebtor);
 			em.merge(fdebtor);
 			em.flush();
 			

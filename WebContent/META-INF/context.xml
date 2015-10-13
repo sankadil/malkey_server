@@ -8,7 +8,7 @@
 		password="testing"
 		driverClassName="com.microsoft.sqlserver.jdbc.SQLServerDriver"
 		url="jdbc:sqlserver://MENAKA-LAPTOP\SQLEXPRESS:1433;databaseName=malkey"
-		maxActive="8"
+		maxActive="50"
 		maxIdle="4"/>
 	 
 	<Loader loaderClass="org.springframework.instrument.classloading.tomcat.TomcatInstrumentableClassLoader"/>

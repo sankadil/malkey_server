@@ -71,6 +71,40 @@ public class Fdebtor implements Serializable {
 
 	@Column(length=10)
 	private String adduser;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="modifieddate")
+	private Calendar modifieddate;
+	
+	public Calendar getModifieddate() {
+		return modifieddate;
+	}
+
+	public void setModifieddate(Calendar modifieddate) {
+		this.modifieddate = modifieddate;
+	}
+
+	public String getModifiedmach() {
+		return modifiedmach;
+	}
+
+	public void setModifiedmach(String modifiedmach) {
+		this.modifiedmach = modifiedmach;
+	}
+
+	public String getModifieduser() {
+		return modifieduser;
+	}
+
+	public void setModifieduser(String modifieduser) {
+		this.modifieduser = modifieduser;
+	}
+
+	@Column(length=50,name="modifiedmach")
+	private String modifiedmach;
+	
+	@Column(length=10,name="modifieduser")
+	private String modifieduser;
 
 	@Column(length=20)
 	private String billmob1;

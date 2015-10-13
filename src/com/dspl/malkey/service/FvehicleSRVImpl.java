@@ -70,7 +70,7 @@ public class FvehicleSRVImpl implements FvehicleSRV {
 	@Override
 	public Boolean update(Fvehicle fvehicle, List<Fvehicledamage> fvehicledamage, List<Fvehicleinventry> fvehicleinventry, List<Fvehiclerate> fvehiclerate, List<Fvehiclepic> fvehiclepic) {
 		try {
-			fvehicle.setAddmach(InetAddress.getByName(FlexContext.getHttpRequest().getRemoteHost()).getHostName());
+			fvehicle.setModifiedmach(InetAddress.getByName(FlexContext.getHttpRequest().getRemoteHost()).getHostName());
 			fvehicleDAO.update(fvehicle, fvehicledamage, fvehicleinventry, fvehiclerate, fvehiclepic);
 			return true;
 		} catch (Exception e) {

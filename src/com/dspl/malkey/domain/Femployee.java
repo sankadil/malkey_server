@@ -15,7 +15,7 @@ import java.util.Calendar;
 @NamedQueries({
 	
 			@NamedQuery(name="FemployeeListAll", query="SELECT f FROM Femployee f"),
-			@NamedQuery(name="FemployeeDriverListAll", query="SELECT f FROM Femployee f WHERE f.emptype=:emptype"),
+			@NamedQuery(name="FemployeeDriverListAll", query="SELECT f FROM Femployee f WHERE f.emptype IN ('MAINTENANC','DRIVER')"),
 			
 		})
 

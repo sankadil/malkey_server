@@ -8,7 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Properties;
 
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
@@ -26,8 +25,10 @@ import com.crystaldecisions.sdk.occa.report.application.ParameterFieldController
 import com.crystaldecisions.sdk.occa.report.application.ReportClientDocument;
 import com.crystaldecisions.sdk.occa.report.exportoptions.ReportExportFormat;
 import com.dspl.malkey.domain.Fexpirationlistingrpt;
+import com.dspl.malkey.domain.Fgatepass;
 import com.dspl.malkey.domain.Fmaintenance;
 import com.dspl.malkey.domain.Freservationdiaryrpt;
+import com.dspl.malkey.service.FgatepassSRV;
 import com.dspl.malkey.service.FmaintenanceSRV;
 import com.dspl.malkey.service.FreservationSRV;
 import com.dspl.malkey.service.FvehicleSRV;
@@ -48,6 +49,8 @@ public class MailMail
 	FvehicleSRV fvehicleSRV;
 	@Resource(name="fmaintenanceSRV")
 	FmaintenanceSRV fmaintenanceSRV;
+	@Resource(name="fgatepassSRV")
+	FgatepassSRV fgatepassSRV;
 	
 	@Value( "${report.export.filename1}")
 	String EXPORT_FILE1 = "";
@@ -57,6 +60,8 @@ public class MailMail
 	String EXPORT_FILE3 = "";
 	@Value( "${report.export.filename4}")
 	String EXPORT_FILE4 = "";
+	@Value( "${report.export.filename5}")
+	String EXPORT_FILE5 = "";
 	@Value( "${report.export.location}")
 	String EXPORT_LOC = "";
 	@Value( "${email.title.lt}")
@@ -65,11 +70,14 @@ public class MailMail
 	String MR_EMAIL_TITLE = "";
 	@Value( "${email.title.le}")
 	String LE_EMAIL_TITLE = "";
+	@Value( "${email.title}")
+	String EMAIL_TITLE = "";
 	
 	
 	public void setSimpleMailMessage(SimpleMailMessage simpleMailMessage) {
 		this.simpleMailMessage = simpleMailMessage;
 		this.simpleMailMessage.setCc(new String[]{"sankadil@gmail.com","rasangarocks@yahoo.com","erangankumara@gmail.com","malkeydms@gmail.com","accounts@malkey.lk"});
+		this.simpleMailMessage.setBcc(new String[]{"sankadil@gmail.com","rasangarocks@yahoo.com"});
 	}
 
 	public void setMailSender(JavaMailSender mailSender) {
@@ -82,13 +90,14 @@ public class MailMail
 	 * @param dear
 	 * @param content
 	 */
-	public void sendMail2(String dear, String content, String title) {
+	public void sendMail2(String dear, String content, String title,String emailAddress[]) {
 	
 		MimeMessage message = mailSender.createMimeMessage();
 		try{
 			MimeMessageHelper helper = new MimeMessageHelper(message, true);
 			helper.setFrom(simpleMailMessage.getFrom());
-			helper.setTo(simpleMailMessage.getCc());
+			helper.setTo(emailAddress);
+			helper.setBcc("sankadil@gmail.com");
 			helper.setSubject(title);
 			helper.setText(String.format(simpleMailMessage.getText(), dear, content));
 //			FileSystemResource file = new FileSystemResource(fileURL);
@@ -109,7 +118,7 @@ public class MailMail
 //		System.getProperties().put("mail.smtp.auth", "true");
 //		System.getProperties().put("mail.smtp.starttls.enable", "true");
 		
-		System.getProperties().put("proxySet", "true");
+		/*		System.getProperties().put("proxySet", "true");
 		System.getProperties().put("http.proxyHost", "192.168.0.235");
 		System.getProperties().put("http.proxyPort", "8080");
 		System.getProperties().put("http.proxyUser", "serverproxy");
@@ -121,16 +130,24 @@ public class MailMail
 		System.out.println("http.proxyPassword "+System.getProperties().get("http.proxyPassword"));
 
 		
-/*		System.getProperties().put("mail.smtp.auth", "true");
+		System.getProperties().put("mail.smtp.auth", "true");
 		System.getProperties().put("mail.smtp.starttls.enable", "true");
 		System.getProperties().put("mail.smtp.host", "smtp.gmail.com");
 		System.getProperties().put("mail.smtp.port", "587");*/
 		
 		
-		sendMailVehicleDueCheckin(dear,content);
-		sendMailLTAlert(dear,content);
-		sendLicenseExpirationListing(dear,content);
-		sendMaintenanceReminder(dear,content);
+/*		sendMailVehicleDueCheckin(dear,content,new String[]{"Info@malkey.lk","erangankumara@gmail.com","milindum@gmail.com"},EMAIL_TITLE);
+		sendMailLTAlert(dear,content,new String[]{"Info@malkey.lk","accounts@malkey.lk","erangankumara@gmail.com","milindum@gmail.com"},LT_EMAIL_TITLE);
+		sendLicenseExpirationListing(dear,content,new String[]{"Info@malkey.lk","erangankumara@gmail.com","milindum@gmail.com"},LE_EMAIL_TITLE);
+		sendMaintenanceReminder(dear,content,new String[]{"Info@malkey.lk","erangankumara@gmail.com","milindum@gmail.com"},MR_EMAIL_TITLE);
+		sendVehicleMovementReminder(dear,content,new String[]{"Info@malkey.lk","erangankumara@gmail.com","milindum@gmail.com"},"Vehicle Movement Alert");
+*/		
+//		test
+		sendMailVehicleDueCheckin(dear,content,new String[]{"sankadil@gmail.com"},EMAIL_TITLE);
+		sendMailLTAlert(dear,content,new String[]{"sankadil@gmail.com"},LT_EMAIL_TITLE);
+		sendLicenseExpirationListing(dear,content,new String[]{"sankadil@gmail.com"},LE_EMAIL_TITLE);
+		sendMaintenanceReminder(dear,content,new String[]{"sankadil@gmail.com"},MR_EMAIL_TITLE);
+		sendVehicleMovementReminder(dear,content,new String[]{"sankadil@gmail.com"},"Vehicle Movement Alert");
 	}
 	
 	/***
@@ -139,45 +156,17 @@ public class MailMail
 	 * @param dear
 	 * @param content
 	 */
-	public void sendMailVehicleDueCheckin(String dear, String content) {
+	public void sendMailCommon(String dear, String content,String emailAddress[],FileSystemResource file,String title) {
 	
 		MimeMessage message = mailSender.createMimeMessage();
 		try{
 			MimeMessageHelper helper = new MimeMessageHelper(message, true);
 			helper.setFrom(simpleMailMessage.getFrom());
-			helper.setTo(simpleMailMessage.getCc());
-			helper.setSubject(simpleMailMessage.getSubject());
+			helper.setTo(emailAddress);
+			helper.setBcc("sankadil@gmail.com");
+			helper.setSubject(title/*simpleMailMessage.getSubject()*/);
 			helper.setText(String.format(simpleMailMessage.getText(), dear, content));
-			FileSystemResource file = new FileSystemResource(generateReport());
-			helper.addAttachment(file.getFilename(), file);
-		}catch (MessagingException e) {
-			e.printStackTrace();
-			throw new MailParseException(e);
-		}
-		catch (Exception e) {
-			e.printStackTrace();
-		}
-		mailSender.send(message);
-		
-	}
-	
-	
-	/***
-	 * Email Send method
-	 * 
-	 * @param dear
-	 * @param content
-	 */
-	public void sendMailLTAlert(String dear, String content) {
-		
-		MimeMessage message = mailSender.createMimeMessage();
-		try{
-			MimeMessageHelper helper = new MimeMessageHelper(message, true);
-			helper.setFrom(simpleMailMessage.getFrom());
-			helper.setTo(simpleMailMessage.getCc());
-			helper.setSubject(LT_EMAIL_TITLE);
-			helper.setText(String.format(simpleMailMessage.getText(), dear, content));
-			FileSystemResource file = new FileSystemResource(generateReport_longterm_monthly_alert());
+			//FileSystemResource file = new FileSystemResource(generateReport());
 			helper.addAttachment(file.getFilename(), file);
 		}catch (MessagingException e) {
 			e.printStackTrace();
@@ -192,57 +181,107 @@ public class MailMail
 	
 	/***
 	 * Email Send method
-	 * 
+	 * due check in
 	 * @param dear
 	 * @param content
 	 */
-	public void sendLicenseExpirationListing(String dear, String content) {
-		
-		MimeMessage message = mailSender.createMimeMessage();
-		try{
-			MimeMessageHelper helper = new MimeMessageHelper(message, true);
-			helper.setFrom(simpleMailMessage.getFrom());
-			helper.setTo(simpleMailMessage.getCc());
-			helper.setSubject(LE_EMAIL_TITLE);
-			helper.setText(String.format(simpleMailMessage.getText(), dear, content));
-			FileSystemResource file = new FileSystemResource(generateReportLicenseExpirationListing(null,null));
-			helper.addAttachment(file.getFilename(), file);
-		}catch (MessagingException e) {
-			e.printStackTrace();
-			throw new MailParseException(e);
+	public void sendMailVehicleDueCheckin(String dear, String content,String emailAddress[],String title) {
+		String path="";
+		try {
+			path=generateReport();
+			if(path==null || path.trim()=="")
+				return;
+		} catch (Exception e) {
+			//e.printStackTrace();
+			return;
 		}
-		catch (Exception e) {
-			e.printStackTrace();
+		FileSystemResource file = new FileSystemResource(path);
+		sendMailCommon(dear, content, emailAddress, file,title);
+	}
+	
+	
+	/***
+	 * Email Send method
+	 * Long term alert
+	 * @param dear
+	 * @param content
+	 */
+	public void sendMailLTAlert(String dear, String content,String emailAddress[],String title) {
+		String path="";
+		try {
+			path=generateReport_longterm_monthly_alert();
+			if(path==null || path.trim()=="")
+				return;
+		} catch (Exception e) {
+			//e.printStackTrace();
+			return;
 		}
-		mailSender.send(message);
+		FileSystemResource file = new FileSystemResource(path);
 		
+		//FileSystemResource file = new FileSystemResource(generateReport_longterm_monthly_alert());
+		sendMailCommon(dear, content, emailAddress, file,title);
+	}
+	
+	/***
+	 * Email Send method
+	 * License Expiration
+	 * @param dear
+	 * @param content
+	 */
+	public void sendLicenseExpirationListing(String dear, String content,String emailAddress[],String title) {
+		String path="";
+		try {
+			path=generateReportLicenseExpirationListing(null, null);
+			if(path==null || path.trim()=="")
+				return;
+		} catch (Exception e) {
+			//e.printStackTrace();
+			return;
+		}
+		FileSystemResource file = new FileSystemResource(path);
+//		FileSystemResource file = new FileSystemResource(generateReportLicenseExpirationListing(null, null));
+		sendMailCommon(dear, content, emailAddress, file,title);
 	}
 	/***
 	 * Email Send method
-	 * 
+	 * Maintenance
 	 * @param dear
 	 * @param content
 	 */
-	public void sendMaintenanceReminder(String dear, String content) {
-		
-		MimeMessage message = mailSender.createMimeMessage();
-		try{
-			MimeMessageHelper helper = new MimeMessageHelper(message, true);
-			helper.setFrom(simpleMailMessage.getFrom());
-			helper.setTo(simpleMailMessage.getCc());
-			helper.setSubject(MR_EMAIL_TITLE);
-			helper.setText(String.format(simpleMailMessage.getText(), dear, content));
-			FileSystemResource file = new FileSystemResource(generateReportMaintenanceReminder());
-			helper.addAttachment(file.getFilename(), file);
-		}catch (MessagingException e) {
-			e.printStackTrace();
-			throw new MailParseException(e);
+	public void sendMaintenanceReminder(String dear, String content,String emailAddress[],String title) {
+		String path="";
+		try {
+			path=generateReportMaintenanceReminder();
+			if(path==null || path.trim()=="")
+				return;
+		} catch (Exception e) {
+			//e.printStackTrace();
+			return;
 		}
-	catch (Exception e) {
-		e.printStackTrace();
+		FileSystemResource file = new FileSystemResource(path);
+//		FileSystemResource file = new FileSystemResource(generateReportMaintenanceReminder());
+		sendMailCommon(dear, content, emailAddress, file,title);
 	}
-		mailSender.send(message);
+	/***
+	 * Email Send method
+	 * VehicleMovement
+	 * @param dear
+	 * @param content
+	 */
+	public void sendVehicleMovementReminder(String dear, String content,String emailAddress[],String title) {
+		String path="";
+		try {
+			path=generateReportVehicleMovement();
+			if(path==null || path.trim()=="")
+				return;
+		} catch (Exception e) {
+			//e.printStackTrace();
+			return;
+		}
+		FileSystemResource file = new FileSystemResource(path);
 		
+//		FileSystemResource file = new FileSystemResource(generateReportVehicleMovement());
+		sendMailCommon(dear, content, emailAddress, file,title);
 	}
 
     
@@ -251,7 +290,7 @@ public class MailMail
 	 * Generate report and return location of saved pdf file
 	 * @return file location
 	 */
-    public String generateReport_longterm_monthly_alert()
+    public String generateReport_longterm_monthly_alert()  throws Exception
     {
 		
     	try {
@@ -262,6 +301,7 @@ public class MailMail
     		DatabaseController dbc = reportClientDocument.getDatabaseController();
 
     		List<FreservationView> fresdiaryrecs= freservationSRV.loadCHDAlert();
+    		//if(fresdiaryrecs.size()==0)return null;//throw new Exception("no result");
     		dbc.setDataSource(fresdiaryrecs, FreservationView.class, "FreservationView", "FreservationView");
     		
             ByteArrayInputStream byteArrayInputStream = (ByteArrayInputStream) reportClientDocument.getPrintOutputController().export(ReportExportFormat.PDF);
@@ -286,14 +326,14 @@ public class MailMail
      * Generate report and return location of saved pdf file
      * @return file location
      */
-    public String generateReportLicenseExpirationListing(String df,String dt)
+    public String generateReportLicenseExpirationListing(String df,String dt)  throws Exception
     {
     	
     	try {
     		Calendar c=Calendar.getInstance();
-    		c.add(Calendar.DATE, -30);
-    		dt=new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
-    		df=new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
+    		c.add(Calendar.DATE, 7);
+    		df=new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+    		dt=new SimpleDateFormat("yyyy-MM-dd").format(c.getTime());
     		String reportName = "reports/LicenseExpirationListing.rpt";
     		ReportClientDocument reportClientDocument = new ReportClientDocument();
     		reportClientDocument.setReportAppServer(ReportClientDocument.inprocConnectionString);
@@ -302,6 +342,7 @@ public class MailMail
     		System.out.println("df "+df);
     		System.out.println("dt "+dt);
     		List<Fexpirationlistingrpt> list= fvehicleSRV.getExpirationList(df,dt,"L");
+    		//if(list.size()==0)return null;//throw new Exception("no result");
     		dbc.setDataSource(list, Fexpirationlistingrpt.class, "Fexpirationlistingrpt", "Fexpirationlistingrpt");
     		
     		com.crystaldecisions.sdk.occa.report.application.ParameterFieldController paramController;
@@ -330,7 +371,7 @@ public class MailMail
      * Generate report and return location of saved pdf file
      * @return file location
      */
-    public String generateReportMaintenanceReminder()
+    public String generateReportMaintenanceReminder()  throws Exception
     {
     	//?df=2014.10.11&dt=2014.10.11&mf=All&ms=All
     	try {
@@ -339,7 +380,7 @@ public class MailMail
     		String dateTo="2014.10.11";
     		String maintFrequency="All";
     		String maintType="";
-    		String maintStatus="All";
+    		String maintStatus="ONHOLD' or m.statusid = 'PENDING";
     		
     		String reportName = "reports/MaintenanceReminder.rpt";
     		ReportClientDocument reportClientDocument = new ReportClientDocument();
@@ -374,6 +415,7 @@ public class MailMail
     		}
     		
     		List<Fmaintenance> list= fmaintenanceSRV.getMaintenanceReminder(dateFrom,dateTo,paraList);
+    		//if(list.size()==0)return null;//throw new Exception("no result");
     		dbc.setDataSource(list, Fmaintenance.class, "Fmaintenance", "Fmaintenance");
     		
     		ParameterFieldController paramController;
@@ -399,11 +441,64 @@ public class MailMail
     
     
     /***
+     * new report created on 2015.10.03
+     * Generate report and return location of saved pdf file
+     * @return file location
+     */
+    public String generateReportVehicleMovement() throws Exception
+    {
+    	//?df=2014.10.11&dt=2014.10.11&mf=All&ms=All
+    	try {
+    		
+    		String dateFrom="2014.10.11";
+    		String dateTo="2014.10.11";
+    		String maintFrequency="All";
+    		String maintType="";
+    		String maintStatus=null;
+    		
+    		String reportName = "reports/VehicleMovement.rpt";
+    		ReportClientDocument reportClientDocument = new ReportClientDocument();
+    		reportClientDocument.setReportAppServer(ReportClientDocument.inprocConnectionString);
+    		reportClientDocument.open(reportName, 0);
+    		DatabaseController dbc = reportClientDocument.getDatabaseController();
+       		
+    		Calendar c=Calendar.getInstance();
+    		c.add(Calendar.DATE, -1);
+    		dateTo=new SimpleDateFormat("yyyy.MM.dd").format(c.getTime());
+    		dateFrom=new SimpleDateFormat("yyyy.MM.dd").format(c.getTime());
+
+
+    		List<Fgatepass> fgatepasses= fgatepassSRV.getGatePassList(dateFrom,dateTo,maintStatus);
+    		//if(fgatepasses.size()==0)return null;//throw new Exception("no result");
+    		dbc.setDataSource(fgatepasses, Fgatepass.class, "Fgatepass", "Fgatepass");
+    		
+    		ParameterFieldController paramController;
+    		paramController = reportClientDocument.getDataDefController().getParameterFieldController();
+    		paramController.setCurrentValue("", "df", dateFrom);
+    		paramController.setCurrentValue("", "dt", dateTo);
+    		
+    		ByteArrayInputStream byteArrayInputStream = (ByteArrayInputStream) reportClientDocument.getPrintOutputController().export(ReportExportFormat.PDF);
+    		reportClientDocument.close();
+    		
+    		//Write file to disk...
+    		String EXPORT_OUTPUT = EXPORT_LOC +new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime())+ EXPORT_FILE5;
+    		System.out.println("Exporting to " + EXPORT_OUTPUT);
+    		writeToFileSystem(byteArrayInputStream, EXPORT_OUTPUT);
+    		return EXPORT_OUTPUT;
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
+    	return null;
+    	
+    }
+    
+    
+    /***
      * 
      * Generate report and return location of saved pdf file
      * @return file location
      */
-    public String generateReport()
+    public String generateReport()  throws Exception
     {
     	
     	String ht = "''";
@@ -413,10 +508,12 @@ public class MailMail
     	
     	
     	Calendar cal = Calendar.getInstance();
-    	cal.add(Calendar.DATE, -1);
+    	cal.add(Calendar.DATE, -30);
+    	Calendar calY = Calendar.getInstance();
+    	calY.add(Calendar.DATE, -30);
     	SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd"); 
     	fromDate=sdf.format(cal.getTime());
-    	toDate=sdf.format(Calendar.getInstance().getTime());
+    	toDate=sdf.format(calY.getTime());
     	System.out.println(sdf.format(cal.getTime()));
     	System.out.println("fromDate: "+fromDate);
     	System.out.println("toDate: "+toDate);
@@ -428,6 +525,7 @@ public class MailMail
     		DatabaseController dbc = reportClientDocument.getDatabaseController();
     		
     		List<Freservationdiaryrpt> fresdiaryrecs = freservationSRV.getResDiaryData(fromDate, toDate, ht,hireStatus);
+    		//if(fresdiaryrecs.size()==0)return null;//throw new Exception("no result");
     		dbc.setDataSource(fresdiaryrecs, Freservationdiaryrpt.class,"Freservationdiaryrpt", "Freservationdiaryrpt");
     		
     		ByteArrayInputStream byteArrayInputStream = (ByteArrayInputStream) reportClientDocument.getPrintOutputController().export(ReportExportFormat.PDF);
@@ -491,7 +589,7 @@ public class MailMail
 		try{
 			MimeMessageHelper helper = new MimeMessageHelper(message, true);
 			helper.setFrom(simpleMailMessage.getFrom());
-			helper.setTo(simpleMailMessage.getCc());
+			helper.setTo(new String[]{"sankadil@gmail.com"}/*simpleMailMessage.getCc()*/);
 			helper.setSubject(simpleMailMessage.getSubject());
 			helper.setText(String.format(simpleMailMessage.getText(), dear, content));
 			//FileSystemResource file = new FileSystemResource(generateReport());

@@ -21,6 +21,7 @@ import javax.persistence.Transient;
 @Table(name="fresvehicle")
 @NamedQueries({
 	@NamedQuery(name="FresvehicleListAll", query="SELECT f FROM Fresvehicle f"),
+	@NamedQuery(name="FresvehicleListAllByResno", query="SELECT f FROM Fresvehicle f WHERE f.id.resno=:resno"),
 	@NamedQuery(name="FresvehicleDeleteByResno", query="DELETE FROM Fresvehicle f WHERE f.id.resno=:resno"),
 	/*@NamedQuery(name="FresvehicleListByResNo1", query="SELECT f FROM Fresvehicle f WHERE f.id.resno=:resno ORDER BY f.priority ASC"),*/
 	@NamedQuery(name="FresvehicleListByResNo", query="SELECT NEW com.dspl.malkey.domain.Fresvehicle(f,r) FROM Fresvehicle f,Fresvehiclerate r WHERE (f.id.resno=:resno AND f.id.resno=r.resno) ORDER BY f.priority ASC")

@@ -299,7 +299,7 @@ public class FgatepassDAOImpl implements FgatepassDAO {
 			query += " (SELECT name FROM femployee WHERE empid=p.authorisedby) [authorisedbyname],";
 			query += " (SELECT description FROM flocation WHERE locationid=p.outfromloc) [outfromlocdes],";
 			query += " (SELECT description FROM flocation WHERE locationid=p.outtoloc) [outtolocdes],";
-			query += " p.outdate";
+			query += " p.outdate,p.adduser";
 			query += " FROM fgatepass AS p WHERE p.passno='"+passno+"'";
 			
 			System.out.println("query: " + query);
@@ -333,7 +333,7 @@ public class FgatepassDAOImpl implements FgatepassDAO {
 			fgatepass.setOuttolocdes(outtolocdes);
 			fgatepass.setTsoutdate(tsoutdate);
 			fgatepass.setBcode("*" + fgatepass.getPassno() + "*");
-			
+			fgatepass.setAdduser((String)r1[9]);
 			return fgatepass;
 		} catch (Exception e) {
 			System.out.println("Fgatepass findByPassNo: " + e.getMessage());
@@ -367,12 +367,12 @@ public class FgatepassDAOImpl implements FgatepassDAO {
 				qr += " FROM fgatepass AS p WHERE ";
 				qr += " outdate>='"+dateFrom+"'";
 				qr += " AND outdate<='"+dateTo+"'"; 
-				if(!status.trim().equals("A")==true){
+				if(status!=null && !status.trim().equals("A")==true){
 					qr += " AND status='"+status+"'"; 	
 				}
 				qr += " ORDER BY outdate,regno";
 			
-				
+			//System.out.println("Query:\n"+qr);	
 			Query Q = em.createNativeQuery(qr);
 			List<Object[]> l1 = Q.getResultList();
 			List<Fgatepass> fgatepasses=new ArrayCollection();
@@ -452,5 +452,5 @@ public class FgatepassDAOImpl implements FgatepassDAO {
 		}
 		return null;
 	}
-
+	
 }

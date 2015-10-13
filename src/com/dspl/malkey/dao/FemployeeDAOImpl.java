@@ -1,6 +1,7 @@
 package com.dspl.malkey.dao;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -51,7 +52,8 @@ public class FemployeeDAOImpl implements FemployeeDAO {
 	@Override
 	public List<Femployee> DriverListAll() {
 		//Assumption :- employee type DRIVER is DRIVER
-		return em.createNamedQuery("FemployeeDriverListAll").setParameter("emptype","DRIVER").getResultList();
+//		List<Femployee> list= em.createNamedQuery("FemployeeDriverListAll").setParameter("emptype","MAINTENANC,DRIVER").getResultList();
+		return em.createNamedQuery("FemployeeDriverListAll")/*.setParameter("emptype",param)*/.getResultList();
 	}
 	
 	@Transactional

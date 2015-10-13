@@ -59,6 +59,40 @@ public class Fvehicle implements Serializable {
 	@Transient
 	private Boolean selected;
 
+	public String getModifiedmach() {
+		return modifiedmach;
+	}
+
+	public void setModifiedmach(String modifiedmach) {
+		this.modifiedmach = modifiedmach;
+	}
+
+	public String getModifieduser() {
+		return modifieduser;
+	}
+
+	public void setModifieduser(String modifieduser) {
+		this.modifieduser = modifieduser;
+	}
+
+	public Calendar getModifieddate() {
+		return modifieddate;
+	}
+
+	public void setModifieddate(Calendar modifieddate) {
+		this.modifieddate = modifieddate;
+	}
+
+	@Column(length=50,name="modifiedmach")
+	private String modifiedmach;
+	
+	@Column(length=10,name="modifieduser")
+	private String modifieduser;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name="modifieddate")
+	private Calendar modifieddate;
+	
 	@Column(nullable=false)
 	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar adddate;

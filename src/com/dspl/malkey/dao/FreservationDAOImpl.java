@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -101,6 +102,19 @@ public class FreservationDAOImpl implements FreservationDAO {
 			List<Freservation> lst = em.createNamedQuery(
 					"FreservationSelectByAgrno").setParameter("agrno", agrno)
 					.getResultList();
+			for (Iterator iterator = lst.iterator(); iterator.hasNext();) {
+				Freservation freservation = (Freservation) iterator.next();
+				List<Fresvehicle> lstFresvehicle = em.createNamedQuery("FresvehicleListAllByResno").setParameter("resno", freservation.getResno()).getResultList();
+				for (Iterator iterator2 = lstFresvehicle.iterator(); iterator2
+						.hasNext();) {
+					Fresvehicle fresvehicle = (Fresvehicle) iterator2.next();
+					if(freservation.getResno().equals(fresvehicle.getId().getResno())){
+						freservation.setRegno(fresvehicle.getId().getRegno());
+						System.out.println("regno : "+freservation.getRegno());
+					}
+				}
+			}
+			
 			long endTime = System.currentTimeMillis();
 			long totalTime = endTime - startTime;
 			System.out.println("listByHedAgrno" + totalTime);
@@ -802,7 +816,10 @@ public class FreservationDAOImpl implements FreservationDAO {
 			" from freservation " +
 			"join fresvehicle  on fresvehicle.resno=freservation.resno "+
 			" join fdebtor on fdebtor.debcode=freservation.debcode " +
-			" where  (DATEDIFF(day,freservation.dout,getdate()) % 30 )=0 and (fdebtor.longterm='LONGTERM' OR freservation.ratetype='LONGTERM')  AND freservation.cohirestsid IN ('CHECKOUT','CHECKIN','COMPLEATED')";
+			//belloe one asked to generate report everyday
+			" where  DATEADD(dd, DATEDIFF(dd, 0, getdate()), 1)=freservation.din and (fdebtor.longterm='LONGTERM' OR freservation.ratetype='LONGTERM')  AND freservation.cohirestsid IN ('CHECKOUT','CHECKIN','COMPLEATED')";
+//bellow for each month checkout date email alert.
+			//			" where  (DATEDIFF(day,freservation.dout,getdate()) % 30 )=0 and (fdebtor.longterm='LONGTERM' OR freservation.ratetype='LONGTERM')  AND freservation.cohirestsid IN ('CHECKOUT','CHECKIN','COMPLEATED')";
 			
 			Query q=em.createNativeQuery(query);
 			List<Object[]> lstRow= q.getResultList();
@@ -1566,8 +1583,8 @@ public class FreservationDAOImpl implements FreservationDAO {
 			List<Fresvehinv> lstCheckInFresvehinv) {
 		
 		
-		em.flush();
-		System.out.println("damage size:"+lstCheckInFvehicledamage.size());
+		//em.flush();
+		//System.out.println("damage size:"+lstCheckInFvehicledamage.size());
 		//SET ADD DATE AND OTHER USER INFO
 		Calendar today=Calendar.getInstance();
 		String lsAddUser = userInfoSRV.getUser();
@@ -1577,7 +1594,7 @@ public class FreservationDAOImpl implements FreservationDAO {
 		String serverName = "/resource";//FlexContext.getHttpRequest().getContextPath();
 		String targetFolder = "/image/damageinfo/";
 		String fileName=refNo.replaceAll("/", "-");
-		System.out.println("fileName:"+fileName);
+		//System.out.println("fileName:"+fileName);
 		
 		if(freservation.getCohirestsid().equals("BOOKED") || freservation.getCohirestsid().equals("PREPARED") || freservation.getCohirestsid().equals("CONFIRMED"))
 		{
@@ -1618,11 +1635,11 @@ public class FreservationDAOImpl implements FreservationDAO {
 		{
 			Fresvehicle fresvehicle = lstfresvehicle.get(0);
 			avaialability=vehiclesearchDAO.getAvailabilityByResNo(freservation.getDout(),freservation.getDin(),fresvehicle.getId().getRegno(),refNo);
-			System.out.println("avaialability:"+avaialability);
+			//System.out.println("avaialability:"+avaialability);
 			if(avaialability==1 || avaialability>0)
 			{
 				List<String> lst= vehiclesearchDAO.getUnAvailabileListByResNo(freservation.getDout(),freservation.getDin(),fresvehicle.getId().getRegno(),refNo);
-				System.out.println("length:"+lst.size());
+				//System.out.println("length:"+lst.size());
 				String msg="Sorry,\nHire Extention Failed.\nSelected vehicle has been already allocated for a hire.\nPlease un-allocate vehicle from \nresevation "+lst.toString()+" \nand try again.";
 				throw new RuntimeException(msg);
 			}
@@ -1710,7 +1727,7 @@ public class FreservationDAOImpl implements FreservationDAO {
 		//UPDATE=DELETE+INSERT APPLY FOR RES-ACCESSORIES-RATE
 		//START
 		em.createNamedQuery("FresaccrateDeleteByResno").setParameter("resno", refNo).executeUpdate();
-		em.flush();
+		//em.flush();
 		for(Fresaccrate fresaccrate :lstfresaccrate)
 		{
 			if (fresaccrate.getUuid()==null || fresaccrate.getUuid().isEmpty()){
@@ -1730,7 +1747,7 @@ public class FreservationDAOImpl implements FreservationDAO {
 		//UPDATE=DELETE+INSERT APPLY FOR RES-OTHERSERVICE-RATE
 		//START
 		em.createNamedQuery("FresothersrvrateDeleteByResno").setParameter("resno", refNo).executeUpdate();
-		em.flush();
+		//em.flush();
 		for(Fresothersrvrate fresothersrvrate:lstfresothersrvrate)
 		{
 			if (fresothersrvrate.getUuid()==null || fresothersrvrate.getUuid().isEmpty()){
@@ -1786,7 +1803,7 @@ public class FreservationDAOImpl implements FreservationDAO {
 		//UPDATE=DELETE+INSERT APPLY FOR RES-DRIVER
 		//START
 		em.createNamedQuery("FresdriverDeleteByResno").setParameter("resno", refNo).executeUpdate();
-		em.flush();
+		//em.flush();
 		for(Fresdriver fresdriver:lstfresdriver)
 		{
 			if (fresdriver.getUuid()==null || fresdriver.getUuid().isEmpty()){
@@ -1804,7 +1821,7 @@ public class FreservationDAOImpl implements FreservationDAO {
 		//UPDATE=DELETE+INSERT APPLY FOR RES-DRIVER-RATE
 		//START
 		em.createNamedQuery("FresdriverrateDeleteByResno").setParameter("resno", refNo).executeUpdate();
-		em.flush();
+		//em.flush();
 		fresdriverrate.getId().setResno(refNo);
 		em.persist(fresdriverrate);
 		//em.flush();
@@ -1813,7 +1830,7 @@ public class FreservationDAOImpl implements FreservationDAO {
 		//UPDATE=DELETE+INSERT APPLY FOR RES-CLIENT-DRIVER
 		//START
 		em.createNamedQuery("FresclientdriverDeleteByResno").setParameter("resno", refNo).executeUpdate();
-		em.flush();
+		//em.flush();
 		for(Fresclientdriver fresclientdriver:lstfresclientdriver)
 		{
 			fresclientdriver.getId().setResno(refNo);
@@ -1963,7 +1980,7 @@ public class FreservationDAOImpl implements FreservationDAO {
 					Fresvehicle fresvehicle = lstfresvehicle.get(i);
 				//	List<Fresvehinv> tempList= fresvehicle.getLstFresvehinv();
 					List<Fresvehinv> tempList= lstCheckInFresvehinv;
-					System.out.println("tempList"+tempList.size());
+					//System.out.println("tempList"+tempList.size());
 					//should update the fvehicleinventry also
 					em.createNamedQuery("FvehicleinventryDeleteByRegNo").setParameter("regno",fresvehicle.getId().getRegno() ).executeUpdate();
 					em.createNamedQuery("FresvehinvResetCheckInByResno").setParameter("resno",fresvehicle.getId().getResno() ).executeUpdate();

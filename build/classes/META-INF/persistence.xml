@@ -31,6 +31,7 @@
 		<class>com.dspl.malkey.domain.FtaxdetPK</class>
 		<class>com.dspl.malkey.domain.Ftaxdet</class>
 		<class>com.dspl.malkey.domain.Ftax</class>
+		<class>com.dspl.malkey.domain.Fsupplier2</class>
 		<class>com.dspl.malkey.domain.Fsupplier</class>
 		<class>com.dspl.malkey.domain.Fsmssent</class>
 		<class>com.dspl.malkey.domain.FresvehinvPK</class>
@@ -117,6 +118,5 @@
 		<class>com.dspl.malkey.domain.FaccessrulePK</class>
 		<class>com.dspl.malkey.domain.Faccessrule</class>
 		<class>com.dspl.malkey.domain.Faccessory</class>
-		<class>com.dspl.malkey.domain.Fsupplier2</class>
 	</persistence-unit>
 </persistence>

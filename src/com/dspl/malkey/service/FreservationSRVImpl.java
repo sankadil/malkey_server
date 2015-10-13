@@ -65,6 +65,14 @@ public class FreservationSRVImpl implements FreservationSRV {
 	@Value( "${resource.location}")
 	String resource_location = "C:\\";
 	
+	@Resource(name="mailMail")
+	MailMail mailMail;
+	
+	@Value( "${email.alert.dear}")
+	String contect1 = "";
+	@Value( "${email.alert.content}")
+	String contect2 = "";
+	
 	@Override
 	public List<Freservation> List(int startIndex, int numItems) {
 		return freservationDAO.List(startIndex, numItems);
@@ -204,6 +212,7 @@ public class FreservationSRVImpl implements FreservationSRV {
 		System.out.println("changeStatus:"+freservation.getCohirestsid());
 		try {
 			sendChangedChanrgableDurationEmail(freservation);
+			sendChangedDiscountEmail(freservation, fresvehiclerate);
 			return freservationDAO.changeStatus(freservation,freshed, lstfresvehicle, lstfresaccs, lstfresdriver, lstfresothsrv, fresvehiclerate, lstfresaccrate, fresdriverrate, lstfresothersrvrate, lstfresaddcharge,lstfresclientdriver,lstFvehicledamage,lstFresvehinv);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -211,13 +220,7 @@ public class FreservationSRVImpl implements FreservationSRV {
 		}
 	}
 
-	@Resource(name="mailMail")
-	MailMail mailMail;
-	
-	@Value( "${email.alert.dear}")
-	String contect1 = "";
-	@Value( "${email.alert.content}")
-	String contect2 = "";
+
 	
 	public boolean sendChangedChanrgableDurationEmail(Freservation freservation)
 	{
@@ -235,7 +238,7 @@ public class FreservationSRVImpl implements FreservationSRV {
 			message.append("\n");
 			message.append("Aggrement No: "+freservation.getResno()+" "+freservation.getAgrno());
 			message.append("\n");
-			message.append("By Whom Officer/User :"+freservation.getAdduser());
+			message.append("By Whom Officer/User :"+userInfoSRV.getUser());
 			message.append("\n");
 			message.append("Actual Days :"+freservation.getNoofday());
 			message.append("\n");
@@ -258,7 +261,54 @@ public class FreservationSRVImpl implements FreservationSRV {
 			message.append("\n");
 			message.append("\n");
 			//String fileURL="/malkey_server/reports/rentagreement.jsp?resno="+freservation.getResno()+"&hiretypeid="+freservation.getHiretypeid();
-			mailMail.sendMail2(contect1,message+contect2,"Chargable Days Changed Notice");
+			mailMail.sendMail2(contect1,message+contect2,"Chargable Days Changed Notice",new String[]{"erangankumara@gmail.com","milindum@gmail.com"});
+		}
+		return flag;
+	}
+	
+	
+	public boolean sendChangedDiscountEmail(Freservation freservation,Fresvehiclerate fresvehiclerate)
+	{
+		boolean flag=false;
+		if(freservation.getCohirestsid().equals("CHECKIN") && (freservation.getDiscount_xmile().doubleValue()>0 || fresvehiclerate.getDiscount().doubleValue()>0))
+		{
+			flag=true;
+			
+			StringBuilder message=new StringBuilder();
+			message.append("\n");
+			message.append("FYI");
+			message.append("\n");
+			message.append("\n");
+			message.append("Discount Given Notice");
+			message.append("\n");
+			message.append("Aggrement No: "+freservation.getResno()+" "+freservation.getAgrno());
+			message.append("\n");
+			message.append("By Whom Officer/User :"+userInfoSRV.getUser());
+			message.append("\n");
+			message.append("Excess Mileage Discount :"+freservation.getDiscount_xmile().doubleValue()+" %");
+			message.append("\n");
+			message.append("Vehicle Rate Discount :"+fresvehiclerate.getDiscount().doubleValue()+" %");
+			message.append("\n");
+			if(freservation.getBooked()!=null){
+				message.append("Booked By :"+freservation.getBooked());
+				message.append("\n");
+			}
+			if(freservation.getConfirmed()!=null){
+				message.append("Confirmed By :"+freservation.getConfirmed());
+				message.append("\n");
+			}
+			message.append("Net Total :"+freservation.getNettotal());
+			message.append("\n");
+			message.append("Rate Parammeters : [Client Type: "+fresvehiclerate.getClienttype() +"] - [Hire Type: "+fresvehiclerate.getHiretypeid()  +"] - [Rate Type: "+ fresvehiclerate.getRatetype() +"] - [Vehicle Model: "+fresvehiclerate.getVehimodelid()+"]");
+			message.append("\n");
+			message.append("\n");
+			message.append("Visit the following URL for more information");
+			message.append("\n");
+			message.append("http://220.247.244.141:8400/malkey_server/reports/rentagreement.jsp?resno="+freservation.getResno()+"&hiretypeid="+freservation.getHiretypeid() );
+			message.append("\n");
+			message.append("\n");
+			//String fileURL="/malkey_server/reports/rentagreement.jsp?resno="+freservation.getResno()+"&hiretypeid="+freservation.getHiretypeid();
+			mailMail.sendMail2(contect1,message+contect2,"Discount Given Notice",new String[]{"erangankumara@gmail.com","milindum@gmail.com"});
 		}
 		return flag;
 	}

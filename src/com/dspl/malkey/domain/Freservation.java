@@ -42,6 +42,10 @@ public class Freservation implements Serializable,Cloneable  {
 	@Column(unique=true, nullable=false, length=13,name="resno")
 	private String resno;
 	
+    
+    @Transient
+	private String regno;
+	
 	@Column( length=13,name="agrno")
 	private String agrno;
 	
@@ -957,6 +961,12 @@ public class Freservation implements Serializable,Cloneable  {
 	}
 	public String getInvoicedApplication() {
 		return invoicedApplication;
+	}
+	public void setRegno(String regno) {
+		this.regno = regno;
+	}
+	public String getRegno() {
+		return regno;
 	}
 
 

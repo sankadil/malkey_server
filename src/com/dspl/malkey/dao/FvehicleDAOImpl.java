@@ -15,6 +15,7 @@ import javax.persistence.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.dspl.malkey.domain.Fanalysis;
+import com.dspl.malkey.domain.Fdebtor;
 import com.dspl.malkey.domain.Fexpirationlistingrpt;
 import com.dspl.malkey.domain.Fmaintenance;
 import com.dspl.malkey.domain.Fmainttype;
@@ -151,17 +152,25 @@ public class FvehicleDAOImpl implements FvehicleDAO {
 		em.remove(em.find(Fvehicle.class, sRegNo));
 	}
 
+	private void setAddedDetails(Fvehicle fvehicle)
+	{
+		Fvehicle temp=findByID(fvehicle.getRegno());
+		fvehicle.setAdddate(temp.getAdddate());
+		fvehicle.setAdduser(temp.getAdduser());
+		fvehicle.setAddmach(temp.getAddmach());
+	}
+		
 	@Transactional
 	@Override
 	public void update(Fvehicle fvehicle, List<Fvehicledamage> fvehicledamage, List<Fvehicleinventry> fvehicleinventry, List<Fvehiclerate> fvehiclerate, List<Fvehiclepic> fvehiclepic) {
 		String lsRegNo = fvehicle.getRegno();
 		String lsVehiModelID = fvehicle.getVehimodelid();
-		String lsAddUser = userInfoSRV.getUser();
-		String lsAddMachine = userInfoSRV.getMachineName();
+		String lsModifiedUser = userInfoSRV.getUser();
+		String lsModifiedMachine = userInfoSRV.getMachineName();
 		Calendar ldToday = Calendar.getInstance();
 		
 		// fVehicleDamage - Remove existing records and insert the latest
-		updateFvehicledamage(lsRegNo, fvehicledamage, lsAddUser);
+		updateFvehicledamage(lsRegNo, fvehicledamage, lsModifiedUser);
 //		em.createNativeQuery("DELETE FROM Fvehicledamage WHERE regno='"+lsRegNo+"'").executeUpdate();
 //		Iterator<Fvehicledamage> newVehiDamage = fvehicledamage.iterator();
 //		while (newVehiDamage.hasNext()){
@@ -178,7 +187,7 @@ public class FvehicleDAOImpl implements FvehicleDAO {
 //		}
 		
 		// fVehicleInventry - Remove existing records and insert the latest
-		updateFvehicleinventry(lsRegNo, fvehicleinventry, lsAddUser);
+		updateFvehicleinventry(lsRegNo, fvehicleinventry, lsModifiedUser);
 //		em.createNativeQuery("DELETE FROM Fvehicleinventry WHERE regno='"+lsRegNo+"'").executeUpdate();
 //		Iterator<Fvehicleinventry> newVehiInv = fvehicleinventry.iterator();
 //		while (newVehiInv.hasNext()){
@@ -206,16 +215,16 @@ public class FvehicleDAOImpl implements FvehicleDAO {
 		updateFvehiclePic(lsRegNo, fvehiclepic);
 		
 		// fAnalysis
-		updateFanalysisWithVehiInfo(lsRegNo, fvehicle.getDescription(), lsAddUser);
+		updateFanalysisWithVehiInfo(lsRegNo, fvehicle.getDescription(), lsModifiedUser);
 		
 		// fMaintenance
 		updateFmaintenanceWithDefaultVehicleTasks(fvehicle);
 		
 		// fVehicle
-		fvehicle.setAdduser(lsAddUser);
-		fvehicle.setAddmach(lsAddMachine);
-		fvehicle.setAdddate(ldToday);
-		
+		fvehicle.setModifieduser(lsModifiedUser);
+		fvehicle.setModifiedmach(lsModifiedMachine);
+		fvehicle.setModifieddate(ldToday);
+		setAddedDetails(fvehicle);
 		if (fvehicle.getUuid()==null || fvehicle.getUuid().isEmpty())
 			fvehicle.setUuid(UUID.randomUUID().toString());
 		
@@ -226,8 +235,10 @@ public class FvehicleDAOImpl implements FvehicleDAO {
 	@Transactional
 	private void updateFvehicledamage(String sRegNo, List<Fvehicledamage> fvehicledamage, String sAddUser) {
 		em.createNativeQuery("DELETE FROM Fvehicledamage WHERE regno='"+sRegNo+"'").executeUpdate();
-		Iterator<Fvehicledamage> newVehiDamage = fvehicledamage.iterator();
-		while (newVehiDamage.hasNext()){
+		if(fvehicledamage==null)
+			return;
+		Iterator<Fvehicledamage> newVehiDamage =  fvehicledamage.iterator();
+		while (newVehiDamage!=null && newVehiDamage.hasNext()){
 			Fvehicledamage newRecord = (Fvehicledamage)newVehiDamage.next();
 			newRecord.setRegno(sRegNo);		// Always update with the original RegNo to ensure the relational data points the correct parent record
 			
@@ -461,7 +472,7 @@ public class FvehicleDAOImpl implements FvehicleDAO {
 			query += " FROM fvehicle AS v) AS v";
 			
 			if(fromDate.trim().length()>0 && toDate.trim().length()>0)
-				query += " WHERE v.periodto>='"+fromDate+"' AND v.periodto<='"+toDate+"'";
+				query += " WHERE v.periodto>='"+fromDate+"' AND v.periodto<='"+toDate+"' AND v.rentstatus NOT IN ('SOLD','RTOWNER') ";
 			
 			query += " ORDER BY v.periodto,v.regno";
 			
