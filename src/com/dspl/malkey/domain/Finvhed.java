@@ -21,6 +21,8 @@ public class Finvhed implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Transient
+	private String printUser;
+	@Transient
 	private String companyid;
 	@Transient 
 	private String company;
@@ -260,6 +262,14 @@ public class Finvhed implements Serializable {
 
 	public String getTaxOrderText() {
 		return taxOrderText;
+	}
+
+	public String getPrintUser() {
+		return printUser;
+	}
+
+	public void setPrintUser(String printUser) {
+		this.printUser = printUser;
 	}
 
 }

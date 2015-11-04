@@ -37,7 +37,8 @@ java.util.List" %>
 <%@page import="com.dspl.malkey.domain.Finvhed"%>
 <%@page import="com.dspl.malkey.report.FinvdetRPT"%>
 <%@page import="java.io.PrintWriter"%>
-<%@page import="com.dspl.malkey.util.PublishCR"%><html>
+<%@page import="com.dspl.malkey.util.PublishCR"%>
+<%@page import="com.dspl.malkey.service.UserInfoSRV"%><html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Insert title here</title>
@@ -62,9 +63,19 @@ java.util.List" %>
 	    {
 	    
 	    FarfdtfSRV srv = (FarfdtfSRV) wac.getBean("farfdtfSRV");
+
 		/*Following code retrive data from service*/
 		//Fgatepass fgatepass= srv.findByPassNo(request.getParameter("pn").toString());
 		Finvhed finvhed=srv.getInvHedByInvNo(request.getParameter("in").toString());
+		try{
+	    UserInfoSRV userInfoSRV = (UserInfoSRV) wac.getBean("userInfoSRV");
+		finvhed.setPrintUser("PRINTED BY :"+userInfoSRV.getUserHttpSession(session));
+		}
+		catch(Exception e)
+		{
+			finvhed.setPrintUser("");
+			e.printStackTrace();
+		}
 		List<Finvhed> hedList=new ArrayList<Finvhed>();
 		hedList.add(finvhed);
 		List<FinvdetRPT> detList=srv.getInvDetByInvNo(request.getParameter("in").toString());

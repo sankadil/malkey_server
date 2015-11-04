@@ -109,6 +109,11 @@ public class FvehicleSRVImpl implements FvehicleSRV {
 		return fvehicleDAO.getVehicleSummary2(vstatus, ownertype);
 	}
 
+	@Override
+	public int isDupplicate(String regno) {
+		return fvehicleDAO.isDupplicate(regno);
+	}
+
 
 	
 }

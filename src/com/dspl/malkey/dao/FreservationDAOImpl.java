@@ -817,7 +817,8 @@ public class FreservationDAOImpl implements FreservationDAO {
 			"join fresvehicle  on fresvehicle.resno=freservation.resno "+
 			" join fdebtor on fdebtor.debcode=freservation.debcode " +
 			//belloe one asked to generate report everyday
-			" where  DATEADD(dd, DATEDIFF(dd, 0, getdate()), 1)=freservation.din and (fdebtor.longterm='LONGTERM' OR freservation.ratetype='LONGTERM')  AND freservation.cohirestsid IN ('CHECKOUT','CHECKIN','COMPLEATED')";
+			" where  DATEADD(dd, DATEDIFF(dd, 0, getdate()), 1)=freservation.din and ( freservation.ratetype='LONGTERM')  AND freservation.cohirestsid IN ('CHECKOUT','CHECKIN','COMPLEATED')";
+//			" where  DATEADD(dd, DATEDIFF(dd, 0, getdate()), 1)=freservation.din and (fdebtor.longterm='LONGTERM' OR freservation.ratetype='LONGTERM')  AND freservation.cohirestsid IN ('CHECKOUT','CHECKIN','COMPLEATED')";
 //bellow for each month checkout date email alert.
 			//			" where  (DATEDIFF(day,freservation.dout,getdate()) % 30 )=0 and (fdebtor.longterm='LONGTERM' OR freservation.ratetype='LONGTERM')  AND freservation.cohirestsid IN ('CHECKOUT','CHECKIN','COMPLEATED')";
 			
@@ -891,6 +892,78 @@ public class FreservationDAOImpl implements FreservationDAO {
 			" join fdebtor on fdebtor.debcode=freservation.debcode " +
 			" join finvhed on finvhed.agrno=freservation.agrno " +
 			" where  freservation.debcode='"+debcode+"'   order by freservation.agrno,freservation.resno";
+			
+			Query q=em.createNativeQuery(query);
+			List<Object[]> lstRow= q.getResultList();
+			List<FreservationView> lstFreservationView = new ArrayList<FreservationView>();
+			for(Object[] row : lstRow)
+			{
+				try {
+					FreservationView view = new FreservationView();
+					view.setAgrno((String) row[0]);
+					view.setResno((String) row[1]);
+					view.setCohirestsid((String) row[2]);
+					Timestamp tdout = (Timestamp) row[3];
+					Timestamp tdin = (Timestamp) row[4];
+					Calendar dout = Calendar.getInstance();
+					dout.setTimeInMillis(tdout.getTime());
+					Calendar din = Calendar.getInstance();
+					din.setTimeInMillis(tdin.getTime());
+					view.setHiretypeid((String) row[5]);
+					view.setDout(dout);
+					view.setDin(din);
+					view.setDateFormaterOut(simpleDateFormat.format(dout.getTime()));
+					view.setDateFormaterIn(simpleDateFormat.format(din.getTime()));
+					view.setRegno((String) row[6]);
+					view.setNettotal(((BigDecimal)row[7]));
+					view.setComileage(((Integer)row[8]));
+					view.setNoofday(((Integer)row[9]));
+					view.setDebcode(((String)row[10]));
+					view.setRemarks(((String)row[11]));//deb name
+					view.setAddmach(((String)row[12]));//DEBADD
+					view.setCancelled(((String)row[13]));//NICNO
+					view.setBooked(((String)row[14]));//finvhed.invno
+					
+					lstFreservationView.add(view);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			lstRow=null;
+			long endTime   = System.currentTimeMillis();
+			long totalTime = endTime - startTime;
+			System.out.println("FreservationDAO.loadCHD :"+totalTime);
+			return lstFreservationView;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		} finally {
+			em.flush();
+		}
+		
+	}
+	
+	
+	//customer Agreement History
+	@Transactional(readOnly=true)
+	@Override
+	public List<FreservationView> loadCAH(String debcode,String hirestatus) {
+		try {
+			//RH/1104/00018
+			long startTime = System.currentTimeMillis();
+			em.flush();
+			
+			SimpleDateFormat simpleDateFormat =new SimpleDateFormat("dd/MM/yyyy");
+			
+			String query="select  " +
+			"freservation.agrno,freservation.resno,freservation.cohirestsid,freservation.dout,freservation.din," +
+			"freservation.hiretypeid,fresvehicle.regno,freservation.nettotal,(cimileage-comileage) as mileage,freservation.noofday, " +
+			"fdebtor.debcode,fdebtor.debname,fdebtor.debadd,fdebtor.nicno,finvhed.invno "+
+			" from freservation " +
+			"join fresvehicle  on fresvehicle.resno=freservation.resno "+
+			" join fdebtor on fdebtor.debcode=freservation.debcode " +
+			" join finvhed on finvhed.agrno=freservation.agrno " +
+			" where  freservation.debcode='"+debcode+"' and freservation.cohirestsid='"+hirestatus+"'  order by freservation.agrno,freservation.resno";
 			
 			Query q=em.createNativeQuery(query);
 			List<Object[]> lstRow= q.getResultList();

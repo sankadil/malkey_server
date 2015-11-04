@@ -23,4 +23,5 @@ public interface FvehicleSRV {
 	Boolean isVehicleRemovable(String regNo);
 	List<Fvehicle> getVehicleList(String locationId);
 	List<Fvehicle> getVehicleSummary2(String vstatus,String ownertype);
+	int isDupplicate(String regno);
 }

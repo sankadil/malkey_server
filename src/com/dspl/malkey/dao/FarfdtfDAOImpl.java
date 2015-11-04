@@ -4672,7 +4672,6 @@ public class FarfdtfDAOImpl implements FarfdtfDAO {
 				finvhed.setChequeText("Please Draw Cheque in Favour of :\nMal-Key Rent A Car (Pvt) Ltd.");
 			}
 			
-			
 			return finvhed;
 		} catch (Exception e) {
 			System.out.println("getInvHedByInvNo: " + e.getMessage());

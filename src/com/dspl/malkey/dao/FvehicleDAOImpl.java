@@ -69,6 +69,18 @@ public class FvehicleDAOImpl implements FvehicleDAO {
 	public int count() {
 		return (Integer)(em.createNativeQuery("SELECT COUNT(*) AS COUNT FROM Fvehicle").getSingleResult());
 	}
+	@Transactional
+	@Override
+	public int isDupplicate(String regno) {
+		regno = regno.replace("-", "");
+		regno = regno.trim();
+		regno = regno.toUpperCase();
+		String sql="SELECT COUNT(*) FROM FVEHICLE WHERE UPPER(REPLACE( REPLACE(REGNO,' ',''),'-',''))=UPPER('"+regno+"')";
+		System.out.println("sql :"+sql);
+		/*return*/ Integer i=(Integer)(em.createNativeQuery(sql).getSingleResult());
+		System.out.println("I ="+i);
+		return i;
+	}
 
 	@Transactional
 	@Override
@@ -79,6 +91,10 @@ public class FvehicleDAOImpl implements FvehicleDAO {
 		String lsAddMachine = userInfoSRV.getMachineName();
 		Calendar ldToday = Calendar.getInstance();
 		
+		if(isDupplicate(lsRegNo)>0)
+		{
+			throw new RuntimeException("Vehicle Reg. Number Already Available.");
+		}
 		// fVehicleDamage
 		updateFvehicledamage(lsRegNo, fvehicledamage, lsAddUser);
 //		Iterator<Fvehicledamage> newVehiDamage = fvehicledamage.iterator();
@@ -469,10 +485,11 @@ public class FvehicleDAOImpl implements FvehicleDAO {
 			query += " DATEADD(year,1,"+fieldName+") AS [periodto],";
 			query += " v.ownertype,";
 			query += " (SELECT description FROM fvehiclestatus WHERE vehistsid=v.vehistsid) AS rentstatus";
-			query += " FROM fvehicle AS v) AS v";
+			query += " FROM fvehicle AS v where v.vehistsid NOT IN ('SOLD','RTOWNER')) AS v";
+//			query += " FROM fvehicle AS v) AS v";
 			
 			if(fromDate.trim().length()>0 && toDate.trim().length()>0)
-				query += " WHERE v.periodto>='"+fromDate+"' AND v.periodto<='"+toDate+"' AND v.rentstatus NOT IN ('SOLD','RTOWNER') ";
+				query += " WHERE v.periodto>='"+fromDate+"' AND v.periodto<='"+toDate+"'";//" AND v.vehistsid NOT IN ('SOLD','RTOWNER') ";
 			
 			query += " ORDER BY v.periodto,v.regno";
 			

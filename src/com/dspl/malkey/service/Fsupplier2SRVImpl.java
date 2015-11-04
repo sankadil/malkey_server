@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import com.dspl.malkey.dao.Fsupplier2DAO;
 import com.dspl.malkey.domain.Fsupplier2;
+import com.dspl.malkey.domain.Fvehicle;
 
 public class Fsupplier2SRVImpl implements Fsupplier2SRV {
 
@@ -62,9 +63,10 @@ public class Fsupplier2SRVImpl implements Fsupplier2SRV {
 	@Override
 	public Boolean udpate(Fsupplier2 fsupplier2) {
 		try {
-			fsupplier2.setAdddate(Calendar.getInstance());
-			fsupplier2.setAddmach(userInfoSRV.getMachineName());
-			fsupplier2.setAdduser(userInfoSRV.getUser());
+			fsupplier2.setModifieduser(userInfoSRV.getUser());
+			fsupplier2.setModifiedmach(userInfoSRV.getMachineName());
+			fsupplier2.setModifieddate(Calendar.getInstance());
+			setAddedDetails(fsupplier2);
 			fsupplier2DAO.udpate(fsupplier2);
 			return true;
 		} catch (Exception e) {
@@ -72,6 +74,14 @@ public class Fsupplier2SRVImpl implements Fsupplier2SRV {
 		}
 	}
 
+	private void setAddedDetails(Fsupplier2 fsupplier2)
+	{
+		Fsupplier2 temp=findByID(fsupplier2.getSupcode());
+		fsupplier2.setAdddate(temp.getAdddate());
+		fsupplier2.setAdduser(temp.getAdduser());
+		fsupplier2.setAddmach(temp.getAddmach());
+	}
+	
 	@Override
 	public List<Fsupplier2> listBySupType(String supType) {
 		return fsupplier2DAO.listBySupType(supType);

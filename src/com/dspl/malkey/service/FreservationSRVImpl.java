@@ -553,6 +553,12 @@ public class FreservationSRVImpl implements FreservationSRV {
 			String dateTo,String reportType) {
 		return freservationDAO.debtorReport(dateFrom, dateTo,reportType);
 	}
+
+	@Override
+	public List<FreservationView> loadCAHStatus(String debcode,
+			String hirestatus) {
+		return freservationDAO.loadCAH(debcode,hirestatus);
+	}
 	
 	
 	

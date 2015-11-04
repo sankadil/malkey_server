@@ -68,9 +68,30 @@ public class UserInfoSRVImpl implements UserInfoSRV {
 	@Override
 	public String getUser() {
 		try{
+			System.out.println("fPass 1 ");
 		HttpSession session=FlexContext.getHttpRequest().getSession(true);
+		System.out.println("fPass 2 ");
 		Fpass fPass=(Fpass)session.getAttribute("user");
+		System.out.println("fPass 3 ");
+		System.out.println("fPass 4 "+fPass==null);
 		return fPass.getUsername();
+		}
+		catch(Exception e)
+		{
+			throw new RuntimeException("Sorry,\nSession Timeout");
+		}
+	}
+	/***
+	 * return fPass.getUsername() of current user
+	 * Fpass.Username 
+	 * 
+	 * 
+	 */
+	@Override
+	public String getUserHttpSession(HttpSession session) {
+		try{
+			Fpass fPass=(Fpass)session.getAttribute("user");
+			return fPass.getUsername();
 		}
 		catch(Exception e)
 		{

@@ -115,5 +115,6 @@ public interface FreservationSRV {
 			String dateTo, String hireTypeId);
 	
 	List<Freservationdiaryrpt> debtorReport(String dateFrom, String dateTo,String reportType);
+	List<FreservationView> loadCAHStatus(String debcode, String hirestatus);
 	
 }

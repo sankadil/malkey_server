@@ -64,6 +64,7 @@ public class MailMail
 	String EXPORT_FILE5 = "";
 	@Value( "${report.export.location}")
 	String EXPORT_LOC = "";
+	
 	@Value( "${email.title.lt}")
 	String LT_EMAIL_TITLE = "";
 	@Value( "${email.title.mr}")
@@ -72,6 +73,13 @@ public class MailMail
 	String LE_EMAIL_TITLE = "";
 	@Value( "${email.title}")
 	String EMAIL_TITLE = "";
+	String EMAIL_TITLE_VEHICLE_MOVEMENT_ALERT = "Vehicle Movement Alert Yesterday";
+	
+	String LT_EMAIL_TITLE_A = "";
+	String MR_EMAIL_TITLE_A = "";
+	String LE_EMAIL_TITLE_A = "";
+	String EMAIL_TITLE_A = "";
+	String EMAIL_TITLE_VEHICLE_MOVEMENT_ALERT_A = "Vehicle Movement Alert Yesterday";
 	
 	
 	public void setSimpleMailMessage(SimpleMailMessage simpleMailMessage) {
@@ -140,14 +148,14 @@ public class MailMail
 		sendMailLTAlert(dear,content,new String[]{"Info@malkey.lk","accounts@malkey.lk","erangankumara@gmail.com","milindum@gmail.com"},LT_EMAIL_TITLE);
 		sendLicenseExpirationListing(dear,content,new String[]{"Info@malkey.lk","erangankumara@gmail.com","milindum@gmail.com"},LE_EMAIL_TITLE);
 		sendMaintenanceReminder(dear,content,new String[]{"Info@malkey.lk","erangankumara@gmail.com","milindum@gmail.com"},MR_EMAIL_TITLE);
-		sendVehicleMovementReminder(dear,content,new String[]{"Info@malkey.lk","erangankumara@gmail.com","milindum@gmail.com"},"Vehicle Movement Alert");
+		sendVehicleMovementReminder(dear,content,new String[]{"Info@malkey.lk","erangankumara@gmail.com","milindum@gmail.com"},"Vehicle Movement Alert Yesterday");
 */		
 //		test
-		sendMailVehicleDueCheckin(dear,content,new String[]{"sankadil@gmail.com"},EMAIL_TITLE);
-		sendMailLTAlert(dear,content,new String[]{"sankadil@gmail.com"},LT_EMAIL_TITLE);
-		sendLicenseExpirationListing(dear,content,new String[]{"sankadil@gmail.com"},LE_EMAIL_TITLE);
-		sendMaintenanceReminder(dear,content,new String[]{"sankadil@gmail.com"},MR_EMAIL_TITLE);
-		sendVehicleMovementReminder(dear,content,new String[]{"sankadil@gmail.com"},"Vehicle Movement Alert");
+ 		sendMailVehicleDueCheckin(dear,content,new String[]{"sankadil@gmail.com"},EMAIL_TITLE_A);
+		sendMailLTAlert(dear,content,new String[]{"sankadil@gmail.com"},LT_EMAIL_TITLE_A);
+		sendLicenseExpirationListing(dear,content,new String[]{"sankadil@gmail.com"},LE_EMAIL_TITLE_A);
+		sendMaintenanceReminder(dear,content,new String[]{"sankadil@gmail.com"},MR_EMAIL_TITLE_A);
+		sendVehicleMovementReminder(dear,content,new String[]{"sankadil@gmail.com"},EMAIL_TITLE_VEHICLE_MOVEMENT_ALERT_A); 
 	}
 	
 	/***
@@ -196,7 +204,7 @@ public class MailMail
 			return;
 		}
 		FileSystemResource file = new FileSystemResource(path);
-		sendMailCommon(dear, content, emailAddress, file,title);
+		sendMailCommon(dear, content, emailAddress, file,EMAIL_TITLE_A);
 	}
 	
 	
@@ -219,7 +227,7 @@ public class MailMail
 		FileSystemResource file = new FileSystemResource(path);
 		
 		//FileSystemResource file = new FileSystemResource(generateReport_longterm_monthly_alert());
-		sendMailCommon(dear, content, emailAddress, file,title);
+		sendMailCommon(dear, content, emailAddress, file,LT_EMAIL_TITLE_A);
 	}
 	
 	/***
@@ -240,7 +248,7 @@ public class MailMail
 		}
 		FileSystemResource file = new FileSystemResource(path);
 //		FileSystemResource file = new FileSystemResource(generateReportLicenseExpirationListing(null, null));
-		sendMailCommon(dear, content, emailAddress, file,title);
+		sendMailCommon(dear, content, emailAddress, file,LE_EMAIL_TITLE_A);
 	}
 	/***
 	 * Email Send method
@@ -260,7 +268,7 @@ public class MailMail
 		}
 		FileSystemResource file = new FileSystemResource(path);
 //		FileSystemResource file = new FileSystemResource(generateReportMaintenanceReminder());
-		sendMailCommon(dear, content, emailAddress, file,title);
+		sendMailCommon(dear, content, emailAddress, file,MR_EMAIL_TITLE_A);
 	}
 	/***
 	 * Email Send method
@@ -281,7 +289,7 @@ public class MailMail
 		FileSystemResource file = new FileSystemResource(path);
 		
 //		FileSystemResource file = new FileSystemResource(generateReportVehicleMovement());
-		sendMailCommon(dear, content, emailAddress, file,title);
+		sendMailCommon(dear, content, emailAddress, file,EMAIL_TITLE_VEHICLE_MOVEMENT_ALERT_A);
 	}
 
     
@@ -307,7 +315,7 @@ public class MailMail
             ByteArrayInputStream byteArrayInputStream = (ByteArrayInputStream) reportClientDocument.getPrintOutputController().export(ReportExportFormat.PDF);
             reportClientDocument.close();
             
-        	
+            LT_EMAIL_TITLE_A=LT_EMAIL_TITLE+" [ "+new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime())+" ]";
         	//Write file to disk...
         	String EXPORT_OUTPUT = EXPORT_LOC +new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime())+ EXPORT_FILE1;
         	System.out.println("Exporting to " + EXPORT_OUTPUT);
@@ -341,6 +349,7 @@ public class MailMail
     		DatabaseController dbc = reportClientDocument.getDatabaseController();
     		System.out.println("df "+df);
     		System.out.println("dt "+dt);
+    		LE_EMAIL_TITLE_A=LE_EMAIL_TITLE+" [ "+df+" to "+dt+" ]";
     		List<Fexpirationlistingrpt> list= fvehicleSRV.getExpirationList(df,dt,"L");
     		//if(list.size()==0)return null;//throw new Exception("no result");
     		dbc.setDataSource(list, Fexpirationlistingrpt.class, "Fexpirationlistingrpt", "Fexpirationlistingrpt");
@@ -392,7 +401,7 @@ public class MailMail
     		c.add(Calendar.DATE, -30);
     		dateTo=new SimpleDateFormat("yyyy.MM.dd").format(Calendar.getInstance().getTime());
     		dateFrom=new SimpleDateFormat("yyyy.MM.dd").format(c.getTime());
-    		
+    		MR_EMAIL_TITLE_A=MR_EMAIL_TITLE+" [ "+dateFrom+" - "+dateTo+" ]";
     		ArrayList paraList=new ArrayList();
     		ASObject aso;
     		
@@ -466,7 +475,7 @@ public class MailMail
     		c.add(Calendar.DATE, -1);
     		dateTo=new SimpleDateFormat("yyyy.MM.dd").format(c.getTime());
     		dateFrom=new SimpleDateFormat("yyyy.MM.dd").format(c.getTime());
-
+    		EMAIL_TITLE_VEHICLE_MOVEMENT_ALERT_A=EMAIL_TITLE_VEHICLE_MOVEMENT_ALERT+" [ "+dateFrom+" - "+dateTo+" ] ";
 
     		List<Fgatepass> fgatepasses= fgatepassSRV.getGatePassList(dateFrom,dateTo,maintStatus);
     		//if(fgatepasses.size()==0)return null;//throw new Exception("no result");
@@ -501,7 +510,7 @@ public class MailMail
     public String generateReport()  throws Exception
     {
     	
-    	String ht = "''";
+    	String ht = "";//''
     	String hireStatus="'CHECKOUT'";
     	String fromDate="2012.01.31";
     	String toDate="2013.04.27";
@@ -510,13 +519,14 @@ public class MailMail
     	Calendar cal = Calendar.getInstance();
     	cal.add(Calendar.DATE, -30);
     	Calendar calY = Calendar.getInstance();
-    	calY.add(Calendar.DATE, -30);
+    	calY.add(Calendar.DATE, -1);
     	SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd"); 
     	fromDate=sdf.format(cal.getTime());
     	toDate=sdf.format(calY.getTime());
     	System.out.println(sdf.format(cal.getTime()));
     	System.out.println("fromDate: "+fromDate);
     	System.out.println("toDate: "+toDate);
+    	EMAIL_TITLE_A=EMAIL_TITLE+" [ "+fromDate+"-"+toDate+" ]";
     	try {
     		String reportName = "reports/RegistryOfVehicleDueIn.rpt";
     		ReportClientDocument reportClientDocument = new ReportClientDocument();

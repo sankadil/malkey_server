@@ -44,6 +44,17 @@ public class Fothersrv implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(nullable=false,updatable=false)
 	private int recordid;
+	
+	public int getIsDriverServiceFlag() {
+		return isDriverServiceFlag;
+	}
+
+	public void setIsDriverServiceFlag(int isDriverServiceFlag) {
+		this.isDriverServiceFlag = isDriverServiceFlag;
+	}
+
+	@Column(length=10,name="isdriverserviceflag")
+	private int isDriverServiceFlag;
 
     public Fothersrv() {
     }

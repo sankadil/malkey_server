@@ -24,5 +24,6 @@ public interface FvehicleDAO {
 	List<Fvehicle> getVehicleList(String locationId);
 	List<Fvehicle> getVehicleListCustomized(String vstatus, String ownertype);
 	List<Fvehicle> getVehicleSummary2(String vstatus, String ownertype);
+	int isDupplicate(String regno);
 }
 

@@ -372,7 +372,7 @@ public class FgatepassDAOImpl implements FgatepassDAO {
 				}
 				qr += " ORDER BY outdate,regno";
 			
-			//System.out.println("Query:\n"+qr);	
+			System.out.println("Query:\n"+qr);	
 			Query Q = em.createNativeQuery(qr);
 			List<Object[]> l1 = Q.getResultList();
 			List<Fgatepass> fgatepasses=new ArrayCollection();

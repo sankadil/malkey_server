@@ -74,12 +74,15 @@
 		ParameterFieldController paramController;
    		paramController = reportClientDocument.getDataDefController().getParameterFieldController();
    		try{
-   			String urlPrefix=request.getRequestURL().toString()+request.getContextPath()+"/image/fuelLevel/";
+   			
+   			String[] aUrl = request.getRequestURL().toString().split("/");
+   			String urlPrefix=aUrl[0]+"//"+aUrl[2]+"/resource/image/fuelLevel/";
    			String urlSufix=".gif";
 	   		paramController.setCurrentValue("", "cofuel",urlPrefix+lstRentAgreement.get(0).getCofuellevel()+urlSufix);
 	   		paramController.setCurrentValue("", "cifuel",urlPrefix+lstRentAgreement.get(0).getCifuellevel()+urlSufix);
 	   		paramController.setCurrentValue("", "otherSerivice",otherServiceList);
-	   		//System.out.println("F url :"+urlPrefix+lstRentAgreement.get(0).getCofuellevel()+urlSufix);
+
+	   			
    		}
    		catch(Exception e)
    		{
@@ -126,6 +129,7 @@
 			}
 	    	try{in.close();} catch(Exception e){}
 	    	try{out.flush();}catch(Exception e){}
+	    	try{sourcePDFs=null;mergerUtility=null;}catch(Exception e){}
 			
 
     	} catch (Exception ex) {
@@ -134,10 +138,12 @@
     	finally{
     	try{
     		reportClientDocument.close();
+    		System.gc();
     		} 
     	catch(Exception e)
     	{
     		System.out.println("ERROR: " + e.getMessage() + " : " + e.getLocalizedMessage());
+    		System.gc();
     	}
     	}
 		

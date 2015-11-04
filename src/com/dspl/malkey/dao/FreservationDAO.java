@@ -127,4 +127,5 @@ public interface FreservationDAO {
 			String dateTo, String hireTypeId);
 	List<Freservationdiaryrpt> debtorReport(String dateFrom, String dateTo,
 			String reportType);
+	List<FreservationView> loadCAH(String debcode, String hirestatus);
 }

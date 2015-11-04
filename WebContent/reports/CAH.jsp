@@ -51,7 +51,19 @@ java.util.List" %>
 	    try
 	    {
 	    FreservationSRV srv = (FreservationSRV) wac.getBean("freservationSRV");
-		List<FreservationView> fresdiaryrecs= srv.loadCAH2(request.getParameter("debcode"));
+	    List<FreservationView> fresdiaryrecs=new ArrayList<FreservationView>();
+	    String hirestatus=request.getParameter("status");
+	    if(hirestatus==null || hirestatus.trim().length()==0)
+	    {
+	    	fresdiaryrecs= srv.loadCAH2(request.getParameter("debcode"));
+	    }
+	    else
+	    {
+	    	fresdiaryrecs= srv.loadCAHStatus(request.getParameter("debcode"),request.getParameter("status"));
+	    }
+	    
+
+		
 		dbc.setDataSource(fresdiaryrecs, FreservationView.class, "FreservationView", "FreservationView");
    		PublishCR cr=new PublishCR();
 		cr.publishToPDF(reportClientDocument, session, response, out);
